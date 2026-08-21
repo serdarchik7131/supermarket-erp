@@ -1,0 +1,6507 @@
+[
+  {
+    "id": "pnd_1001",
+    "sku": "PND-CAN-1001",
+    "barcode": "4780990001001",
+    "nameUz": "\"Double boom (MIX)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (MIX)\"",
+    "nameEn": "Double boom (MIX) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/dsdsds-—-kopiya-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 96,
+      "br_chilanzar": 159,
+      "br_samarkand": 29
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (mix)"
+    ]
+  },
+  {
+    "id": "pnd_1002",
+    "sku": "PND-COO-1002",
+    "barcode": "4780990001002",
+    "nameUz": "\"Flowers\" Pechenyesi",
+    "nameRu": "Печенье \"Flowers\"",
+    "nameEn": "Flowers Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/flowers-2.png",
+    "stockByBranch": {
+      "br_toshkent_main": 77,
+      "br_chilanzar": 39,
+      "br_samarkand": 37
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "flowers"
+    ]
+  },
+  {
+    "id": "pnd_1003",
+    "sku": "PND-COO-1003",
+    "barcode": "4780990001003",
+    "nameUz": "\"Mukarram\" Pechenyesi",
+    "nameRu": "Печенье \"Mukarram\"",
+    "nameEn": "Mukarram Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/mukarram-2.png",
+    "stockByBranch": {
+      "br_toshkent_main": 61,
+      "br_chilanzar": 175,
+      "br_samarkand": 26
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "mukarram"
+    ]
+  },
+  {
+    "id": "pnd_1004",
+    "sku": "PND-COO-1004",
+    "barcode": "4780990001004",
+    "nameUz": "\"Moscow\" Pechenyesi",
+    "nameRu": "Печенье \"Moscow\"",
+    "nameEn": "Moscow Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/moscow-round-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 160,
+      "br_chilanzar": 75,
+      "br_samarkand": 37
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "moscow"
+    ]
+  },
+  {
+    "id": "pnd_1005",
+    "sku": "PND-COO-1005",
+    "barcode": "4780990001005",
+    "nameUz": "\"Trubochka\" Pechenyesi",
+    "nameRu": "Печенье \"Trubochka\"",
+    "nameEn": "Trubochka Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/trubochka-2.png",
+    "stockByBranch": {
+      "br_toshkent_main": 166,
+      "br_chilanzar": 67,
+      "br_samarkand": 25
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "trubochka"
+    ]
+  },
+  {
+    "id": "pnd_1006",
+    "sku": "PND-COO-1006",
+    "barcode": "4780990001006",
+    "nameUz": "\"Remiks\" Pechenyesi",
+    "nameRu": "Печенье \"Remiks\"",
+    "nameEn": "Remiks Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/remiks.png",
+    "stockByBranch": {
+      "br_toshkent_main": 132,
+      "br_chilanzar": 152,
+      "br_samarkand": 139
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "remiks"
+    ]
+  },
+  {
+    "id": "pnd_1007",
+    "sku": "PND-CAN-1007",
+    "barcode": "4780990001007",
+    "nameUz": "\"Panda boom\" Konfeti",
+    "nameRu": "Конфеты \"Panda boom\"",
+    "nameEn": "Panda boom Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-boom-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 64,
+      "br_chilanzar": 47,
+      "br_samarkand": 49
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "panda boom"
+    ]
+  },
+  {
+    "id": "pnd_1008",
+    "sku": "PND-COO-1008",
+    "barcode": "4780990001008",
+    "nameUz": "\"Katta glazur\" Pechenyesi",
+    "nameRu": "Печенье \"Katta glazur\"",
+    "nameEn": "Katta glazur Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/katta-glazur.png",
+    "stockByBranch": {
+      "br_toshkent_main": 243,
+      "br_chilanzar": 64,
+      "br_samarkand": 45
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "katta glazur"
+    ]
+  },
+  {
+    "id": "pnd_1009",
+    "sku": "PND-COO-1009",
+    "barcode": "4780990001009",
+    "nameUz": "\"Happy panda\" Pechenyesi",
+    "nameRu": "Печенье \"Happy panda\"",
+    "nameEn": "Happy panda Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/happy-panda.png",
+    "stockByBranch": {
+      "br_toshkent_main": 225,
+      "br_chilanzar": 108,
+      "br_samarkand": 65
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "happy panda"
+    ]
+  },
+  {
+    "id": "pnd_1010",
+    "sku": "PND-COO-1010",
+    "barcode": "4780990001010",
+    "nameUz": "\"Logo Panda\" Pechenyesi",
+    "nameRu": "Печенье \"Logo Panda\"",
+    "nameEn": "Logo Panda Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/logo-panda.png",
+    "stockByBranch": {
+      "br_toshkent_main": 187,
+      "br_chilanzar": 55,
+      "br_samarkand": 83
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "logo panda"
+    ]
+  },
+  {
+    "id": "pnd_1011",
+    "sku": "PND-COO-1011",
+    "barcode": "4780990001011",
+    "nameUz": "\"Panda sesame glaze (round)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda sesame glaze (round)\"",
+    "nameEn": "Panda sesame glaze (round) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug-glazur-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 154,
+      "br_chilanzar": 90,
+      "br_samarkand": 85
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda sesame glaze (round)"
+    ]
+  },
+  {
+    "id": "pnd_1012",
+    "sku": "PND-COO-1012",
+    "barcode": "4780990001012",
+    "nameUz": "\"Panda sesame glaze (square)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda sesame glaze (square)\"",
+    "nameEn": "Panda sesame glaze (square) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunjut-glazur.png",
+    "stockByBranch": {
+      "br_toshkent_main": 57,
+      "br_chilanzar": 143,
+      "br_samarkand": 97
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda sesame glaze (square)"
+    ]
+  },
+  {
+    "id": "pnd_1013",
+    "sku": "PND-COO-1013",
+    "barcode": "4780990001013",
+    "nameUz": "\"Mazzali\" Pechenyesi",
+    "nameRu": "Печенье \"Mazzali\"",
+    "nameEn": "Mazzali Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/mazzali.png",
+    "stockByBranch": {
+      "br_toshkent_main": 134,
+      "br_chilanzar": 106,
+      "br_samarkand": 28
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "mazzali"
+    ]
+  },
+  {
+    "id": "pnd_1014",
+    "sku": "PND-COO-1014",
+    "barcode": "4780990001014",
+    "nameUz": "\"Panda sesame (round)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda sesame (round)\"",
+    "nameEn": "Panda sesame (round) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug.png",
+    "stockByBranch": {
+      "br_toshkent_main": 229,
+      "br_chilanzar": 50,
+      "br_samarkand": 101
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda sesame (round)"
+    ]
+  },
+  {
+    "id": "pnd_1015",
+    "sku": "PND-COO-1015",
+    "barcode": "4780990001015",
+    "nameUz": "\"Panda sesame (square)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda sesame (square)\"",
+    "nameEn": "Panda sesame (square) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/s-kunzhutom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 140,
+      "br_chilanzar": 34,
+      "br_samarkand": 118
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda sesame (square)"
+    ]
+  },
+  {
+    "id": "pnd_1016",
+    "sku": "PND-COO-1016",
+    "barcode": "4780990001016",
+    "nameUz": "\"Panda cookie\" Pechenyesi",
+    "nameRu": "Печенье \"Panda cookie\"",
+    "nameEn": "Panda cookie Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda.png",
+    "stockByBranch": {
+      "br_toshkent_main": 193,
+      "br_chilanzar": 170,
+      "br_samarkand": 93
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda cookie"
+    ]
+  },
+  {
+    "id": "pnd_1017",
+    "sku": "PND-COO-1017",
+    "barcode": "4780990001017",
+    "nameUz": "\"Moscow square\" Pechenyesi",
+    "nameRu": "Печенье \"Moscow square\"",
+    "nameEn": "Moscow square Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/moskovskij.png",
+    "stockByBranch": {
+      "br_toshkent_main": 216,
+      "br_chilanzar": 113,
+      "br_samarkand": 47
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "moscow square"
+    ]
+  },
+  {
+    "id": "pnd_1018",
+    "sku": "PND-COO-1018",
+    "barcode": "4780990001018",
+    "nameUz": "\"Panda cookie cocoa (square)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda cookie cocoa (square)\"",
+    "nameEn": "Panda cookie cocoa (square) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 100,
+      "br_chilanzar": 155,
+      "br_samarkand": 88
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda cookie cocoa (square)"
+    ]
+  },
+  {
+    "id": "pnd_1019",
+    "sku": "PND-COO-1019",
+    "barcode": "4780990001019",
+    "nameUz": "\"Panda cookie cocoa (round)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda cookie cocoa (round)\"",
+    "nameEn": "Panda cookie cocoa (round) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao.png",
+    "stockByBranch": {
+      "br_toshkent_main": 206,
+      "br_chilanzar": 149,
+      "br_samarkand": 25
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda cookie cocoa (round)"
+    ]
+  },
+  {
+    "id": "pnd_1020",
+    "sku": "PND-COO-1020",
+    "barcode": "4780990001020",
+    "nameUz": "\"Panda cookie (round)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda cookie (round)\"",
+    "nameEn": "Panda cookie (round) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3175-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 234,
+      "br_chilanzar": 83,
+      "br_samarkand": 130
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda cookie (round)"
+    ]
+  },
+  {
+    "id": "pnd_1021",
+    "sku": "PND-COO-1021",
+    "barcode": "4780990001021",
+    "nameUz": "\"Panda cookie (square)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda cookie (square)\"",
+    "nameEn": "Panda cookie (square) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3178-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 101,
+      "br_chilanzar": 31,
+      "br_samarkand": 96
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda cookie (square)"
+    ]
+  },
+  {
+    "id": "pnd_1022",
+    "sku": "PND-COO-1022",
+    "barcode": "4780990001022",
+    "nameUz": "\"Panda pie\" Pechenyesi",
+    "nameRu": "Печенье \"Panda pie\"",
+    "nameEn": "Panda pie Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-3-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 241,
+      "br_chilanzar": 50,
+      "br_samarkand": 127
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda pie"
+    ]
+  },
+  {
+    "id": "pnd_1023",
+    "sku": "PND-COO-1023",
+    "barcode": "4780990001023",
+    "nameUz": "\"Shokolad\" Pechenyesi",
+    "nameRu": "Печенье \"Shokolad\"",
+    "nameEn": "Shokolad Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2023/10/logo.png",
+    "stockByBranch": {
+      "br_toshkent_main": 209,
+      "br_chilanzar": 127,
+      "br_samarkand": 129
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "shokolad"
+    ]
+  },
+  {
+    "id": "pnd_1024",
+    "sku": "PND-COO-1024",
+    "barcode": "4780990001024",
+    "nameUz": "\"Iriska\" Pechenyesi",
+    "nameRu": "Печенье \"Iriska\"",
+    "nameEn": "Iriska Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/java-img_8928-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 194,
+      "br_chilanzar": 39,
+      "br_samarkand": 136
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "iriska"
+    ]
+  },
+  {
+    "id": "pnd_1025",
+    "sku": "PND-COO-1025",
+    "barcode": "4780990001025",
+    "nameUz": "\"Rombik\" Pechenyesi",
+    "nameRu": "Печенье \"Rombik\"",
+    "nameEn": "Rombik Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/java-img_8931-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 99,
+      "br_chilanzar": 134,
+      "br_samarkand": 55
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "rombik"
+    ]
+  },
+  {
+    "id": "pnd_1026",
+    "sku": "PND-COO-1026",
+    "barcode": "4780990001026",
+    "nameUz": "\"Kurabye\" Pechenyesi",
+    "nameRu": "Печенье \"Kurabye\"",
+    "nameEn": "Kurabye Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3139-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 132,
+      "br_chilanzar": 122,
+      "br_samarkand": 50
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "kurabye"
+    ]
+  },
+  {
+    "id": "pnd_1027",
+    "sku": "PND-COO-1027",
+    "barcode": "4780990001027",
+    "nameUz": "\"Gingerbread\" Pechenyesi",
+    "nameRu": "Печенье \"Gingerbread\"",
+    "nameEn": "Gingerbread Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3183-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 235,
+      "br_chilanzar": 139,
+      "br_samarkand": 38
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "gingerbread"
+    ]
+  },
+  {
+    "id": "pnd_1028",
+    "sku": "PND-COO-1028",
+    "barcode": "4780990001028",
+    "nameUz": "\"Parvoz soft\" Pechenyesi",
+    "nameRu": "Печенье \"Parvoz soft\"",
+    "nameEn": "Parvoz soft Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 86,
+      "br_chilanzar": 74,
+      "br_samarkand": 67
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "parvoz soft"
+    ]
+  },
+  {
+    "id": "pnd_1029",
+    "sku": "PND-COO-1029",
+    "barcode": "4780990001029",
+    "nameUz": "\"Parvoz\" Pechenyesi",
+    "nameRu": "Печенье \"Parvoz\"",
+    "nameEn": "Parvoz Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3160-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 169,
+      "br_chilanzar": 73,
+      "br_samarkand": 99
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "parvoz"
+    ]
+  },
+  {
+    "id": "pnd_1030",
+    "sku": "PND-CHO-1030",
+    "barcode": "4780990001030",
+    "nameUz": "\"Prince\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Prince\"",
+    "nameEn": "Prince Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "discountPrice": 61200,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/prinse-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 139,
+      "br_chilanzar": 112,
+      "br_samarkand": 69
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "prince"
+    ]
+  },
+  {
+    "id": "pnd_1031",
+    "sku": "PND-CHO-1031",
+    "barcode": "4780990001031",
+    "nameUz": "\"Jasmine\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Jasmine\"",
+    "nameEn": "Jasmine Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "discountPrice": 61200,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/zhasmin-01.png",
+    "stockByBranch": {
+      "br_toshkent_main": 128,
+      "br_chilanzar": 66,
+      "br_samarkand": 31
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "jasmine"
+    ]
+  },
+  {
+    "id": "pnd_1032",
+    "sku": "PND-CHO-1032",
+    "barcode": "4780990001032",
+    "nameUz": "\"Koroleva\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Koroleva\"",
+    "nameEn": "Koroleva Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-5-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 116,
+      "br_chilanzar": 174,
+      "br_samarkand": 38
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "koroleva"
+    ]
+  },
+  {
+    "id": "pnd_1033",
+    "sku": "PND-CHO-1033",
+    "barcode": "4780990001033",
+    "nameUz": "\"Dolce arte\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Dolce arte\"",
+    "nameEn": "Dolce arte Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "discountPrice": 61200,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/dolce-art-2-—-kopiya-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 67,
+      "br_chilanzar": 66,
+      "br_samarkand": 32
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "dolce arte"
+    ]
+  },
+  {
+    "id": "pnd_1034",
+    "sku": "PND-CHO-1034",
+    "barcode": "4780990001034",
+    "nameUz": "\"Tik tak\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Tik tak\"",
+    "nameEn": "Tik tak Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/tik-tak-2-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 132,
+      "br_chilanzar": 130,
+      "br_samarkand": 66
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "tik tak"
+    ]
+  },
+  {
+    "id": "pnd_1035",
+    "sku": "PND-CAN-1035",
+    "barcode": "4780990001035",
+    "nameUz": "\"MIX\" Konfeti",
+    "nameRu": "Конфеты \"MIX\"",
+    "nameEn": "MIX Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/klubnika-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 78,
+      "br_chilanzar": 109,
+      "br_samarkand": 118
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "mix"
+    ]
+  },
+  {
+    "id": "pnd_1036",
+    "sku": "PND-CAN-1036",
+    "barcode": "4780990001036",
+    "nameUz": "\"Duchess\" Konfeti",
+    "nameRu": "Конфеты \"Duchess\"",
+    "nameEn": "Duchess Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-061.png",
+    "stockByBranch": {
+      "br_toshkent_main": 79,
+      "br_chilanzar": 135,
+      "br_samarkand": 97
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "duchess"
+    ]
+  },
+  {
+    "id": "pnd_1037",
+    "sku": "PND-CAN-1037",
+    "barcode": "4780990001037",
+    "nameUz": "\"Yalpiz\" Konfeti",
+    "nameRu": "Конфеты \"Yalpiz\"",
+    "nameEn": "Yalpiz Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/myaty-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 133,
+      "br_chilanzar": 121,
+      "br_samarkand": 67
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "yalpiz"
+    ]
+  },
+  {
+    "id": "pnd_1038",
+    "sku": "PND-CAN-1038",
+    "barcode": "4780990001038",
+    "nameUz": "\"Barbaris\" Konfeti",
+    "nameRu": "Конфеты \"Barbaris\"",
+    "nameEn": "Barbaris Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/barbaris-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 229,
+      "br_chilanzar": 82,
+      "br_samarkand": 75
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "barbaris"
+    ]
+  },
+  {
+    "id": "pnd_1039",
+    "sku": "PND-CAN-1039",
+    "barcode": "4780990001039",
+    "nameUz": "\"Pineapple\" Konfeti",
+    "nameRu": "Конфеты \"Pineapple\"",
+    "nameEn": "Pineapple Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 109,
+      "br_chilanzar": 60,
+      "br_samarkand": 136
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "pineapple"
+    ]
+  },
+  {
+    "id": "pnd_1040",
+    "sku": "PND-CAN-1040",
+    "barcode": "4780990001040",
+    "nameUz": "\"Apple\" Konfeti",
+    "nameRu": "Конфеты \"Apple\"",
+    "nameEn": "Apple Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 206,
+      "br_chilanzar": 74,
+      "br_samarkand": 88
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "apple"
+    ]
+  },
+  {
+    "id": "pnd_1041",
+    "sku": "PND-CAN-1041",
+    "barcode": "4780990001041",
+    "nameUz": "\"Strawberry\" Konfeti",
+    "nameRu": "Конфеты \"Strawberry\"",
+    "nameEn": "Strawberry Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 90,
+      "br_chilanzar": 169,
+      "br_samarkand": 126
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "strawberry"
+    ]
+  },
+  {
+    "id": "pnd_1042",
+    "sku": "PND-CAN-1042",
+    "barcode": "4780990001042",
+    "nameUz": "\"Double boom MIX\" Konfeti",
+    "nameRu": "Конфеты \"Double boom MIX\"",
+    "nameEn": "Double boom MIX Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/dsdsds-—-kopiya-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 183,
+      "br_chilanzar": 37,
+      "br_samarkand": 61
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom mix"
+    ]
+  },
+  {
+    "id": "pnd_1043",
+    "sku": "PND-CAN-1043",
+    "barcode": "4780990001043",
+    "nameUz": "\"Double boom pineapple\" Konfeti",
+    "nameRu": "Конфеты \"Double boom pineapple\"",
+    "nameEn": "Double boom pineapple Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-41-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 176,
+      "br_chilanzar": 90,
+      "br_samarkand": 48
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom pineapple"
+    ]
+  },
+  {
+    "id": "pnd_1044",
+    "sku": "PND-CAN-1044",
+    "barcode": "4780990001044",
+    "nameUz": "\"Double boom strawberry\" Konfeti",
+    "nameRu": "Конфеты \"Double boom strawberry\"",
+    "nameEn": "Double boom strawberry Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-61-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 107,
+      "br_chilanzar": 31,
+      "br_samarkand": 28
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom strawberry"
+    ]
+  },
+  {
+    "id": "pnd_1045",
+    "sku": "PND-CAN-1045",
+    "barcode": "4780990001045",
+    "nameUz": "\"Double boom orange\" Konfeti",
+    "nameRu": "Конфеты \"Double boom orange\"",
+    "nameEn": "Double boom orange Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-31-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 209,
+      "br_chilanzar": 104,
+      "br_samarkand": 125
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom orange"
+    ]
+  },
+  {
+    "id": "pnd_1046",
+    "sku": "PND-CAN-1046",
+    "barcode": "4780990001046",
+    "nameUz": "\"Double boom watermelon\" Konfeti",
+    "nameRu": "Конфеты \"Double boom watermelon\"",
+    "nameEn": "Double boom watermelon Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-21-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 187,
+      "br_chilanzar": 139,
+      "br_samarkand": 54
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom watermelon"
+    ]
+  },
+  {
+    "id": "pnd_1047",
+    "sku": "PND-CAN-1047",
+    "barcode": "4780990001047",
+    "nameUz": "\"Double boom cherry\" Konfeti",
+    "nameRu": "Конфеты \"Double boom cherry\"",
+    "nameEn": "Double boom cherry Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-11-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 233,
+      "br_chilanzar": 112,
+      "br_samarkand": 95
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom cherry"
+    ]
+  },
+  {
+    "id": "pnd_1048",
+    "sku": "PND-CAN-1048",
+    "barcode": "4780990001048",
+    "nameUz": "\"Double boom apple\" Konfeti",
+    "nameRu": "Конфеты \"Double boom apple\"",
+    "nameEn": "Double boom apple Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-51-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 60,
+      "br_chilanzar": 114,
+      "br_samarkand": 79
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom apple"
+    ]
+  },
+  {
+    "id": "pnd_1049",
+    "sku": "PND-WAF-1049",
+    "barcode": "4780990001049",
+    "nameUz": "\"Lola chocolate chips\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola chocolate chips\"",
+    "nameEn": "Lola chocolate chips Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 217,
+      "br_chilanzar": 30,
+      "br_samarkand": 112
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola chocolate chips"
+    ]
+  },
+  {
+    "id": "pnd_1050",
+    "sku": "PND-WAF-1050",
+    "barcode": "4780990001050",
+    "nameUz": "\"Lola 200 chocolate chips\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola 200 chocolate chips\"",
+    "nameEn": "Lola 200 chocolate chips Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/image-2026-01-23-13_22_46-photoroom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 107,
+      "br_chilanzar": 144,
+      "br_samarkand": 90
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola 200 chocolate chips"
+    ]
+  },
+  {
+    "id": "pnd_1051",
+    "sku": "PND-WAF-1051",
+    "barcode": "4780990001051",
+    "nameUz": "\"Sharqona cocoa\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Sharqona cocoa\"",
+    "nameEn": "Sharqona cocoa Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/image-2026-01-23-13_22_30-photoroom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 151,
+      "br_chilanzar": 61,
+      "br_samarkand": 96
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "sharqona cocoa"
+    ]
+  },
+  {
+    "id": "pnd_1052",
+    "sku": "PND-WAF-1052",
+    "barcode": "4780990001052",
+    "nameUz": "\"Sharqona milk\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Sharqona milk\"",
+    "nameEn": "Sharqona milk Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/sharqona-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 161,
+      "br_chilanzar": 142,
+      "br_samarkand": 89
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "sharqona milk"
+    ]
+  },
+  {
+    "id": "pnd_1053",
+    "sku": "PND-WAF-1053",
+    "barcode": "4780990001053",
+    "nameUz": "\"Panda Roll mini kiwi\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini kiwi\"",
+    "nameEn": "Panda Roll mini kiwi Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 209,
+      "br_chilanzar": 87,
+      "br_samarkand": 131
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini kiwi"
+    ]
+  },
+  {
+    "id": "pnd_1054",
+    "sku": "PND-WAF-1054",
+    "barcode": "4780990001054",
+    "nameUz": "\"Panda Roll mini banana\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini banana\"",
+    "nameEn": "Panda Roll mini banana Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-05.png",
+    "stockByBranch": {
+      "br_toshkent_main": 61,
+      "br_chilanzar": 65,
+      "br_samarkand": 71
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini banana"
+    ]
+  },
+  {
+    "id": "pnd_1055",
+    "sku": "PND-WAF-1055",
+    "barcode": "4780990001055",
+    "nameUz": "\"Panda Roll mini raspberry\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini raspberry\"",
+    "nameEn": "Panda Roll mini raspberry Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 114,
+      "br_chilanzar": 110,
+      "br_samarkand": 94
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini raspberry"
+    ]
+  },
+  {
+    "id": "pnd_1056",
+    "sku": "PND-WAF-1056",
+    "barcode": "4780990001056",
+    "nameUz": "\"Panda Roll mini orange\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini orange\"",
+    "nameEn": "Panda Roll mini orange Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 183,
+      "br_chilanzar": 165,
+      "br_samarkand": 69
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini orange"
+    ]
+  },
+  {
+    "id": "pnd_1057",
+    "sku": "PND-WAF-1057",
+    "barcode": "4780990001057",
+    "nameUz": "\"Panda Roll mini choco\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini choco\"",
+    "nameEn": "Panda Roll mini choco Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 56,
+      "br_chilanzar": 39,
+      "br_samarkand": 39
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini choco"
+    ]
+  },
+  {
+    "id": "pnd_1058",
+    "sku": "PND-WAF-1058",
+    "barcode": "4780990001058",
+    "nameUz": "\"Panda Roll kiwi\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll kiwi\"",
+    "nameEn": "Panda Roll kiwi Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-051.png",
+    "stockByBranch": {
+      "br_toshkent_main": 75,
+      "br_chilanzar": 66,
+      "br_samarkand": 73
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll kiwi"
+    ]
+  },
+  {
+    "id": "pnd_1059",
+    "sku": "PND-WAF-1059",
+    "barcode": "4780990001059",
+    "nameUz": "\"Panda Roll orange\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll orange\"",
+    "nameEn": "Panda Roll orange Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 117,
+      "br_chilanzar": 115,
+      "br_samarkand": 52
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll orange"
+    ]
+  },
+  {
+    "id": "pnd_1060",
+    "sku": "PND-WAF-1060",
+    "barcode": "4780990001060",
+    "nameUz": "\"Panda Roll chocolate\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll chocolate\"",
+    "nameEn": "Panda Roll chocolate Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 113,
+      "br_chilanzar": 144,
+      "br_samarkand": 112
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll chocolate"
+    ]
+  },
+  {
+    "id": "pnd_1061",
+    "sku": "PND-WAF-1061",
+    "barcode": "4780990001061",
+    "nameUz": "\"Panda Roll banana\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll banana\"",
+    "nameEn": "Panda Roll banana Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 225,
+      "br_chilanzar": 146,
+      "br_samarkand": 104
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll banana"
+    ]
+  },
+  {
+    "id": "pnd_1062",
+    "sku": "PND-WAF-1062",
+    "barcode": "4780990001062",
+    "nameUz": "\"Panda Roll raspberry\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll raspberry\"",
+    "nameEn": "Panda Roll raspberry Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 122,
+      "br_chilanzar": 146,
+      "br_samarkand": 26
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll raspberry"
+    ]
+  },
+  {
+    "id": "pnd_1063",
+    "sku": "PND-WAF-1063",
+    "barcode": "4780990001063",
+    "nameUz": "\"Lola Glazed milk\" Vafli",
+    "nameRu": "Вафли \"Lola Glazed milk\"",
+    "nameEn": "Lola Glazed milk Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/lola-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 75,
+      "br_chilanzar": 58,
+      "br_samarkand": 93
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola glazed milk"
+    ]
+  },
+  {
+    "id": "pnd_1064",
+    "sku": "PND-WAF-1064",
+    "barcode": "4780990001064",
+    "nameUz": "\"Lola Glazed peanut\" Vafli",
+    "nameRu": "Вафли \"Lola Glazed peanut\"",
+    "nameEn": "Lola Glazed peanut Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/lola-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 66,
+      "br_chilanzar": 146,
+      "br_samarkand": 63
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola glazed peanut"
+    ]
+  },
+  {
+    "id": "pnd_1065",
+    "sku": "PND-WAF-1065",
+    "barcode": "4780990001065",
+    "nameUz": "\"Lola Glazed chocolate\" Vafli",
+    "nameRu": "Вафли \"Lola Glazed chocolate\"",
+    "nameEn": "Lola Glazed chocolate Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/lola-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 167,
+      "br_chilanzar": 68,
+      "br_samarkand": 37
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola glazed chocolate"
+    ]
+  },
+  {
+    "id": "pnd_1066",
+    "sku": "PND-WAF-1066",
+    "barcode": "4780990001066",
+    "nameUz": "\"Choko panda mini\" Vafli",
+    "nameRu": "Вафли \"Choko panda mini\"",
+    "nameEn": "Choko panda mini Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/choko-panda_6-—-kopiya.png",
+    "stockByBranch": {
+      "br_toshkent_main": 99,
+      "br_chilanzar": 37,
+      "br_samarkand": 93
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "choko panda mini"
+    ]
+  },
+  {
+    "id": "pnd_1067",
+    "sku": "PND-WAF-1067",
+    "barcode": "4780990001067",
+    "nameUz": "\"Choko panda\" Vafli",
+    "nameRu": "Вафли \"Choko panda\"",
+    "nameEn": "Choko panda Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/choco-panda-03.png",
+    "stockByBranch": {
+      "br_toshkent_main": 228,
+      "br_chilanzar": 163,
+      "br_samarkand": 22
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "choko panda"
+    ]
+  },
+  {
+    "id": "pnd_1068",
+    "sku": "PND-WAF-1068",
+    "barcode": "4780990001068",
+    "nameUz": "\"Smile\" Vafli",
+    "nameRu": "Вафли \"Smile\"",
+    "nameEn": "Smile Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/smile1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 79,
+      "br_chilanzar": 102,
+      "br_samarkand": 31
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "smile"
+    ]
+  },
+  {
+    "id": "pnd_1069",
+    "sku": "PND-WAF-1069",
+    "barcode": "4780990001069",
+    "nameUz": "\"Kitty\" Vafli",
+    "nameRu": "Вафли \"Kitty\"",
+    "nameEn": "Kitty Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kitty1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 79,
+      "br_chilanzar": 155,
+      "br_samarkand": 53
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "kitty"
+    ]
+  },
+  {
+    "id": "pnd_1070",
+    "sku": "PND-WAF-1070",
+    "barcode": "4780990001070",
+    "nameUz": "\"Aladdin mini\" Vafli",
+    "nameRu": "Вафли \"Aladdin mini\"",
+    "nameEn": "Aladdin mini Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/aladin-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 152,
+      "br_chilanzar": 80,
+      "br_samarkand": 28
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "aladdin mini"
+    ]
+  },
+  {
+    "id": "pnd_1071",
+    "sku": "PND-WAF-1071",
+    "barcode": "4780990001071",
+    "nameUz": "\"Aladdin\" Vafli",
+    "nameRu": "Вафли \"Aladdin\"",
+    "nameEn": "Aladdin Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/aladin-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 156,
+      "br_chilanzar": 170,
+      "br_samarkand": 83
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "aladdin"
+    ]
+  },
+  {
+    "id": "pnd_1072",
+    "sku": "PND-WAF-1072",
+    "barcode": "4780990001072",
+    "nameUz": "\"Wafer milk\" Vafli",
+    "nameRu": "Вафли \"Wafer milk\"",
+    "nameEn": "Wafer milk Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 92,
+      "br_chilanzar": 113,
+      "br_samarkand": 124
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer milk"
+    ]
+  },
+  {
+    "id": "pnd_1073",
+    "sku": "PND-WAF-1073",
+    "barcode": "4780990001073",
+    "nameUz": "\"Wafer cocoa\" Vafli",
+    "nameRu": "Вафли \"Wafer cocoa\"",
+    "nameEn": "Wafer cocoa Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 222,
+      "br_chilanzar": 30,
+      "br_samarkand": 67
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer cocoa"
+    ]
+  },
+  {
+    "id": "pnd_1074",
+    "sku": "PND-WAF-1074",
+    "barcode": "4780990001074",
+    "nameUz": "\"Wafer mini\" Vafli",
+    "nameRu": "Вафли \"Wafer mini\"",
+    "nameEn": "Wafer mini Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-04.png",
+    "stockByBranch": {
+      "br_toshkent_main": 236,
+      "br_chilanzar": 66,
+      "br_samarkand": 131
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer mini"
+    ]
+  },
+  {
+    "id": "pnd_1075",
+    "sku": "PND-WAF-1075",
+    "barcode": "4780990001075",
+    "nameUz": "\"Wafer\" Vafli",
+    "nameRu": "Вафли \"Wafer\"",
+    "nameEn": "Wafer Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 82,
+      "br_chilanzar": 79,
+      "br_samarkand": 69
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer"
+    ]
+  },
+  {
+    "id": "pnd_1076",
+    "sku": "PND-WAF-1076",
+    "barcode": "4780990001076",
+    "nameUz": "\"Milky Joy\" Vafli",
+    "nameRu": "Вафли \"Milky Joy\"",
+    "nameEn": "Milky Joy Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/milkizhoj-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 241,
+      "br_chilanzar": 107,
+      "br_samarkand": 21
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "milky joy"
+    ]
+  },
+  {
+    "id": "pnd_1077",
+    "sku": "PND-WAF-1077",
+    "barcode": "4780990001077",
+    "nameUz": "\"Bonito gold\" Vafli",
+    "nameRu": "Вафли \"Bonito gold\"",
+    "nameEn": "Bonito gold Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bonito1-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 231,
+      "br_chilanzar": 83,
+      "br_samarkand": 76
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "bonito gold"
+    ]
+  },
+  {
+    "id": "pnd_1078",
+    "sku": "PND-WAF-1078",
+    "barcode": "4780990001078",
+    "nameUz": "\"Choco\" Vafli",
+    "nameRu": "Вафли \"Choco\"",
+    "nameEn": "Choco Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/choko-01.png",
+    "stockByBranch": {
+      "br_toshkent_main": 213,
+      "br_chilanzar": 43,
+      "br_samarkand": 33
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "choco"
+    ]
+  },
+  {
+    "id": "pnd_1079",
+    "sku": "PND-WAF-1079",
+    "barcode": "4780990001079",
+    "nameUz": "\"Feliz ice cream\" Vafli",
+    "nameRu": "Вафли \"Feliz ice cream\"",
+    "nameEn": "Feliz ice cream Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/feliz-01.png",
+    "stockByBranch": {
+      "br_toshkent_main": 199,
+      "br_chilanzar": 120,
+      "br_samarkand": 51
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "feliz ice cream"
+    ]
+  },
+  {
+    "id": "pnd_1080",
+    "sku": "PND-WAF-1080",
+    "barcode": "4780990001080",
+    "nameUz": "\"Ajoyib coconut\" Vafli",
+    "nameRu": "Вафли \"Ajoyib coconut\"",
+    "nameEn": "Ajoyib coconut Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-03.png",
+    "stockByBranch": {
+      "br_toshkent_main": 70,
+      "br_chilanzar": 77,
+      "br_samarkand": 124
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib coconut"
+    ]
+  },
+  {
+    "id": "pnd_1081",
+    "sku": "PND-WAF-1081",
+    "barcode": "4780990001081",
+    "nameUz": "\"Ajoyib Milk\" Vafli",
+    "nameRu": "Вафли \"Ajoyib Milk\"",
+    "nameEn": "Ajoyib Milk Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "discountPrice": 40500,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 65,
+      "br_chilanzar": 96,
+      "br_samarkand": 113
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib milk"
+    ]
+  },
+  {
+    "id": "pnd_1082",
+    "sku": "PND-WAF-1082",
+    "barcode": "4780990001082",
+    "nameUz": "\"Ajoyib Lemon\" Vafli",
+    "nameRu": "Вафли \"Ajoyib Lemon\"",
+    "nameEn": "Ajoyib Lemon Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-01-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 164,
+      "br_chilanzar": 166,
+      "br_samarkand": 96
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib lemon"
+    ]
+  },
+  {
+    "id": "pnd_1083",
+    "sku": "PND-WAF-1083",
+    "barcode": "4780990001083",
+    "nameUz": "\"Lola milk\" Vafli",
+    "nameRu": "Вафли \"Lola milk\"",
+    "nameEn": "Lola milk Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/lola-051.png",
+    "stockByBranch": {
+      "br_toshkent_main": 54,
+      "br_chilanzar": 31,
+      "br_samarkand": 76
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola milk"
+    ]
+  },
+  {
+    "id": "pnd_1084",
+    "sku": "PND-WAF-1084",
+    "barcode": "4780990001084",
+    "nameUz": "\"Lola chocolate\" Vafli",
+    "nameRu": "Вафли \"Lola chocolate\"",
+    "nameEn": "Lola chocolate Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/lola-061.png",
+    "stockByBranch": {
+      "br_toshkent_main": 185,
+      "br_chilanzar": 135,
+      "br_samarkand": 138
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola chocolate"
+    ]
+  },
+  {
+    "id": "pnd_1085",
+    "sku": "PND-WAF-1085",
+    "barcode": "4780990001085",
+    "nameUz": "\"Lola peanut\" Vafli",
+    "nameRu": "Вафли \"Lola peanut\"",
+    "nameEn": "Lola peanut Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/lola-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 230,
+      "br_chilanzar": 57,
+      "br_samarkand": 81
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "lola peanut"
+    ]
+  },
+  {
+    "id": "pnd_1086",
+    "sku": "PND-WAF-1086",
+    "barcode": "4780990001086",
+    "nameUz": "\"Panda card\" Vafli",
+    "nameRu": "Вафли \"Panda card\"",
+    "nameEn": "Panda card Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/kadrs-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 239,
+      "br_chilanzar": 49,
+      "br_samarkand": 66
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "panda card"
+    ]
+  },
+  {
+    "id": "pnd_1087",
+    "sku": "PND-COO-1087",
+    "barcode": "4780990001087",
+    "nameUz": "\"Moscow (dumaloq)\" Pechenyesi",
+    "nameRu": "Печенье \"Moscow (dumaloq)\"",
+    "nameEn": "Moscow (dumaloq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/moscow-round-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 220,
+      "br_chilanzar": 80,
+      "br_samarkand": 84
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "moscow (dumaloq)"
+    ]
+  },
+  {
+    "id": "pnd_1088",
+    "sku": "PND-COO-1088",
+    "barcode": "4780990001088",
+    "nameUz": "\"Panda кунжут глазурь (круглое)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda кунжут глазурь (круглое)\"",
+    "nameEn": "Panda кунжут глазурь (круглое) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug-glazur-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 137,
+      "br_chilanzar": 135,
+      "br_samarkand": 98
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda кунжут глазурь (круглое)"
+    ]
+  },
+  {
+    "id": "pnd_1089",
+    "sku": "PND-COO-1089",
+    "barcode": "4780990001089",
+    "nameUz": "\"Panda kunjut glazur (dumaloq)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda kunjut glazur (dumaloq)\"",
+    "nameEn": "Panda kunjut glazur (dumaloq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug-glazur-1.png",
+    "stockByBranch": {
+      "br_toshkent_main": 237,
+      "br_chilanzar": 76,
+      "br_samarkand": 86
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda kunjut glazur (dumaloq)"
+    ]
+  },
+  {
+    "id": "pnd_1090",
+    "sku": "PND-COO-1090",
+    "barcode": "4780990001090",
+    "nameUz": "\"Panda кунжут глазурь (прямоугольное)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda кунжут глазурь (прямоугольное)\"",
+    "nameEn": "Panda кунжут глазурь (прямоугольное) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunjut-glazur.png",
+    "stockByBranch": {
+      "br_toshkent_main": 55,
+      "br_chilanzar": 136,
+      "br_samarkand": 68
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda кунжут глазурь (прямоугольное)"
+    ]
+  },
+  {
+    "id": "pnd_1091",
+    "sku": "PND-COO-1091",
+    "barcode": "4780990001091",
+    "nameUz": "\"Panda kunjut glazur (tortburchak)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda kunjut glazur (tortburchak)\"",
+    "nameEn": "Panda kunjut glazur (tortburchak) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunjut-glazur.png",
+    "stockByBranch": {
+      "br_toshkent_main": 125,
+      "br_chilanzar": 75,
+      "br_samarkand": 37
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda kunjut glazur (tortburchak)"
+    ]
+  },
+  {
+    "id": "pnd_1092",
+    "sku": "PND-COO-1092",
+    "barcode": "4780990001092",
+    "nameUz": "\"Panda кунжут (круглое)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda кунжут (круглое)\"",
+    "nameEn": "Panda кунжут (круглое) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug.png",
+    "stockByBranch": {
+      "br_toshkent_main": 213,
+      "br_chilanzar": 103,
+      "br_samarkand": 135
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda кунжут (круглое)"
+    ]
+  },
+  {
+    "id": "pnd_1093",
+    "sku": "PND-COO-1093",
+    "barcode": "4780990001093",
+    "nameUz": "\"Panda kunjut (dumaloq)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda kunjut (dumaloq)\"",
+    "nameEn": "Panda kunjut (dumaloq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/kunzhut-krug.png",
+    "stockByBranch": {
+      "br_toshkent_main": 97,
+      "br_chilanzar": 34,
+      "br_samarkand": 42
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda kunjut (dumaloq)"
+    ]
+  },
+  {
+    "id": "pnd_1094",
+    "sku": "PND-COO-1094",
+    "barcode": "4780990001094",
+    "nameUz": "\"Panda кунжут (прямоугольное)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda кунжут (прямоугольное)\"",
+    "nameEn": "Panda кунжут (прямоугольное) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/s-kunzhutom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 179,
+      "br_chilanzar": 169,
+      "br_samarkand": 85
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda кунжут (прямоугольное)"
+    ]
+  },
+  {
+    "id": "pnd_1095",
+    "sku": "PND-COO-1095",
+    "barcode": "4780990001095",
+    "nameUz": "\"Panda kunjut (tortburchak)\" Pechenyesi",
+    "nameRu": "Печенье \"Panda kunjut (tortburchak)\"",
+    "nameEn": "Panda kunjut (tortburchak) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/s-kunzhutom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 240,
+      "br_chilanzar": 172,
+      "br_samarkand": 29
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "panda kunjut (tortburchak)"
+    ]
+  },
+  {
+    "id": "pnd_1096",
+    "sku": "PND-COO-1096",
+    "barcode": "4780990001096",
+    "nameUz": "\"Печенье Panda\" Pechenyesi",
+    "nameRu": "Печенье \"Печенье Panda\"",
+    "nameEn": "Печенье Panda Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda.png",
+    "stockByBranch": {
+      "br_toshkent_main": 167,
+      "br_chilanzar": 113,
+      "br_samarkand": 131
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "печенье panda"
+    ]
+  },
+  {
+    "id": "pnd_1097",
+    "sku": "PND-COO-1097",
+    "barcode": "4780990001097",
+    "nameUz": "\"Pechenye Panda\" Pechenyesi",
+    "nameRu": "Печенье \"Pechenye Panda\"",
+    "nameEn": "Pechenye Panda Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda.png",
+    "stockByBranch": {
+      "br_toshkent_main": 54,
+      "br_chilanzar": 48,
+      "br_samarkand": 104
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pechenye panda"
+    ]
+  },
+  {
+    "id": "pnd_1098",
+    "sku": "PND-COO-1098",
+    "barcode": "4780990001098",
+    "nameUz": "\"Moscow (прямоугольное)\" Pechenyesi",
+    "nameRu": "Печенье \"Moscow (прямоугольное)\"",
+    "nameEn": "Moscow (прямоугольное) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/moskovskij.png",
+    "stockByBranch": {
+      "br_toshkent_main": 146,
+      "br_chilanzar": 61,
+      "br_samarkand": 36
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "moscow (прямоугольное)"
+    ]
+  },
+  {
+    "id": "pnd_1099",
+    "sku": "PND-COO-1099",
+    "barcode": "4780990001099",
+    "nameUz": "\"Moscow (tortburchak)\" Pechenyesi",
+    "nameRu": "Печенье \"Moscow (tortburchak)\"",
+    "nameEn": "Moscow (tortburchak) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/moskovskij.png",
+    "stockByBranch": {
+      "br_toshkent_main": 240,
+      "br_chilanzar": 92,
+      "br_samarkand": 121
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "moscow (tortburchak)"
+    ]
+  },
+  {
+    "id": "pnd_1100",
+    "sku": "PND-COO-1100",
+    "barcode": "4780990001100",
+    "nameUz": "\"Печенье Panda какао (прямоугольное)\" Pechenyesi",
+    "nameRu": "Печенье \"Печенье Panda какао (прямоугольное)\"",
+    "nameEn": "Печенье Panda какао (прямоугольное) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 61,
+      "br_chilanzar": 111,
+      "br_samarkand": 68
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "печенье panda какао (прямоугольное)"
+    ]
+  },
+  {
+    "id": "pnd_1101",
+    "sku": "PND-COO-1101",
+    "barcode": "4780990001101",
+    "nameUz": "\"Pechenye Panda kakao (tortburchak)\" Pechenyesi",
+    "nameRu": "Печенье \"Pechenye Panda kakao (tortburchak)\"",
+    "nameEn": "Pechenye Panda kakao (tortburchak) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 235,
+      "br_chilanzar": 80,
+      "br_samarkand": 82
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pechenye panda kakao (tortburchak)"
+    ]
+  },
+  {
+    "id": "pnd_1102",
+    "sku": "PND-COO-1102",
+    "barcode": "4780990001102",
+    "nameUz": "\"Печенье Panda какао (круглое)\" Pechenyesi",
+    "nameRu": "Печенье \"Печенье Panda какао (круглое)\"",
+    "nameEn": "Печенье Panda какао (круглое) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao.png",
+    "stockByBranch": {
+      "br_toshkent_main": 159,
+      "br_chilanzar": 82,
+      "br_samarkand": 132
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "печенье panda какао (круглое)"
+    ]
+  },
+  {
+    "id": "pnd_1103",
+    "sku": "PND-COO-1103",
+    "barcode": "4780990001103",
+    "nameUz": "\"Pechenye Panda kakao (dumaloq)\" Pechenyesi",
+    "nameRu": "Печенье \"Pechenye Panda kakao (dumaloq)\"",
+    "nameEn": "Pechenye Panda kakao (dumaloq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-kakao.png",
+    "stockByBranch": {
+      "br_toshkent_main": 66,
+      "br_chilanzar": 133,
+      "br_samarkand": 122
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pechenye panda kakao (dumaloq)"
+    ]
+  },
+  {
+    "id": "pnd_1104",
+    "sku": "PND-CAN-1104",
+    "barcode": "4780990001104",
+    "nameUz": "\"Мята\" Konfeti",
+    "nameRu": "Конфеты \"Мята\"",
+    "nameEn": "Мята Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/myaty-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 244,
+      "br_chilanzar": 114,
+      "br_samarkand": 110
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "мята"
+    ]
+  },
+  {
+    "id": "pnd_1105",
+    "sku": "PND-WAF-1105",
+    "barcode": "4780990001105",
+    "nameUz": "\"Wafer молочный\" Vafli",
+    "nameRu": "Вафли \"Wafer молочный\"",
+    "nameEn": "Wafer молочный Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 116,
+      "br_chilanzar": 174,
+      "br_samarkand": 60
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer молочный"
+    ]
+  },
+  {
+    "id": "pnd_1106",
+    "sku": "PND-WAF-1106",
+    "barcode": "4780990001106",
+    "nameUz": "\"Wafer мини\" Vafli",
+    "nameRu": "Вафли \"Wafer мини\"",
+    "nameEn": "Wafer мини Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-04.png",
+    "stockByBranch": {
+      "br_toshkent_main": 154,
+      "br_chilanzar": 127,
+      "br_samarkand": 136
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer мини"
+    ]
+  },
+  {
+    "id": "pnd_1107",
+    "sku": "PND-WAF-1107",
+    "barcode": "4780990001107",
+    "nameUz": "\"Wafer какао\" Vafli",
+    "nameRu": "Вафли \"Wafer какао\"",
+    "nameEn": "Wafer какао Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 182,
+      "br_chilanzar": 93,
+      "br_samarkand": 130
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer какао"
+    ]
+  },
+  {
+    "id": "pnd_1108",
+    "sku": "PND-COO-1108",
+    "barcode": "4780990001108",
+    "nameUz": "\"Ромбик\" Pechenyesi",
+    "nameRu": "Печенье \"Ромбик\"",
+    "nameEn": "Ромбик Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/java-img_8931-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 61,
+      "br_chilanzar": 52,
+      "br_samarkand": 55
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "ромбик"
+    ]
+  },
+  {
+    "id": "pnd_1109",
+    "sku": "PND-CAN-1109",
+    "barcode": "4780990001109",
+    "nameUz": "\"Клубника\" Konfeti",
+    "nameRu": "Конфеты \"Клубника\"",
+    "nameEn": "Клубника Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 185,
+      "br_chilanzar": 81,
+      "br_samarkand": 86
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "клубника"
+    ]
+  },
+  {
+    "id": "pnd_1110",
+    "sku": "PND-COO-1110",
+    "barcode": "4780990001110",
+    "nameUz": "\"Пряник\" Pechenyesi",
+    "nameRu": "Печенье \"Пряник\"",
+    "nameEn": "Пряник Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "discountPrice": 34200,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3183-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 213,
+      "br_chilanzar": 58,
+      "br_samarkand": 27
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "пряник"
+    ]
+  },
+  {
+    "id": "pnd_1111",
+    "sku": "PND-CHO-1111",
+    "barcode": "4780990001111",
+    "nameUz": "\"Prince choco\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Prince choco\"",
+    "nameEn": "Prince choco Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "discountPrice": 61200,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2023/10/logo.png",
+    "stockByBranch": {
+      "br_toshkent_main": 93,
+      "br_chilanzar": 50,
+      "br_samarkand": 88
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "prince choco"
+    ]
+  },
+  {
+    "id": "pnd_1112",
+    "sku": "PND-COO-1112",
+    "barcode": "4780990001112",
+    "nameUz": "\"Печенье Panda (квадрат)\" Pechenyesi",
+    "nameRu": "Печенье \"Печенье Panda (квадрат)\"",
+    "nameEn": "Печенье Panda (квадрат) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3178-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 138,
+      "br_chilanzar": 178,
+      "br_samarkand": 58
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "печенье panda (квадрат)"
+    ]
+  },
+  {
+    "id": "pnd_1113",
+    "sku": "PND-COO-1113",
+    "barcode": "4780990001113",
+    "nameUz": "\"Печенье Panda (круглое)\" Pechenyesi",
+    "nameRu": "Печенье \"Печенье Panda (круглое)\"",
+    "nameEn": "Печенье Panda (круглое) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3175-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 58,
+      "br_chilanzar": 88,
+      "br_samarkand": 61
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "печенье panda (круглое)"
+    ]
+  },
+  {
+    "id": "pnd_1114",
+    "sku": "PND-COO-1114",
+    "barcode": "4780990001114",
+    "nameUz": "\"Parvozyumshoq\" Pechenyesi",
+    "nameRu": "Печенье \"Parvozyumshoq\"",
+    "nameEn": "Parvozyumshoq Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 60,
+      "br_chilanzar": 35,
+      "br_samarkand": 124
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "parvozyumshoq"
+    ]
+  },
+  {
+    "id": "pnd_1115",
+    "sku": "PND-WAF-1115",
+    "barcode": "4780990001115",
+    "nameUz": "\"Panda Roll шоколад\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll шоколад\"",
+    "nameEn": "Panda Roll шоколад Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 112,
+      "br_chilanzar": 171,
+      "br_samarkand": 118
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll шоколад"
+    ]
+  },
+  {
+    "id": "pnd_1116",
+    "sku": "PND-WAF-1116",
+    "barcode": "4780990001116",
+    "nameUz": "\"Panda Roll mini малина\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini малина\"",
+    "nameEn": "Panda Roll mini малина Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 233,
+      "br_chilanzar": 71,
+      "br_samarkand": 129
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini малина"
+    ]
+  },
+  {
+    "id": "pnd_1117",
+    "sku": "PND-WAF-1117",
+    "barcode": "4780990001117",
+    "nameUz": "\"Panda Roll mini киви\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini киви\"",
+    "nameEn": "Panda Roll mini киви Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 230,
+      "br_chilanzar": 48,
+      "br_samarkand": 138
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini киви"
+    ]
+  },
+  {
+    "id": "pnd_1118",
+    "sku": "PND-WAF-1118",
+    "barcode": "4780990001118",
+    "nameUz": "\"Panda Roll mini банан\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini банан\"",
+    "nameEn": "Panda Roll mini банан Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-05.png",
+    "stockByBranch": {
+      "br_toshkent_main": 165,
+      "br_chilanzar": 97,
+      "br_samarkand": 120
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini банан"
+    ]
+  },
+  {
+    "id": "pnd_1119",
+    "sku": "PND-WAF-1119",
+    "barcode": "4780990001119",
+    "nameUz": "\"Panda Roll mini апельсин\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini апельсин\"",
+    "nameEn": "Panda Roll mini апельсин Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 186,
+      "br_chilanzar": 151,
+      "br_samarkand": 35
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini апельсин"
+    ]
+  },
+  {
+    "id": "pnd_1120",
+    "sku": "PND-WAF-1120",
+    "barcode": "4780990001120",
+    "nameUz": "\"Panda Roll малина\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll малина\"",
+    "nameEn": "Panda Roll малина Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 162,
+      "br_chilanzar": 86,
+      "br_samarkand": 88
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll малина"
+    ]
+  },
+  {
+    "id": "pnd_1121",
+    "sku": "PND-WAF-1121",
+    "barcode": "4780990001121",
+    "nameUz": "\"Panda Roll киви\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll киви\"",
+    "nameEn": "Panda Roll киви Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-051.png",
+    "stockByBranch": {
+      "br_toshkent_main": 69,
+      "br_chilanzar": 80,
+      "br_samarkand": 31
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll киви"
+    ]
+  },
+  {
+    "id": "pnd_1122",
+    "sku": "PND-WAF-1122",
+    "barcode": "4780990001122",
+    "nameUz": "\"Panda Roll банан\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll банан\"",
+    "nameEn": "Panda Roll банан Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 135,
+      "br_chilanzar": 115,
+      "br_samarkand": 129
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll банан"
+    ]
+  },
+  {
+    "id": "pnd_1123",
+    "sku": "PND-WAF-1123",
+    "barcode": "4780990001123",
+    "nameUz": "\"Panda Roll апельсин\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll апельсин\"",
+    "nameEn": "Panda Roll апельсин Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 145,
+      "br_chilanzar": 97,
+      "br_samarkand": 87
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll апельсин"
+    ]
+  },
+  {
+    "id": "pnd_1124",
+    "sku": "PND-CAN-1124",
+    "barcode": "4780990001124",
+    "nameUz": "\"Яблоко\" Konfeti",
+    "nameRu": "Конфеты \"Яблоко\"",
+    "nameEn": "Яблоко Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 111,
+      "br_chilanzar": 85,
+      "br_samarkand": 115
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "яблоко"
+    ]
+  },
+  {
+    "id": "pnd_1125",
+    "sku": "PND-CAN-1125",
+    "barcode": "4780990001125",
+    "nameUz": "\"Дюшес\" Konfeti",
+    "nameRu": "Конфеты \"Дюшес\"",
+    "nameEn": "Дюшес Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-061.png",
+    "stockByBranch": {
+      "br_toshkent_main": 130,
+      "br_chilanzar": 115,
+      "br_samarkand": 128
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "дюшес"
+    ]
+  },
+  {
+    "id": "pnd_1126",
+    "sku": "PND-WAF-1126",
+    "barcode": "4780990001126",
+    "nameUz": "\"Lola шоколадные палочки\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola шоколадные палочки\"",
+    "nameEn": "Lola шоколадные палочки Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 245,
+      "br_chilanzar": 107,
+      "br_samarkand": 63
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola шоколадные палочки"
+    ]
+  },
+  {
+    "id": "pnd_1127",
+    "sku": "PND-WAF-1127",
+    "barcode": "4780990001127",
+    "nameUz": "\"Lola 200 шоколадные палочки\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola 200 шоколадные палочки\"",
+    "nameEn": "Lola 200 шоколадные палочки Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/image-2026-01-23-13_22_46-photoroom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 178,
+      "br_chilanzar": 136,
+      "br_samarkand": 89
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola 200 шоколадные палочки"
+    ]
+  },
+  {
+    "id": "pnd_1128",
+    "sku": "PND-WAF-1128",
+    "barcode": "4780990001128",
+    "nameUz": "\"Feliz пломбир\" Vafli",
+    "nameRu": "Вафли \"Feliz пломбир\"",
+    "nameEn": "Feliz пломбир Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/feliz-01.png",
+    "stockByBranch": {
+      "br_toshkent_main": 56,
+      "br_chilanzar": 119,
+      "br_samarkand": 92
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "feliz пломбир"
+    ]
+  },
+  {
+    "id": "pnd_1129",
+    "sku": "PND-CAN-1129",
+    "barcode": "4780990001129",
+    "nameUz": "\"Double boom арбуз\" Konfeti",
+    "nameRu": "Конфеты \"Double boom арбуз\"",
+    "nameEn": "Double boom арбуз Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-21-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 247,
+      "br_chilanzar": 71,
+      "br_samarkand": 91
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom арбуз"
+    ]
+  },
+  {
+    "id": "pnd_1130",
+    "sku": "PND-CAN-1130",
+    "barcode": "4780990001130",
+    "nameUz": "\"Double boom клубника\" Konfeti",
+    "nameRu": "Конфеты \"Double boom клубника\"",
+    "nameEn": "Double boom клубника Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-61-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 90,
+      "br_chilanzar": 127,
+      "br_samarkand": 101
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom клубника"
+    ]
+  },
+  {
+    "id": "pnd_1131",
+    "sku": "PND-CAN-1131",
+    "barcode": "4780990001131",
+    "nameUz": "\"Double boom яблоко\" Konfeti",
+    "nameRu": "Конфеты \"Double boom яблоко\"",
+    "nameEn": "Double boom яблоко Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-51-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 132,
+      "br_chilanzar": 63,
+      "br_samarkand": 129
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom яблоко"
+    ]
+  },
+  {
+    "id": "pnd_1132",
+    "sku": "PND-CAN-1132",
+    "barcode": "4780990001132",
+    "nameUz": "\"Double boom черешня\" Konfeti",
+    "nameRu": "Конфеты \"Double boom черешня\"",
+    "nameEn": "Double boom черешня Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-11-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 107,
+      "br_chilanzar": 47,
+      "br_samarkand": 64
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom черешня"
+    ]
+  },
+  {
+    "id": "pnd_1133",
+    "sku": "PND-CAN-1133",
+    "barcode": "4780990001133",
+    "nameUz": "\"Double boom апельсин\" Konfeti",
+    "nameRu": "Конфеты \"Double boom апельсин\"",
+    "nameEn": "Double boom апельсин Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-31-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 175,
+      "br_chilanzar": 83,
+      "br_samarkand": 56
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom апельсин"
+    ]
+  },
+  {
+    "id": "pnd_1134",
+    "sku": "PND-CAN-1134",
+    "barcode": "4780990001134",
+    "nameUz": "\"Double boom ананас\" Konfeti",
+    "nameRu": "Конфеты \"Double boom ананас\"",
+    "nameEn": "Double boom ананас Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-41-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 71,
+      "br_chilanzar": 62,
+      "br_samarkand": 84
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom ананас"
+    ]
+  },
+  {
+    "id": "pnd_1135",
+    "sku": "PND-CAN-1135",
+    "barcode": "4780990001135",
+    "nameUz": "\"Барбарис\" Konfeti",
+    "nameRu": "Конфеты \"Барбарис\"",
+    "nameEn": "Барбарис Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/barbaris-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 163,
+      "br_chilanzar": 118,
+      "br_samarkand": 139
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "барбарис"
+    ]
+  },
+  {
+    "id": "pnd_1136",
+    "sku": "PND-CAN-1136",
+    "barcode": "4780990001136",
+    "nameUz": "\"Ананас\" Konfeti",
+    "nameRu": "Конфеты \"Ананас\"",
+    "nameEn": "Ананас Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 84,
+      "br_chilanzar": 38,
+      "br_samarkand": 85
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "ананас"
+    ]
+  },
+  {
+    "id": "pnd_1137",
+    "sku": "PND-WAF-1137",
+    "barcode": "4780990001137",
+    "nameUz": "\"Ajoyib молоко\" Vafli",
+    "nameRu": "Вафли \"Ajoyib молоко\"",
+    "nameEn": "Ajoyib молоко Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 127,
+      "br_chilanzar": 173,
+      "br_samarkand": 74
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib молоко"
+    ]
+  },
+  {
+    "id": "pnd_1138",
+    "sku": "PND-WAF-1138",
+    "barcode": "4780990001138",
+    "nameUz": "\"Ajoyib лимон\" Vafli",
+    "nameRu": "Вафли \"Ajoyib лимон\"",
+    "nameEn": "Ajoyib лимон Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-01-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 157,
+      "br_chilanzar": 159,
+      "br_samarkand": 100
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib лимон"
+    ]
+  },
+  {
+    "id": "pnd_1139",
+    "sku": "PND-WAF-1139",
+    "barcode": "4780990001139",
+    "nameUz": "\"Ajoyib кокос\" Vafli",
+    "nameRu": "Вафли \"Ajoyib кокос\"",
+    "nameEn": "Ajoyib кокос Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-03.png",
+    "stockByBranch": {
+      "br_toshkent_main": 87,
+      "br_chilanzar": 178,
+      "br_samarkand": 134
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib кокос"
+    ]
+  },
+  {
+    "id": "pnd_1140",
+    "sku": "PND-COO-1140",
+    "barcode": "4780990001140",
+    "nameUz": "\"Pechenye Panda (dumaloq)\" Pechenyesi",
+    "nameRu": "Печенье \"Pechenye Panda (dumaloq)\"",
+    "nameEn": "Pechenye Panda (dumaloq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3175-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 228,
+      "br_chilanzar": 115,
+      "br_samarkand": 79
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pechenye panda (dumaloq)"
+    ]
+  },
+  {
+    "id": "pnd_1141",
+    "sku": "PND-COO-1141",
+    "barcode": "4780990001141",
+    "nameUz": "\"Pechenye Panda (tortburchak)\" Pechenyesi",
+    "nameRu": "Печенье \"Pechenye Panda (tortburchak)\"",
+    "nameEn": "Pechenye Panda (tortburchak) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3178-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 249,
+      "br_chilanzar": 149,
+      "br_samarkand": 25
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pechenye panda (tortburchak)"
+    ]
+  },
+  {
+    "id": "pnd_1142",
+    "sku": "PND-COO-1142",
+    "barcode": "4780990001142",
+    "nameUz": "\"Pryanik\" Pechenyesi",
+    "nameRu": "Печенье \"Pryanik\"",
+    "nameEn": "Pryanik Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/img_3183-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 106,
+      "br_chilanzar": 105,
+      "br_samarkand": 35
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "pryanik"
+    ]
+  },
+  {
+    "id": "pnd_1143",
+    "sku": "PND-COO-1143",
+    "barcode": "4780990001143",
+    "nameUz": "\"Parvoz (yumshoq)\" Pechenyesi",
+    "nameRu": "Печенье \"Parvoz (yumshoq)\"",
+    "nameEn": "Parvoz (yumshoq) Cookies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_cookies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali pechenyesi.",
+    "price": 38000,
+    "costPrice": 26000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 156,
+      "br_chilanzar": 87,
+      "br_samarkand": 36
+    },
+    "prices": {
+      "pt_cost": 26000,
+      "pt_retail": 38000,
+      "pt_wholesale": 29900,
+      "pt_vip": 28600
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_cookies",
+      "parvoz (yumshoq)"
+    ]
+  },
+  {
+    "id": "pnd_1144",
+    "sku": "PND-CHO-1144",
+    "barcode": "4780990001144",
+    "nameUz": "\"Princе\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Princе\"",
+    "nameEn": "Princе Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/prinse-05.png",
+    "stockByBranch": {
+      "br_toshkent_main": 217,
+      "br_chilanzar": 92,
+      "br_samarkand": 41
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "princе"
+    ]
+  },
+  {
+    "id": "pnd_1145",
+    "sku": "PND-CHO-1145",
+    "barcode": "4780990001145",
+    "nameUz": "\"Dolce arte kg\" Shokoladli Konfeti",
+    "nameRu": "Шоколадные конфеты \"Dolce arte kg\"",
+    "nameEn": "Dolce arte kg Chocolate Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_choc_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali shokoladli konfeti.",
+    "price": 68000,
+    "costPrice": 48000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/dolce-art-2-—-kopiya-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 79,
+      "br_chilanzar": 57,
+      "br_samarkand": 139
+    },
+    "prices": {
+      "pt_cost": 48000,
+      "pt_retail": 68000,
+      "pt_wholesale": 55200,
+      "pt_vip": 52800
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_choc_candies",
+      "dolce arte kg"
+    ]
+  },
+  {
+    "id": "pnd_1146",
+    "sku": "PND-CAN-1146",
+    "barcode": "4780990001146",
+    "nameUz": "\"Nok\" Konfeti",
+    "nameRu": "Конфеты \"Nok\"",
+    "nameEn": "Nok Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "discountPrice": 37800,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-061.png",
+    "stockByBranch": {
+      "br_toshkent_main": 243,
+      "br_chilanzar": 144,
+      "br_samarkand": 30
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "nok"
+    ]
+  },
+  {
+    "id": "pnd_1147",
+    "sku": "PND-CAN-1147",
+    "barcode": "4780990001147",
+    "nameUz": "\"Ananas\" Konfeti",
+    "nameRu": "Конфеты \"Ananas\"",
+    "nameEn": "Ananas Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 208,
+      "br_chilanzar": 145,
+      "br_samarkand": 76
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "ananas"
+    ]
+  },
+  {
+    "id": "pnd_1148",
+    "sku": "PND-CAN-1148",
+    "barcode": "4780990001148",
+    "nameUz": "\"Olma\" Konfeti",
+    "nameRu": "Конфеты \"Olma\"",
+    "nameEn": "Olma Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 175,
+      "br_chilanzar": 172,
+      "br_samarkand": 119
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "olma"
+    ]
+  },
+  {
+    "id": "pnd_1149",
+    "sku": "PND-CAN-1149",
+    "barcode": "4780990001149",
+    "nameUz": "\"Qulupnay\" Konfeti",
+    "nameRu": "Конфеты \"Qulupnay\"",
+    "nameEn": "Qulupnay Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/qattiq-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 244,
+      "br_chilanzar": 115,
+      "br_samarkand": 89
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "qulupnay"
+    ]
+  },
+  {
+    "id": "pnd_1150",
+    "sku": "PND-CAN-1150",
+    "barcode": "4780990001150",
+    "nameUz": "\"Double boom (ananas)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (ananas)\"",
+    "nameEn": "Double boom (ananas) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-41-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 55,
+      "br_chilanzar": 76,
+      "br_samarkand": 34
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (ananas)"
+    ]
+  },
+  {
+    "id": "pnd_1151",
+    "sku": "PND-CAN-1151",
+    "barcode": "4780990001151",
+    "nameUz": "\"Double boom (qulupnay)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (qulupnay)\"",
+    "nameEn": "Double boom (qulupnay) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-61-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 109,
+      "br_chilanzar": 33,
+      "br_samarkand": 111
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (qulupnay)"
+    ]
+  },
+  {
+    "id": "pnd_1152",
+    "sku": "PND-CAN-1152",
+    "barcode": "4780990001152",
+    "nameUz": "\"Double boom (apelsin)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (apelsin)\"",
+    "nameEn": "Double boom (apelsin) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-31-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 186,
+      "br_chilanzar": 87,
+      "br_samarkand": 98
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (apelsin)"
+    ]
+  },
+  {
+    "id": "pnd_1153",
+    "sku": "PND-CAN-1153",
+    "barcode": "4780990001153",
+    "nameUz": "\"Double boom (tarvuz)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (tarvuz)\"",
+    "nameEn": "Double boom (tarvuz) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-21-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 165,
+      "br_chilanzar": 123,
+      "br_samarkand": 68
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (tarvuz)"
+    ]
+  },
+  {
+    "id": "pnd_1154",
+    "sku": "PND-CAN-1154",
+    "barcode": "4780990001154",
+    "nameUz": "\"Double boom (gilos)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (gilos)\"",
+    "nameEn": "Double boom (gilos) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-11-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 248,
+      "br_chilanzar": 166,
+      "br_samarkand": 76
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (gilos)"
+    ]
+  },
+  {
+    "id": "pnd_1155",
+    "sku": "PND-CAN-1155",
+    "barcode": "4780990001155",
+    "nameUz": "\"Double boom (olma)\" Konfeti",
+    "nameRu": "Конфеты \"Double boom (olma)\"",
+    "nameEn": "Double boom (olma) Candies",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_candies",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali konfeti.",
+    "price": 42000,
+    "costPrice": 29000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-51-scaled.png",
+    "stockByBranch": {
+      "br_toshkent_main": 235,
+      "br_chilanzar": 126,
+      "br_samarkand": 106
+    },
+    "prices": {
+      "pt_cost": 29000,
+      "pt_retail": 42000,
+      "pt_wholesale": 33350,
+      "pt_vip": 31900
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_candies",
+      "double boom (olma)"
+    ]
+  },
+  {
+    "id": "pnd_1156",
+    "sku": "PND-WAF-1156",
+    "barcode": "4780990001156",
+    "nameUz": "\"Lola (shokoladli chips)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola (shokoladli chips)\"",
+    "nameEn": "Lola (shokoladli chips) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/bezymyannyj-4.png",
+    "stockByBranch": {
+      "br_toshkent_main": 59,
+      "br_chilanzar": 139,
+      "br_samarkand": 137
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola (shokoladli chips)"
+    ]
+  },
+  {
+    "id": "pnd_1157",
+    "sku": "PND-WAF-1157",
+    "barcode": "4780990001157",
+    "nameUz": "\"Lola 200 (shokoladli chips)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Lola 200 (shokoladli chips)\"",
+    "nameEn": "Lola 200 (shokoladli chips) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/image-2026-01-23-13_22_46-photoroom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 146,
+      "br_chilanzar": 128,
+      "br_samarkand": 75
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "lola 200 (shokoladli chips)"
+    ]
+  },
+  {
+    "id": "pnd_1158",
+    "sku": "PND-WAF-1158",
+    "barcode": "4780990001158",
+    "nameUz": "\"Sharqona (cocoa)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Sharqona (cocoa)\"",
+    "nameEn": "Sharqona (cocoa) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/image-2026-01-23-13_22_30-photoroom.png",
+    "stockByBranch": {
+      "br_toshkent_main": 240,
+      "br_chilanzar": 132,
+      "br_samarkand": 70
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "sharqona (cocoa)"
+    ]
+  },
+  {
+    "id": "pnd_1159",
+    "sku": "PND-WAF-1159",
+    "barcode": "4780990001159",
+    "nameUz": "\"Sharqona (milk)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Sharqona (milk)\"",
+    "nameEn": "Sharqona (milk) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/sharqona-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 74,
+      "br_chilanzar": 67,
+      "br_samarkand": 128
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "sharqona (milk)"
+    ]
+  },
+  {
+    "id": "pnd_1160",
+    "sku": "PND-WAF-1160",
+    "barcode": "4780990001160",
+    "nameUz": "\"Panda Roll mini (kivi)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini (kivi)\"",
+    "nameEn": "Panda Roll mini (kivi) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 147,
+      "br_chilanzar": 89,
+      "br_samarkand": 42
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini (kivi)"
+    ]
+  },
+  {
+    "id": "pnd_1161",
+    "sku": "PND-WAF-1161",
+    "barcode": "4780990001161",
+    "nameUz": "\"Panda Roll mini (banan)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini (banan)\"",
+    "nameEn": "Panda Roll mini (banan) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-05.png",
+    "stockByBranch": {
+      "br_toshkent_main": 211,
+      "br_chilanzar": 144,
+      "br_samarkand": 92
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini (banan)"
+    ]
+  },
+  {
+    "id": "pnd_1162",
+    "sku": "PND-WAF-1162",
+    "barcode": "4780990001162",
+    "nameUz": "\"Panda Roll mini (malina)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini (malina)\"",
+    "nameEn": "Panda Roll mini (malina) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 226,
+      "br_chilanzar": 102,
+      "br_samarkand": 57
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini (malina)"
+    ]
+  },
+  {
+    "id": "pnd_1163",
+    "sku": "PND-WAF-1163",
+    "barcode": "4780990001163",
+    "nameUz": "\"Panda Roll mini (apelsin)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini (apelsin)\"",
+    "nameEn": "Panda Roll mini (apelsin) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 221,
+      "br_chilanzar": 51,
+      "br_samarkand": 65
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini (apelsin)"
+    ]
+  },
+  {
+    "id": "pnd_1164",
+    "sku": "PND-WAF-1164",
+    "barcode": "4780990001164",
+    "nameUz": "\"Panda Roll mini (choco)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll mini (choco)\"",
+    "nameEn": "Panda Roll mini (choco) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "discountPrice": 43200,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/roll-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 146,
+      "br_chilanzar": 60,
+      "br_samarkand": 139
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll mini (choco)"
+    ]
+  },
+  {
+    "id": "pnd_1165",
+    "sku": "PND-WAF-1165",
+    "barcode": "4780990001165",
+    "nameUz": "\"Panda Roll (kivi)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll (kivi)\"",
+    "nameEn": "Panda Roll (kivi) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-051.png",
+    "stockByBranch": {
+      "br_toshkent_main": 207,
+      "br_chilanzar": 87,
+      "br_samarkand": 40
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll (kivi)"
+    ]
+  },
+  {
+    "id": "pnd_1166",
+    "sku": "PND-WAF-1166",
+    "barcode": "4780990001166",
+    "nameUz": "\"Panda Roll (apelsin)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll (apelsin)\"",
+    "nameEn": "Panda Roll (apelsin) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-041.png",
+    "stockByBranch": {
+      "br_toshkent_main": 249,
+      "br_chilanzar": 47,
+      "br_samarkand": 31
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll (apelsin)"
+    ]
+  },
+  {
+    "id": "pnd_1167",
+    "sku": "PND-WAF-1167",
+    "barcode": "4780990001167",
+    "nameUz": "\"Panda Roll (shokolad)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll (shokolad)\"",
+    "nameEn": "Panda Roll (shokolad) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-031.png",
+    "stockByBranch": {
+      "br_toshkent_main": 140,
+      "br_chilanzar": 70,
+      "br_samarkand": 80
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll (shokolad)"
+    ]
+  },
+  {
+    "id": "pnd_1168",
+    "sku": "PND-WAF-1168",
+    "barcode": "4780990001168",
+    "nameUz": "\"Panda Roll (banan)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll (banan)\"",
+    "nameEn": "Panda Roll (banan) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-021.png",
+    "stockByBranch": {
+      "br_toshkent_main": 160,
+      "br_chilanzar": 107,
+      "br_samarkand": 21
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": true,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll (banan)"
+    ]
+  },
+  {
+    "id": "pnd_1169",
+    "sku": "PND-WAF-1169",
+    "barcode": "4780990001169",
+    "nameUz": "\"Panda Roll (malina)\" Vafli Tayoqchalari",
+    "nameRu": "Вафельные трубочки \"Panda Roll (malina)\"",
+    "nameEn": "Panda Roll (malina) Wafer Sticks",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_wafer_sticks",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli tayoqchalari.",
+    "price": 48000,
+    "costPrice": 33000,
+    "minStockAlert": 15,
+    "unit": "pachka",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/panda-roll-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 54,
+      "br_chilanzar": 75,
+      "br_samarkand": 48
+    },
+    "prices": {
+      "pt_cost": 33000,
+      "pt_retail": 48000,
+      "pt_wholesale": 37950,
+      "pt_vip": 36300
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_wafer_sticks",
+      "panda roll (malina)"
+    ]
+  },
+  {
+    "id": "pnd_1170",
+    "sku": "PND-WAF-1170",
+    "barcode": "4780990001170",
+    "nameUz": "\"Wafer kakao\" Vafli",
+    "nameRu": "Вафли \"Wafer kakao\"",
+    "nameEn": "Wafer kakao Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "discountPrice": 40500,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-011.png",
+    "stockByBranch": {
+      "br_toshkent_main": 245,
+      "br_chilanzar": 43,
+      "br_samarkand": 25
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer kakao"
+    ]
+  },
+  {
+    "id": "pnd_1171",
+    "sku": "PND-WAF-1171",
+    "barcode": "4780990001171",
+    "nameUz": "\"Wafer sutli\" Vafli",
+    "nameRu": "Вафли \"Wafer sutli\"",
+    "nameEn": "Wafer sutli Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/wafer-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 161,
+      "br_chilanzar": 138,
+      "br_samarkand": 49
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "wafer sutli"
+    ]
+  },
+  {
+    "id": "pnd_1172",
+    "sku": "PND-WAF-1172",
+    "barcode": "4780990001172",
+    "nameUz": "\"Feliz plombir\" Vafli",
+    "nameRu": "Вафли \"Feliz plombir\"",
+    "nameEn": "Feliz plombir Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2026/01/feliz-01.png",
+    "stockByBranch": {
+      "br_toshkent_main": 65,
+      "br_chilanzar": 171,
+      "br_samarkand": 92
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "feliz plombir"
+    ]
+  },
+  {
+    "id": "pnd_1173",
+    "sku": "PND-WAF-1173",
+    "barcode": "4780990001173",
+    "nameUz": "\"Ajoyib Kokos\" Vafli",
+    "nameRu": "Вафли \"Ajoyib Kokos\"",
+    "nameEn": "Ajoyib Kokos Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-03.png",
+    "stockByBranch": {
+      "br_toshkent_main": 53,
+      "br_chilanzar": 171,
+      "br_samarkand": 58
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib kokos"
+    ]
+  },
+  {
+    "id": "pnd_1174",
+    "sku": "PND-WAF-1174",
+    "barcode": "4780990001174",
+    "nameUz": "\"Ajoyib Sutli\" Vafli",
+    "nameRu": "Вафли \"Ajoyib Sutli\"",
+    "nameEn": "Ajoyib Sutli Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-02.png",
+    "stockByBranch": {
+      "br_toshkent_main": 99,
+      "br_chilanzar": 131,
+      "br_samarkand": 71
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": true,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib sutli"
+    ]
+  },
+  {
+    "id": "pnd_1175",
+    "sku": "PND-WAF-1175",
+    "barcode": "4780990001175",
+    "nameUz": "\"Ajoyib Limon\" Vafli",
+    "nameRu": "Вафли \"Ajoyib Limon\"",
+    "nameEn": "Ajoyib Limon Waffles",
+    "brand": "Panda Sanoat Savdo",
+    "categoryId": "cat_panda_waffles",
+    "description": "Panda Sanoat Savdo zavodida tayyorlangan oliy navli mazali vafli.",
+    "price": 45000,
+    "discountPrice": 40500,
+    "costPrice": 31000,
+    "minStockAlert": 15,
+    "unit": "kg",
+    "image": "https://pandasanoatsavdo.uz/wp-content/uploads/2025/12/azhojib-01-3.png",
+    "stockByBranch": {
+      "br_toshkent_main": 214,
+      "br_chilanzar": 144,
+      "br_samarkand": 97
+    },
+    "prices": {
+      "pt_cost": 31000,
+      "pt_retail": 45000,
+      "pt_wholesale": 35650,
+      "pt_vip": 34100
+    },
+    "expiryDays": 180,
+    "isPopular": false,
+    "isPromotional": false,
+    "tags": [
+      "panda",
+      "panda sanoat savdo",
+      "qandolat",
+      "cat_panda_waffles",
+      "ajoyib limon"
+    ]
+  }
+]
