@@ -1,0 +1,11 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+regos_raw_all.json
+panda_raw_products.json
+panda_page.html

@@ -1,0 +1,12 @@
+{
+  "name": "Remix Remix Enterprise Supermarket ERP",
+  "description": "Enterprise-grade AI Supermarket Management System with Telegram Commerce, POS, ERP, CRM, AI Analytics, Multi-branch inventory, and Delivery Tracking",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
