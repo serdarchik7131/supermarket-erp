@@ -41,7 +41,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { Branch, UserRole } from '../../types';
-import { fetchBranches } from '../../services/api';
+import { fetchBranches, updateSettings } from '../../services/api';
 import { getStoreSettings, saveStoreSettings, subscribeStoreSettings, StoreSettings } from '../../utils/storeSettings';
 
 interface AdminLayoutProps {
@@ -87,6 +87,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
   // Toast Notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+  const [isSavingModalSettings, setIsSavingModalSettings] = useState(false);
 
   const handleHeaderManualSync = async () => {
     setIsSyncingCloud(true);
@@ -119,6 +120,28 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   useEffect(() => {
     fetchBranches().then((b) => setBranches(b));
+
+    // Also fetch initial settings directly from backend
+    fetch('/api/settings')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && (data.storeName || data.adminPin)) {
+          const updated = saveStoreSettings({
+            storeName: data.storeName,
+            storeBadge: data.storeBadge,
+            adminPin: data.adminPin,
+            agentPin: data.agentPin,
+            adminPhone: data.adminPhone,
+          });
+          setStoreSettings(updated);
+          setStoreNameInput(updated.storeName);
+          setStoreBadgeInput(updated.storeBadge);
+          setAdminPinInput(updated.adminPin);
+          setAgentPinInput(updated.agentPin);
+        }
+      })
+      .catch(() => {});
+
     const unsubscribe = subscribeStoreSettings(() => {
       const current = getStoreSettings();
       setStoreSettings(current);
@@ -758,26 +781,39 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
             <div className="pt-3 border-t border-slate-200 flex justify-end gap-2">
               <button
+                type="button"
                 onClick={() => setIsSettingsModalOpen(false)}
-                className="px-3 py-1.5 text-slate-600 hover:bg-slate-100 rounded-lg font-medium"
+                className="px-3 py-1.5 text-slate-600 hover:bg-slate-100 rounded-lg font-medium cursor-pointer"
               >
                 Yopish
               </button>
               <button
-                onClick={() => {
-                  const updated = saveStoreSettings({
+                type="button"
+                disabled={isSavingModalSettings}
+                onClick={async () => {
+                  setIsSavingModalSettings(true);
+                  const toSave = {
                     storeName: storeNameInput.trim() || 'OSIYO SUPERMARKET',
                     storeBadge: storeBadgeInput.trim() || 'GO',
                     adminPin: adminPinInput.trim() || '7230',
                     agentPin: agentPinInput.trim() || '1234',
-                  });
-                  setStoreSettings(updated);
-                  setIsSettingsModalOpen(false);
-                  showToast('✅ Do\'kon nomi va parollar muvaffaqiyatli saqlandi!');
+                  };
+                  try {
+                    await updateSettings(toSave);
+                    const updated = saveStoreSettings(toSave);
+                    setStoreSettings(updated);
+                    setIsSettingsModalOpen(false);
+                    showToast('✅ Do\'kon nomi va parollar bulutga muvaffaqiyatli saqlandi!');
+                  } catch (err: any) {
+                    showToast('❌ Saqlashda xatolik: ' + (err.message || ''));
+                  } finally {
+                    setIsSavingModalSettings(false);
+                  }
                 }}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg shadow-xs"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg shadow-xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
               >
-                Saqlash
+                {isSavingModalSettings && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
+                <span>{isSavingModalSettings ? 'Saqlanmoqda...' : 'Saqlash'}</span>
               </button>
             </div>
           </div>

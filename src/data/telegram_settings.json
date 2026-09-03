@@ -1,0 +1,12 @@
+{
+  "salesBotToken": "8732452657:AAFzmcCvC7OvKSSQZKQOJDJgS2yfpgjznkQ",
+  "botToken": "8732452657:AAFzmcCvC7OvKSSQZKQOJDJgS2yfpgjznkQ",
+  "syncBotToken": "8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I",
+  "adminId": "7230016421",
+  "customWebAppUrl": "https://ais-dev-u5a4lutl5lukwpkc7naguv-552952342062.asia-southeast1.run.app",
+  "sourceBotUsername": "@bondi_supplier_bot",
+  "autoSyncIntervalMinutes": 15,
+  "autoUpdateVariants": true,
+  "notifyOnNewProduct": true,
+  "notifyOnPriceChange": true
+}

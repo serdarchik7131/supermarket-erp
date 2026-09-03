@@ -1,0 +1,179 @@
+{
+  "minOrderAmountClient": 50000,
+  "minOrderAmountAgent": 100000,
+  "isGeolocationRequiredForClient": true,
+  "checkoutNoticeEnabled": true,
+  "checkoutNoticeText": "⚠️ Buyurtma berish shartlari va eslatma:\n• Mahsulot va narxlar bilan tanishib chiqdingiz.\n• Kuryer yetkazib kelganida naqd yoki online to'lov amalga oshiriladi.\n• Mahsulot sifatiga e'tiroz bo'lsa, qabul qilish jarayonida rad etish huquqiga egasiz.",
+  "deliveryFeeType": "fixed",
+  "deliveryFeeAmount": 10000,
+  "deliveryFeeExpressAmount": 15000,
+  "freeDeliveryThreshold": 100000,
+  "territories": [
+    {
+      "id": "ter_1",
+      "name": "Chilonzor tumani",
+      "code": "CHIL",
+      "description": "Chilonzor 1-26 mavzelar, Farhod bozori va atrof hududlar",
+      "active": true
+    },
+    {
+      "id": "ter_2",
+      "name": "Yunusobod tumani",
+      "code": "YUN",
+      "description": "Yunusobod 1-19 kvartal, Megaplanet atrofidagi do'konlar",
+      "active": true
+    },
+    {
+      "id": "ter_3",
+      "name": "Mirzo Ulug'bek tumani",
+      "code": "MU",
+      "description": "TTZ, Buyuk Ipak Yo'li, Ekopark atrofi",
+      "active": true
+    },
+    {
+      "id": "ter_4",
+      "name": "Sergeli tumani",
+      "code": "SERG",
+      "description": "Sergeli 1-8a hududlar, Quruvchilar dahasi",
+      "active": true
+    },
+    {
+      "id": "ter_5",
+      "name": "Yakkasaroy tumani",
+      "code": "YAKK",
+      "description": "Muqimiy, Shota Rustaveli ko'chalari",
+      "active": true
+    },
+    {
+      "id": "ter_6",
+      "name": "Samarqand viloyati",
+      "code": "SAM",
+      "description": "Samarqand shahar va viloyat do'konlari",
+      "active": true
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "pm_click",
+      "name": "Click Pass",
+      "code": "click",
+      "icon": "📱",
+      "description": "Onlayn to'lov",
+      "enabled": true
+    },
+    {
+      "id": "pm_payme",
+      "name": "Payme",
+      "code": "payme",
+      "icon": "💳",
+      "description": "Onlayn to'lov",
+      "enabled": true
+    },
+    {
+      "id": "pm_cash",
+      "name": "Naqd Pul",
+      "code": "cash",
+      "icon": "💵",
+      "description": "Qabul qilganda naqd",
+      "enabled": true
+    },
+    {
+      "id": "pm_card",
+      "name": "Bank Kartasi / Terminal",
+      "code": "card",
+      "icon": "💳",
+      "description": "Kuryer terminali orqali",
+      "enabled": true
+    },
+    {
+      "id": "pm_bank",
+      "name": "Bank O'tkazmasi",
+      "code": "bank_transfer",
+      "icon": "🏦",
+      "description": "Hisob-raqam bo'yicha",
+      "enabled": true
+    }
+  ],
+  "storeName": "OSIYO SUPERMARKET",
+  "storeBadge": "GO",
+  "adminPin": "7230",
+  "agentPin": "1234",
+  "adminPhone": "+998 90 123 45 67",
+  "branches": [
+    {
+      "id": "br_toshkent_main",
+      "name": "Toshkent Central Supermarket",
+      "city": "Toshkent",
+      "address": "Amir Temur ko’chasi 108A, Yunusobod",
+      "lat": 41.3275,
+      "lng": 69.2817,
+      "phone": "+998 71 200 55 55",
+      "isMain": true,
+      "activeCouriers": 6,
+      "dailyRevenue": 48500000
+    },
+    {
+      "id": "br_chilanzar",
+      "name": "Chilonzor Filiali #2",
+      "city": "Toshkent",
+      "address": "Chilonzor Qatortol 28-uy",
+      "lat": 41.2781,
+      "lng": 69.2014,
+      "phone": "+998 71 200 55 56",
+      "isMain": false,
+      "activeCouriers": 4,
+      "dailyRevenue": 32100000
+    },
+    {
+      "id": "br_samarkand",
+      "name": "Samarqand Registon Filiali",
+      "city": "Samarqand",
+      "address": "Registon ko’chasi 45",
+      "lat": 39.6542,
+      "lng": 66.9758,
+      "phone": "+998 66 200 55 57",
+      "isMain": false,
+      "activeCouriers": 3,
+      "dailyRevenue": 27800000
+    }
+  ],
+  "priceTypes": [
+    {
+      "id": "pt_prixod",
+      "nameUz": "Prixod (Tannarx / Kirim)",
+      "code": "prixod",
+      "defaultMarkupPercent": 0,
+      "isDefaultClientPrice": false,
+      "description": "Kirim / omborga tushish narxi (0% ustama)"
+    },
+    {
+      "id": "pt_roznitsa",
+      "nameUz": "Chakana (Roznitsa)",
+      "code": "roznitsa",
+      "defaultMarkupPercent": 30,
+      "isDefaultClientPrice": true,
+      "description": "B2C Mijoz va Chakana xaridorlar narxi (+30% ustama)"
+    },
+    {
+      "id": "pt_optom",
+      "nameUz": "Ulgurji (B2B Optom)",
+      "code": "optom",
+      "defaultMarkupPercent": 15,
+      "isDefaultClientPrice": false,
+      "description": "Katta do'konlar va tarmoqlar uchun ulgurji narx (+15% ustama)"
+    },
+    {
+      "id": "pt_vip",
+      "nameUz": "VIP Spetsial Narx",
+      "code": "vip",
+      "defaultMarkupPercent": 10,
+      "isDefaultClientPrice": false,
+      "description": "Imtiyozli hamkorlar uchun VIP narx (+10% ustama)"
+    }
+  ],
+  "dualBotConfig": {
+    "salesBotToken": "8732452657:AAFzmcCvC7OvKSSQZKQOJDJgS2yfpgjznkQ",
+    "syncBotToken": "8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I",
+    "adminId": "7230016421"
+  }
+}

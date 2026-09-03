@@ -552,6 +552,9 @@ export async function updateProductPrices(productId: string, prices: Record<stri
 
 export async function fetchSettings(): Promise<SystemSettings> {
   const res = await fetch('/api/settings');
+  if (!res.ok) {
+    throw new Error(`Sozlamalarni yuklashda xatolik yuz berdi (${res.status})`);
+  }
   return res.json();
 }
 
@@ -561,6 +564,10 @@ export async function updateSettings(settingsData: Partial<SystemSettings>): Pro
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(settingsData),
   });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.message || `Sozlamalarni saqlashda xatolik (${res.status})`);
+  }
   return res.json();
 }
 

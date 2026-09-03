@@ -620,6 +620,11 @@ let systemSettings: SystemSettings = {
   freeDeliveryThreshold: 100000,
   territories: territories,
   paymentMethods: defaultPaymentMethods,
+  storeName: 'OSIYO SUPERMARKET',
+  storeBadge: 'GO',
+  adminPin: '7230',
+  agentPin: '1234',
+  adminPhone: '+998 90 123 45 67',
 };
 
 
@@ -2528,26 +2533,99 @@ app.get('/api/keep-alive', (req, res) => {
 });
 
 app.get('/api/settings', (req, res) => {
-  res.json({ ...systemSettings, territories, branches, priceTypes });
+  res.json({
+    ...systemSettings,
+    territories,
+    branches,
+    priceTypes,
+    dualBotConfig: {
+      salesBotToken: TELEGRAM_BOT_TOKEN,
+      botToken: TELEGRAM_BOT_TOKEN,
+      syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+      adminId: TELEGRAM_ADMIN_ID,
+      customWebAppUrl: CUSTOM_WEB_APP_URL,
+      sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+      autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+      autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+      notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+      notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+    },
+  });
 });
 
 app.put('/api/settings', async (req, res) => {
-  systemSettings = { ...systemSettings, ...req.body };
-  if (req.body.territories) {
-    territories = req.body.territories;
-    systemSettings.territories = territories;
+  try {
+    systemSettings = { ...systemSettings, ...req.body };
+    if (req.body.territories) {
+      territories = req.body.territories;
+      systemSettings.territories = territories;
+    }
+    if (req.body.branches) {
+      branches = req.body.branches;
+      systemSettings.branches = branches;
+    }
+    if (req.body.priceTypes) {
+      priceTypes = req.body.priceTypes;
+      systemSettings.priceTypes = priceTypes;
+    }
+
+    if (req.body.dualBotConfig) {
+      const dbc = req.body.dualBotConfig;
+      if (dbc.salesBotToken !== undefined && dbc.salesBotToken.trim()) {
+        TELEGRAM_BOT_TOKEN = dbc.salesBotToken.trim();
+      } else if (dbc.botToken !== undefined && dbc.botToken.trim()) {
+        TELEGRAM_BOT_TOKEN = dbc.botToken.trim();
+      }
+      if (dbc.syncBotToken !== undefined) TELEGRAM_SYNC_BOT_TOKEN = dbc.syncBotToken.trim();
+      if (dbc.adminId !== undefined) TELEGRAM_ADMIN_ID = String(dbc.adminId).trim();
+      if (dbc.customWebAppUrl !== undefined) CUSTOM_WEB_APP_URL = dbc.customWebAppUrl.trim();
+      if (dbc.sourceBotUsername !== undefined) SYNC_BOT_SOURCE_USERNAME = dbc.sourceBotUsername.trim();
+      if (dbc.autoSyncIntervalMinutes !== undefined) AUTO_SYNC_INTERVAL_MINUTES = Number(dbc.autoSyncIntervalMinutes) || 15;
+      if (dbc.autoUpdateVariants !== undefined) AUTO_UPDATE_VARIANTS = Boolean(dbc.autoUpdateVariants);
+      if (dbc.notifyOnNewProduct !== undefined) NOTIFY_ON_NEW_PRODUCT = Boolean(dbc.notifyOnNewProduct);
+      if (dbc.notifyOnPriceChange !== undefined) NOTIFY_ON_PRICE_CHANGE = Boolean(dbc.notifyOnPriceChange);
+
+      await saveTelegramSettingsToDb({
+        salesBotToken: TELEGRAM_BOT_TOKEN,
+        botToken: TELEGRAM_BOT_TOKEN,
+        syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+        adminId: TELEGRAM_ADMIN_ID,
+        customWebAppUrl: CUSTOM_WEB_APP_URL,
+        sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+        autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+        autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+        notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+        notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+      });
+    }
+
+    await saveSettingsToDb(systemSettings);
+    addAuditLog('UPDATE_SETTINGS', 'Security', 'Tizim sozlamalari va ma\'lumotlari yangilandi');
+
+    res.json({
+      success: true,
+      message: 'Sozlamalar muvaffaqiyatli saqlandi',
+      ...systemSettings,
+      territories,
+      branches,
+      priceTypes,
+      dualBotConfig: {
+        salesBotToken: TELEGRAM_BOT_TOKEN,
+        botToken: TELEGRAM_BOT_TOKEN,
+        syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+        adminId: TELEGRAM_ADMIN_ID,
+        customWebAppUrl: CUSTOM_WEB_APP_URL,
+        sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+        autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+        autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+        notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+        notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+      },
+    });
+  } catch (err: any) {
+    console.error('Error in PUT /api/settings:', err);
+    res.status(500).json({ success: false, message: 'Serverda sozlamalarni saqlashda xatolik: ' + err.message });
   }
-  if (req.body.branches) {
-    branches = req.body.branches;
-    systemSettings.branches = branches;
-  }
-  if (req.body.priceTypes) {
-    priceTypes = req.body.priceTypes;
-    systemSettings.priceTypes = priceTypes;
-  }
-  await saveSettingsToDb(systemSettings);
-  addAuditLog('UPDATE_SETTINGS', 'Security', 'Tizim sozlamalari va ma\'lumotlari yangilandi');
-  res.json({ ...systemSettings, territories, branches, priceTypes });
 });
 
 app.post('/api/admin/reset-database-except-products', (req, res) => {

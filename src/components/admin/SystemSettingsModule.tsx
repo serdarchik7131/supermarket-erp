@@ -52,6 +52,8 @@ export const SystemSettingsModule: React.FC = () => {
   });
   const [loading, setLoading] = useState(true);
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveFeedback, setSaveFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   // Dual Bot States
   const [dualBotConfig, setDualBotConfig] = useState<DualBotConfig>({
@@ -152,6 +154,9 @@ export const SystemSettingsModule: React.FC = () => {
         adminPhone: data.adminPhone || localStore.adminPhone || '+998 90 123 45 67',
       };
       setSettings(merged);
+      if (data.dualBotConfig) {
+        setDualBotConfig((prev) => ({ ...prev, ...data.dualBotConfig }));
+      }
       if (data.storeName || data.adminPin) {
         saveStoreSettings({
           storeName: merged.storeName || 'OSIYO SUPERMARKET',
@@ -169,13 +174,32 @@ export const SystemSettingsModule: React.FC = () => {
   };
 
   const handleSaveDualBot = async () => {
+    setIsSaving(true);
+    setSaveFeedback(null);
     try {
       await saveDualBotConfig(dualBotConfig);
+      await updateSettings({ dualBotConfig });
       setBotToast("✅ 2 ta Telegram Bot sozlamalari muvaffaqiyatli saqlandi!");
-      setTimeout(() => setBotToast(null), 3500);
-    } catch (e) {
+      setSaveFeedback({
+        type: 'success',
+        message: "✅ Telegram Bot sozlamalari saqlandi va faollashtirildi!",
+      });
+      setTimeout(() => {
+        setBotToast(null);
+        setSaveFeedback(null);
+      }, 4000);
+    } catch (e: any) {
       setBotToast("❌ Bot sozlamalarini saqlashda xatolik!");
-      setTimeout(() => setBotToast(null), 3500);
+      setSaveFeedback({
+        type: 'error',
+        message: "❌ Bot sozlamalarini saqlashda xatolik: " + (e.message || ''),
+      });
+      setTimeout(() => {
+        setBotToast(null);
+        setSaveFeedback(null);
+      }, 4000);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -217,11 +241,22 @@ export const SystemSettingsModule: React.FC = () => {
     }
   };
 
-  const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSave = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setIsSaving(true);
+    setSavedSuccess(false);
+    setSaveFeedback(null);
     try {
-      const updated = await updateSettings(settings);
+      const payload: SystemSettings = {
+        ...settings,
+        dualBotConfig,
+      };
+      const updated = await updateSettings(payload);
       setSettings(updated);
+
+      // Also ensure dual bot endpoint receives exact bot config
+      await saveDualBotConfig(dualBotConfig).catch(() => {});
+
       saveStoreSettings({
         storeName: updated.storeName || settings.storeName || 'OSIYO SUPERMARKET',
         storeBadge: updated.storeBadge || settings.storeBadge || 'GO',
@@ -229,11 +264,24 @@ export const SystemSettingsModule: React.FC = () => {
         agentPin: updated.agentPin || settings.agentPin || '1234',
         adminPhone: updated.adminPhone || settings.adminPhone,
       });
+
       setSavedSuccess(true);
-      setTimeout(() => setSavedSuccess(false), 3000);
-    } catch (err) {
+      setSaveFeedback({
+        type: 'success',
+        message: "✅ Barcha tizim va Telegram Bot sozlamalari muvaffaqiyatli saqlandi va bulutga muhrlandi!",
+      });
+      setTimeout(() => {
+        setSavedSuccess(false);
+        setSaveFeedback(null);
+      }, 5000);
+    } catch (err: any) {
       console.error('Error saving settings:', err);
-      alert("Sozlamalarni saqlashda xatolik yuz berdi");
+      setSaveFeedback({
+        type: 'error',
+        message: "❌ Sozlamalarni saqlashda xatolik: " + (err.message || ''),
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -340,24 +388,64 @@ export const SystemSettingsModule: React.FC = () => {
           </div>
         </div>
 
-        {savedSuccess && (
-          <div className="bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 animate-bounce">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-            <span>Muvaffaqiyatli saqlandi!</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {savedSuccess && (
+            <div className="bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 animate-bounce">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <span>Muvaffaqiyatli saqlandi!</span>
+            </div>
+          )}
 
-        <button
-          type="button"
-          onClick={handleManualSync}
-          disabled={isSyncingCloud}
-          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer disabled:opacity-50"
-          title="Turso libSQL Cloud va Telegram Bot sozlamalarini darhol qayta sinxronlash"
-        >
-          <RefreshCw className={`w-4 h-4 ${isSyncingCloud ? 'animate-spin' : ''}`} />
-          <span>{isSyncingCloud ? 'Sinxronlanmoqda...' : '🔄 Ruchnoy Sinxronizatsiya'}</span>
-        </button>
+          <button
+            type="button"
+            onClick={handleManualSync}
+            disabled={isSyncingCloud}
+            className="px-3 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-all cursor-pointer disabled:opacity-50"
+            title="Turso libSQL Cloud va Telegram Bot sozlamalarini darhol qayta sinxronlash"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isSyncingCloud ? 'animate-spin' : ''}`} />
+            <span>{isSyncingCloud ? 'Sinxronlanmoqda...' : 'Ruchnoy Sinxronizatsiya'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleSave()}
+            disabled={isSaving}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs flex items-center gap-2 shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-50"
+            title="Barcha o'zgarishlarni darhol saqlash va bulutga yozish"
+          >
+            {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{isSaving ? 'Saqlanmoqda...' : 'Sozlamalarni Saqlash'}</span>
+          </button>
+        </div>
       </div>
+
+      {/* Save Feedback Banner */}
+      {saveFeedback && (
+        <div
+          className={`p-3.5 rounded-2xl border flex items-center justify-between font-extrabold text-xs shadow-sm transition-all ${
+            saveFeedback.type === 'success'
+              ? 'bg-emerald-50 border-emerald-300 text-emerald-900'
+              : 'bg-rose-50 border-rose-300 text-rose-900'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            {saveFeedback.type === 'success' ? (
+              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+            ) : (
+              <ShieldAlert className="w-5 h-5 text-rose-600 shrink-0" />
+            )}
+            <span className="text-xs">{saveFeedback.message}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSaveFeedback(null)}
+            className="text-slate-400 hover:text-slate-700 cursor-pointer font-black text-sm"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Cloud Sync Status Notification */}
       {cloudSyncResult && (
@@ -1186,13 +1274,34 @@ export const SystemSettingsModule: React.FC = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200">
+          <div className="flex items-center gap-2">
+            {saveFeedback ? (
+              <span
+                className={`text-xs font-bold flex items-center gap-1.5 ${
+                  saveFeedback.type === 'success' ? 'text-emerald-700' : 'text-rose-700'
+                }`}
+              >
+                {saveFeedback.type === 'success' ? (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : (
+                  <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
+                )}
+                <span>{saveFeedback.message}</span>
+              </span>
+            ) : (
+              <span className="text-[11px] text-slate-400">
+                O'zgarishlar kiritilgach, barcha sozlamalar Turso bulut bazasiga saqlanadi.
+              </span>
+            )}
+          </div>
           <button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-6 py-3 rounded-2xl text-xs flex items-center gap-2 shadow-lg shadow-indigo-600/25 transition-all"
+            disabled={isSaving}
+            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold px-8 py-3 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/25 transition-all cursor-pointer disabled:opacity-50"
           >
-            <Save className="w-4 h-4" />
-            <span>Sozlamalarni Saqlash</span>
+            {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            <span>{isSaving ? 'Saqlanmoqda...' : 'Sozlamalarni Saqlash'}</span>
           </button>
         </div>
       </form>
