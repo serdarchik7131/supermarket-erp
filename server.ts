@@ -183,6 +183,71 @@ async function initDatabase() {
         console.warn('Turso settings load note:', sErr);
       }
 
+      // Load Telegram Bot Settings
+      try {
+        const resTg = await tursoClient.execute("SELECT data FROM settings_db WHERE id = 'telegram_settings'");
+        if (resTg.rows.length > 0) {
+          const rawTg = resTg.rows[0].data;
+          const parsedTg = typeof rawTg === 'string' ? JSON.parse(rawTg) : rawTg;
+          if (parsedTg.botToken || parsedTg.salesBotToken) {
+            TELEGRAM_BOT_TOKEN = (parsedTg.botToken || parsedTg.salesBotToken).trim();
+          }
+          if (parsedTg.syncBotToken) {
+            TELEGRAM_SYNC_BOT_TOKEN = parsedTg.syncBotToken.trim();
+          }
+          if (parsedTg.adminId) {
+            TELEGRAM_ADMIN_ID = String(parsedTg.adminId).trim();
+          }
+          if (parsedTg.customWebAppUrl) {
+            CUSTOM_WEB_APP_URL = parsedTg.customWebAppUrl.trim();
+          }
+          if (parsedTg.sourceBotUsername) {
+            SYNC_BOT_SOURCE_USERNAME = parsedTg.sourceBotUsername.trim();
+          }
+          if (parsedTg.autoSyncIntervalMinutes) {
+            AUTO_SYNC_INTERVAL_MINUTES = Number(parsedTg.autoSyncIntervalMinutes) || 15;
+          }
+          if (parsedTg.autoUpdateVariants !== undefined) {
+            AUTO_UPDATE_VARIANTS = Boolean(parsedTg.autoUpdateVariants);
+          }
+          if (parsedTg.notifyOnNewProduct !== undefined) {
+            NOTIFY_ON_NEW_PRODUCT = Boolean(parsedTg.notifyOnNewProduct);
+          }
+          if (parsedTg.notifyOnPriceChange !== undefined) {
+            NOTIFY_ON_PRICE_CHANGE = Boolean(parsedTg.notifyOnPriceChange);
+          }
+          console.log(`🤖 Loaded Telegram bot settings from Turso DB! Sales Bot: ${TELEGRAM_BOT_TOKEN.substring(0, 10)}..., Admin ID: ${TELEGRAM_ADMIN_ID}`);
+        } else {
+          try {
+            const tgPath = path.join(_appDir, 'src/data/telegram_settings.json');
+            if (fs.existsSync(tgPath)) {
+              const localTg = JSON.parse(fs.readFileSync(tgPath, 'utf8'));
+              if (localTg.salesBotToken || localTg.botToken) TELEGRAM_BOT_TOKEN = (localTg.salesBotToken || localTg.botToken).trim();
+              if (localTg.syncBotToken) TELEGRAM_SYNC_BOT_TOKEN = localTg.syncBotToken.trim();
+              if (localTg.adminId) TELEGRAM_ADMIN_ID = String(localTg.adminId).trim();
+              if (localTg.customWebAppUrl) CUSTOM_WEB_APP_URL = localTg.customWebAppUrl.trim();
+            }
+          } catch (_) {}
+          await tursoClient.execute({
+            sql: "INSERT OR REPLACE INTO settings_db (id, data, updated_at) VALUES ('telegram_settings', ?, datetime('now'))",
+            args: [JSON.stringify({
+              salesBotToken: TELEGRAM_BOT_TOKEN,
+              syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+              adminId: TELEGRAM_ADMIN_ID,
+              customWebAppUrl: CUSTOM_WEB_APP_URL,
+              sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+              autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+              autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+              notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+              notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+            })],
+          });
+          console.log('🤖 Seeded Telegram bot settings into Turso DB.');
+        }
+      } catch (tgErr) {
+        console.warn('Turso telegram settings load note:', tgErr);
+      }
+
       // Load orders
       try {
         const resOrders = await tursoClient.execute('SELECT data FROM orders_db ORDER BY updated_at DESC');
@@ -428,6 +493,29 @@ async function saveStaffToDb(staffData: StaffMember) {
   }
 }
 
+async function saveTelegramSettingsToDb(config: any) {
+  try {
+    if (tursoClient) {
+      await tursoClient.execute({
+        sql: "INSERT OR REPLACE INTO settings_db (id, data, updated_at) VALUES ('telegram_settings', ?, datetime('now'))",
+        args: [JSON.stringify(config)],
+      });
+    }
+    dbPool.query(
+      "INSERT INTO settings_db (id, data, updated_at) VALUES ('telegram_settings', $1, NOW()) ON CONFLICT (id) DO UPDATE SET data = $1, updated_at = NOW()",
+      [JSON.stringify(config)]
+    ).catch(() => {});
+
+    try {
+      const tgPath = path.join(_appDir, 'src/data/telegram_settings.json');
+      fs.writeFileSync(tgPath, JSON.stringify(config, null, 2), 'utf8');
+    } catch (_) {}
+    console.log('🤖 Telegram bot settings successfully persisted into Turso DB and local JSON!');
+  } catch (err) {
+    console.error('Db save telegram settings error:', err);
+  }
+}
+
 async function deleteStaffFromDb(staffId: string) {
   try {
     if (tursoClient) {
@@ -486,8 +574,6 @@ async function deleteClientFromDb(clientId: string) {
     console.error('Db delete client error:', err);
   }
 }
-
-initDatabase();
 
 // Mutable In-Memory ERP Database State
 let branches = [...INITIAL_BRANCHES];
@@ -640,6 +726,9 @@ let priceChangeLogs: PriceChangeLog[] = [
     timestamp: new Date(Date.now() - 86400000).toISOString(),
   },
 ];
+
+// Initialize database schema and restore state from Turso libSQL
+initDatabase();
 
 // Type Key Extractor for Group/Family Price Management (e.g. "DENA 1L Olma" -> "DENA 1L")
 function extractProductTypeKey(name: string, brand?: string): string {
@@ -1919,8 +2008,8 @@ app.post('/api/regos/bulk-import', async (req, res) => {
             ...products[existingIndex].prices,
             prixod: Number(item.costPrice) || products[existingIndex].costPrice,
             roznitsa: Number(item.price) || products[existingIndex].price,
-            optom: Number(item.wholesalePrice) || Math.round((item.costPrice || products[existingIndex].costPrice) * 1.15),
-            vip: Number(item.vipPrice) || Math.round((item.costPrice || products[existingIndex].costPrice) * 1.1),
+            optom: products[existingIndex].prices?.optom || 0,
+            vip: products[existingIndex].prices?.vip || 0,
           },
           unit: item.unit || products[existingIndex].unit,
           brand: item.brand || products[existingIndex].brand,
@@ -1942,10 +2031,10 @@ app.post('/api/regos/bulk-import', async (req, res) => {
         price: Number(item.price) || 15000,
         costPrice: Number(item.costPrice) || 11000,
         prices: {
-          prixod: Number(item.costPrice) || 11000,
-          roznitsa: Number(item.price) || 15000,
-          optom: Number(item.wholesalePrice) || Math.round((Number(item.costPrice) || 11000) * 1.15),
-          vip: Number(item.vipPrice) || Math.round((Number(item.costPrice) || 11000) * 1.1),
+          prixod: Number(item.costPrice) || 0,
+          roznitsa: Number(item.price) || 0,
+          optom: 0,
+          vip: 0,
         },
         unit: item.unit || 'dona',
         image: item.image || '',
@@ -3292,6 +3381,19 @@ app.post('/api/telegram/config', async (req, res) => {
 
   addAuditLog('UPDATE_TELEGRAM_CONFIG', 'Security', `Telegram Bot sozlamalari yangilandi. Admin ID: ${TELEGRAM_ADMIN_ID}`);
 
+  await saveTelegramSettingsToDb({
+    salesBotToken: TELEGRAM_BOT_TOKEN,
+    botToken: TELEGRAM_BOT_TOKEN,
+    syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+    adminId: TELEGRAM_ADMIN_ID,
+    customWebAppUrl: CUSTOM_WEB_APP_URL,
+    sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+    autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+    autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+    notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+    notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+  });
+
   let botInfo = null;
   if (TELEGRAM_BOT_TOKEN) {
     try {
@@ -3397,9 +3499,128 @@ app.post('/api/telegram/dual-config', async (req, res) => {
 
   addAuditLog('UPDATE_DUAL_BOT_CONFIG', 'Security', `2 ta Telegram Bot sozlamalari yangilandi. Admin ID: ${TELEGRAM_ADMIN_ID}`);
 
+  await saveTelegramSettingsToDb({
+    salesBotToken: TELEGRAM_BOT_TOKEN,
+    botToken: TELEGRAM_BOT_TOKEN,
+    syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+    adminId: TELEGRAM_ADMIN_ID,
+    customWebAppUrl: CUSTOM_WEB_APP_URL,
+    sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+    autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+    autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+    notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+    notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+  });
+
   res.json({
     success: true,
     message: "2 ta Bot sozlamalari muvaffaqiyatli saqlandi!",
+  });
+});
+
+// Admin Manual Cloud Synchronization Endpoint
+app.post('/api/admin/manual-sync', async (req, res) => {
+  const { direction } = req.body || {}; // 'push' | 'pull' | 'both'
+  const logDetails: string[] = [];
+
+  try {
+    // 1. Persist current in-memory settings to Turso & Neon DB
+    await saveSettingsToDb(systemSettings);
+    logDetails.push("Asosiy do'kon va tizim sozlamalari Turso DB ga saqlandi");
+
+    // 2. Persist Telegram Bot configs
+    await saveTelegramSettingsToDb({
+      salesBotToken: TELEGRAM_BOT_TOKEN,
+      botToken: TELEGRAM_BOT_TOKEN,
+      syncBotToken: TELEGRAM_SYNC_BOT_TOKEN,
+      adminId: TELEGRAM_ADMIN_ID,
+      customWebAppUrl: CUSTOM_WEB_APP_URL,
+      sourceBotUsername: SYNC_BOT_SOURCE_USERNAME,
+      autoSyncIntervalMinutes: AUTO_SYNC_INTERVAL_MINUTES,
+      autoUpdateVariants: AUTO_UPDATE_VARIANTS,
+      notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
+      notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
+    });
+    logDetails.push("Telegram Bot va Admin sozlamalari Turso DB ga muhrlandi");
+
+    // 3. If pulling or bidirectional, refresh from DB if records exist
+    if (tursoClient && (direction === 'pull' || direction === 'both')) {
+      try {
+        const resSet = await tursoClient.execute("SELECT data FROM settings_db WHERE id = 'main_settings'");
+        if (resSet.rows.length > 0) {
+          const raw = resSet.rows[0].data;
+          const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          systemSettings = { ...systemSettings, ...parsed };
+          logDetails.push("Turso DB dan eng yangi do'kon sozlamalari qayta yuklandi");
+        }
+      } catch (err: any) {
+        logDetails.push(`Sozlamalarni o'qishda xatolik: ${err?.message}`);
+      }
+
+      try {
+        const resOrders = await tursoClient.execute('SELECT data FROM orders_db ORDER BY updated_at DESC LIMIT 200');
+        if (resOrders.rows.length > 0) {
+          orders = resOrders.rows.map((row: any) => (typeof row.data === 'string' ? JSON.parse(row.data) : row.data));
+          logDetails.push(`Turso DB dan ${orders.length} ta buyurtma qayta sinxronlandi`);
+        }
+      } catch (_) {}
+    }
+
+    addAuditLog('MANUAL_SYNC', 'Security', `Admin tomonidan ruchnoy sinxronizatsiya bajarildi: ${logDetails.join(', ')}`);
+
+    res.json({
+      success: true,
+      message: "Turso Cloud DB va Telegram Bot sozlamalari muvaffaqiyatli sinxronlandi!",
+      details: logDetails,
+      syncedAt: new Date().toISOString(),
+      currentSettings: {
+        storeName: systemSettings.storeName,
+        adminPin: systemSettings.adminPin,
+        agentPin: systemSettings.agentPin,
+        minOrderAmountClient: systemSettings.minOrderAmountClient,
+        minOrderAmountAgent: systemSettings.minOrderAmountAgent,
+      },
+      botConfig: {
+        salesBotConfigured: Boolean(TELEGRAM_BOT_TOKEN),
+        syncBotConfigured: Boolean(TELEGRAM_SYNC_BOT_TOKEN),
+        adminId: TELEGRAM_ADMIN_ID,
+      },
+      stats: {
+        productsCount: products.length,
+        ordersCount: orders.length,
+        clientsCount: clients.length,
+        staffCount: staffMembers.length,
+      },
+    });
+  } catch (error: any) {
+    console.error('Manual sync error:', error);
+    res.status(500).json({
+      success: false,
+      message: "Sinxronizatsiyada xatolik yuz berdi: " + (error?.message || 'Server xatosi'),
+    });
+  }
+});
+
+app.get('/api/admin/manual-sync', async (req, res) => {
+  res.json({
+    success: true,
+    syncedAt: new Date().toISOString(),
+    currentSettings: {
+      storeName: systemSettings.storeName,
+      adminPin: systemSettings.adminPin,
+      agentPin: systemSettings.agentPin,
+    },
+    botConfig: {
+      salesBotToken: TELEGRAM_BOT_TOKEN ? `${TELEGRAM_BOT_TOKEN.substring(0, 10)}...` : null,
+      syncBotToken: TELEGRAM_SYNC_BOT_TOKEN ? `${TELEGRAM_SYNC_BOT_TOKEN.substring(0, 10)}...` : null,
+      adminId: TELEGRAM_ADMIN_ID,
+    },
+    stats: {
+      productsCount: products.length,
+      ordersCount: orders.length,
+      clientsCount: clients.length,
+      staffCount: staffMembers.length,
+    },
   });
 });
 
@@ -5127,8 +5348,9 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
     const baseBrand = item.brand || 'Sifatli Mahsulot';
 
     const costPrice = Number(r.last_purchase_cost) || Math.round(retailPrice * 0.78);
-    const wholesalePrice = Math.round(retailPrice * 0.90);
-    const vipPrice = Math.round(retailPrice * 0.85);
+    // REGOS-dan faqat roznitsa (chakana) narx olinadi, optom narx olinmaydi!
+    const wholesalePrice = 0;
+    const vipPrice = 0;
 
     const unit = (item.unit?.name && item.unit.name.toLowerCase().includes('кг')) ? 'kg' : 
                  (item.unit?.name && item.unit.name.toLowerCase().includes('литр')) ? 'litr' : 'dona';
@@ -5223,13 +5445,13 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
           barcodes: [uniqueBc],
           price: finalPrice,
           costPrice,
-          wholesalePrice,
-          vipPrice,
+          wholesalePrice: existing.prices?.optom || 0,
+          vipPrice: existing.prices?.vip || 0,
           prices: {
             prixod: costPrice,
             roznitsa: finalPrice,
-            optom: wholesalePrice,
-            vip: vipPrice,
+            optom: existing.prices?.optom || 0,
+            vip: existing.prices?.vip || 0,
           },
           unit: unit as any,
           stockByBranch: {
@@ -5258,13 +5480,13 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
           brand,
           price: retailPrice,
           costPrice,
-          wholesalePrice,
-          vipPrice,
+          wholesalePrice: 0,
+          vipPrice: 0,
           prices: {
             prixod: costPrice,
             roznitsa: retailPrice,
-            optom: wholesalePrice,
-            vip: vipPrice,
+            optom: 0,
+            vip: 0,
           },
           unit: unit as any,
           image: '',

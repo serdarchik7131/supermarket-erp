@@ -38,6 +38,7 @@ import {
   Lock as LockIcon,
   Sliders,
   MapPin,
+  RefreshCw,
 } from 'lucide-react';
 import { Branch, UserRole } from '../../types';
 import { fetchBranches } from '../../services/api';
@@ -85,6 +86,36 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   // Toast Notification
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+
+  const handleHeaderManualSync = async () => {
+    setIsSyncingCloud(true);
+    try {
+      const res = await fetch('/api/admin/manual-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ direction: 'both' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('✅ Turso Cloud va Bot sozlamalari muvaffaqiyatli sinxronlandi!');
+        if (data.currentSettings) {
+          saveStoreSettings({
+            storeName: data.currentSettings.storeName,
+            adminPin: data.currentSettings.adminPin,
+            agentPin: data.currentSettings.agentPin,
+            storeBadge: storeBadgeInput,
+          });
+        }
+      } else {
+        showToast('❌ Sinxronlashda xatolik: ' + (data.message || ''));
+      }
+    } catch (err: any) {
+      showToast('❌ Aloqa xatosi: ' + err.message);
+    } finally {
+      setIsSyncingCloud(false);
+    }
+  };
 
   useEffect(() => {
     fetchBranches().then((b) => setBranches(b));
@@ -400,6 +431,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
               </div>
             )}
           </div>
+
+          {/* Manual Cloud Sync Button */}
+          <button
+            onClick={handleHeaderManualSync}
+            disabled={isSyncingCloud}
+            className="flex items-center gap-1.5 px-2.5 py-1 bg-indigo-800/80 hover:bg-indigo-700 text-indigo-100 hover:text-white rounded-lg transition-all text-[11px] font-bold border border-indigo-600/60 shadow-sm cursor-pointer disabled:opacity-50"
+            title="Turso libSQL Cloud DB va Telegram Bot sozlamalari bilan tezkor sinxronlash"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 text-indigo-300 ${isSyncingCloud ? 'animate-spin' : ''}`} />
+            <span className="hidden md:inline">{isSyncingCloud ? 'Sinxronlanmoqda...' : 'Sinxronlash'}</span>
+          </button>
 
           {/* Settings Icon */}
           <button

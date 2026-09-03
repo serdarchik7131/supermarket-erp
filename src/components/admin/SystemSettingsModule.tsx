@@ -70,6 +70,44 @@ export const SystemSettingsModule: React.FC = () => {
   const [isTriggeringSync, setIsTriggeringSync] = useState(false);
   const [botToast, setBotToast] = useState<string | null>(null);
   
+  // Cloud DB Manual Sync States
+  const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+  const [cloudSyncResult, setCloudSyncResult] = useState<{ success: boolean; message: string; details?: string[] } | null>(null);
+
+  const handleManualSync = async () => {
+    setIsSyncingCloud(true);
+    setCloudSyncResult(null);
+    try {
+      const res = await fetch('/api/admin/manual-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ direction: 'both' }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCloudSyncResult({
+          success: true,
+          message: data.message || "Turso Cloud DB va Telegram Bot sozlamalari muvaffaqiyatli sinxronlandi!",
+          details: data.details,
+        });
+        await loadSettings();
+        await loadDualBotConfig();
+      } else {
+        setCloudSyncResult({
+          success: false,
+          message: data.message || "Sinxronizatsiyada xatolik yuz berdi",
+        });
+      }
+    } catch (err: any) {
+      setCloudSyncResult({
+        success: false,
+        message: "Server bilan bog'lanishda xatolik: " + err.message,
+      });
+    } finally {
+      setIsSyncingCloud(false);
+    }
+  };
+
   // Database Reset States
   const [isResetting, setIsResetting] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
@@ -308,7 +346,53 @@ export const SystemSettingsModule: React.FC = () => {
             <span>Muvaffaqiyatli saqlandi!</span>
           </div>
         )}
+
+        <button
+          type="button"
+          onClick={handleManualSync}
+          disabled={isSyncingCloud}
+          className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer disabled:opacity-50"
+          title="Turso libSQL Cloud va Telegram Bot sozlamalarini darhol qayta sinxronlash"
+        >
+          <RefreshCw className={`w-4 h-4 ${isSyncingCloud ? 'animate-spin' : ''}`} />
+          <span>{isSyncingCloud ? 'Sinxronlanmoqda...' : '🔄 Ruchnoy Sinxronizatsiya'}</span>
+        </button>
       </div>
+
+      {/* Cloud Sync Status Notification */}
+      {cloudSyncResult && (
+        <div
+          className={`p-3.5 rounded-2xl border flex flex-col gap-1.5 ${
+            cloudSyncResult.success
+              ? 'bg-emerald-50/90 border-emerald-200 text-emerald-900'
+              : 'bg-rose-50/90 border-rose-200 text-rose-900'
+          }`}
+        >
+          <div className="flex items-center justify-between font-extrabold text-xs">
+            <div className="flex items-center gap-2">
+              {cloudSyncResult.success ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              ) : (
+                <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
+              )}
+              <span>{cloudSyncResult.message}</span>
+            </div>
+            <button
+              onClick={() => setCloudSyncResult(null)}
+              className="text-xs opacity-60 hover:opacity-100 cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
+          {cloudSyncResult.details && cloudSyncResult.details.length > 0 && (
+            <ul className="text-[11px] text-slate-700 list-disc list-inside space-y-0.5 pl-2 font-mono">
+              {cloudSyncResult.details.map((d, i) => (
+                <li key={i}>{d}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       <form onSubmit={handleSave} className="space-y-4">
         {/* Section 0: Do'kon Nomi, Belgisi va Kirish PIN-kodlari */}

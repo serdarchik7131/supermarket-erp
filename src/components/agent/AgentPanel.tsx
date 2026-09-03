@@ -789,56 +789,8 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
               LINKO SFA & KONTENT AGENT — Kirish
             </h2>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Agent yoki Kontent-Menejer profilini tanlang yoki login/parolni kiriting:
+              Agent yoki Kontent-Menejer profiliga kirish uchun o'zingizning login va parolingizni kiriting:
             </p>
-          </div>
-
-          {/* ⚡️ Quick Agent One-Click Selector */}
-          <div className="space-y-1.5 pt-1">
-            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-              ⚡️ Tezkor Agent Tanlash:
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setAgentInputLogin('agent1');
-                  setAgentInputPassword('123');
-                }}
-                className="p-2.5 bg-slate-950/80 hover:bg-amber-500/10 border border-amber-500/30 hover:border-amber-400 rounded-xl text-left transition-all group cursor-pointer"
-              >
-                <div className="flex items-center gap-1.5 text-amber-400 font-bold text-xs">
-                  <span>🎨 Agent 1 (Azizbek)</span>
-                </div>
-                <div className="text-[10px] text-slate-400">Kontent Studio (Rasm/Nom)</div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setAgentInputLogin('agent2');
-                  setAgentInputPassword('123');
-                }}
-                className="p-2.5 bg-slate-950/80 hover:bg-amber-500/10 border border-amber-500/30 hover:border-amber-400 rounded-xl text-left transition-all group cursor-pointer"
-              >
-                <div className="flex items-center gap-1.5 text-amber-400 font-bold text-xs">
-                  <span>🎨 Agent 2 (Boburbek)</span>
-                </div>
-                <div className="text-[10px] text-slate-400">Kontent Studio (Rasm/Nom)</div>
-              </button>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setAgentInputLogin('agent3');
-                setAgentInputPassword('123');
-              }}
-              className="w-full p-2 bg-slate-950/80 hover:bg-indigo-500/10 border border-indigo-500/30 hover:border-indigo-400 rounded-xl text-left transition-all flex items-center justify-between text-xs cursor-pointer"
-            >
-              <span className="font-bold text-indigo-300">💼 Agent 3 (Jasur - Savdo Agenti)</span>
-              <span className="text-[10px] text-slate-400">B2B Zakaz & Marshrut</span>
-            </button>
           </div>
 
           <form onSubmit={handleAgentLoginSubmit} className="space-y-3 pt-2">
