@@ -24,6 +24,9 @@ import {
   Radio,
   AlertCircle,
   ExternalLink,
+  Store,
+  KeyRound,
+  Phone,
 } from 'lucide-react';
 import { SystemSettings, CustomPaymentMethod, DualBotConfig } from '../../types';
 import {
@@ -35,6 +38,7 @@ import {
   triggerDualBotSync,
 } from '../../services/api';
 import { IMPORT_TEMPLATES, downloadTemplateById } from '../../utils/templateUtils';
+import { saveStoreSettings, getStoreSettings } from '../../utils/storeSettings';
 
 export const SystemSettingsModule: React.FC = () => {
   const [settings, setSettings] = useState<SystemSettings>({
@@ -100,7 +104,25 @@ export const SystemSettingsModule: React.FC = () => {
     try {
       setLoading(true);
       const data = await fetchSettings();
-      setSettings(data);
+      const localStore = getStoreSettings();
+      const merged: SystemSettings = {
+        ...data,
+        storeName: data.storeName || localStore.storeName || 'OSIYO SUPERMARKET',
+        storeBadge: data.storeBadge || localStore.storeBadge || 'GO',
+        adminPin: data.adminPin || localStore.adminPin || '7230',
+        agentPin: data.agentPin || localStore.agentPin || '1234',
+        adminPhone: data.adminPhone || localStore.adminPhone || '+998 90 123 45 67',
+      };
+      setSettings(merged);
+      if (data.storeName || data.adminPin) {
+        saveStoreSettings({
+          storeName: merged.storeName || 'OSIYO SUPERMARKET',
+          storeBadge: merged.storeBadge || 'GO',
+          adminPin: merged.adminPin || '7230',
+          agentPin: merged.agentPin || '1234',
+          adminPhone: merged.adminPhone,
+        });
+      }
     } catch (err) {
       console.error('Error fetching settings:', err);
     } finally {
@@ -162,6 +184,13 @@ export const SystemSettingsModule: React.FC = () => {
     try {
       const updated = await updateSettings(settings);
       setSettings(updated);
+      saveStoreSettings({
+        storeName: updated.storeName || settings.storeName || 'OSIYO SUPERMARKET',
+        storeBadge: updated.storeBadge || settings.storeBadge || 'GO',
+        adminPin: updated.adminPin || settings.adminPin || '7230',
+        agentPin: updated.agentPin || settings.agentPin || '1234',
+        adminPhone: updated.adminPhone || settings.adminPhone,
+      });
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 3000);
     } catch (err) {
@@ -282,6 +311,86 @@ export const SystemSettingsModule: React.FC = () => {
       </div>
 
       <form onSubmit={handleSave} className="space-y-4">
+        {/* Section 0: Do'kon Nomi, Belgisi va Kirish PIN-kodlari */}
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+          <div className="flex items-center gap-2 font-extrabold text-sm text-slate-900 border-b border-slate-100 pb-2">
+            <Store className="w-4 h-4 text-blue-600" />
+            <span>Do'kon Nomi, Belgisi va Kirish PIN-kodlari</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-slate-700 font-bold text-xs">
+                🏢 Asosiy Do'kon Nomi:
+              </label>
+              <input
+                type="text"
+                value={settings.storeName || ''}
+                placeholder="OSIYO SUPERMARKET"
+                onChange={(e) => setSettings({ ...settings, storeName: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-bold text-xs focus:bg-white focus:outline-none focus:border-blue-600"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-slate-700 font-bold text-xs">
+                🏷️ Logotip Belgisi (Badge):
+              </label>
+              <input
+                type="text"
+                value={settings.storeBadge || ''}
+                placeholder="GO"
+                onChange={(e) => setSettings({ ...settings, storeBadge: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-bold text-xs focus:bg-white focus:outline-none focus:border-blue-600"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-slate-700 font-bold text-xs flex items-center gap-1.5">
+                <KeyRound className="w-3.5 h-3.5 text-amber-600" />
+                <span>Admin Kirish PIN-kodi:</span>
+              </label>
+              <input
+                type="text"
+                value={settings.adminPin || ''}
+                placeholder="7230"
+                maxLength={6}
+                onChange={(e) => setSettings({ ...settings, adminPin: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-mono font-bold text-xs tracking-widest focus:bg-white focus:outline-none focus:border-blue-600"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-slate-700 font-bold text-xs flex items-center gap-1.5">
+                <KeyRound className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Agent Kirish PIN-kodi:</span>
+              </label>
+              <input
+                type="text"
+                value={settings.agentPin || ''}
+                placeholder="1234"
+                maxLength={6}
+                onChange={(e) => setSettings({ ...settings, agentPin: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-mono font-bold text-xs tracking-widest focus:bg-white focus:outline-none focus:border-blue-600"
+              />
+            </div>
+
+            <div className="sm:col-span-2 space-y-1">
+              <label className="block text-slate-700 font-bold text-xs flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-blue-600" />
+                <span>Boshqaruvchi / Aloqa Telefoni:</span>
+              </label>
+              <input
+                type="text"
+                value={settings.adminPhone || ''}
+                placeholder="+998 90 123 45 67"
+                onChange={(e) => setSettings({ ...settings, adminPhone: e.target.value })}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-900 font-bold text-xs focus:bg-white focus:outline-none focus:border-blue-600"
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Section 1: Minimal Order Amounts */}
         <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-4">
           <div className="flex items-center gap-2 font-extrabold text-sm text-slate-900 border-b border-slate-100 pb-2">

@@ -41,7 +41,7 @@ import {
 } from 'lucide-react';
 import { Branch, UserRole } from '../../types';
 import { fetchBranches } from '../../services/api';
-import { getStoreSettings, saveStoreSettings, StoreSettings } from '../../utils/storeSettings';
+import { getStoreSettings, saveStoreSettings, subscribeStoreSettings, StoreSettings } from '../../utils/storeSettings';
 
 interface AdminLayoutProps {
   activeTab: string;
@@ -88,6 +88,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   useEffect(() => {
     fetchBranches().then((b) => setBranches(b));
+    const unsubscribe = subscribeStoreSettings(() => {
+      const current = getStoreSettings();
+      setStoreSettings(current);
+      setStoreNameInput(current.storeName);
+      setStoreBadgeInput(current.storeBadge);
+      setAdminPinInput(current.adminPin);
+      setAgentPinInput(current.agentPin);
+    });
+    return () => unsubscribe();
   }, []);
 
   const showToast = (msg: string) => {

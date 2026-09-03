@@ -124,6 +124,13 @@ async function initDatabase() {
         );
       `);
       await tursoClient.execute(`
+        CREATE TABLE IF NOT EXISTS staff_db (
+          id TEXT PRIMARY KEY,
+          data TEXT NOT NULL,
+          updated_at TEXT DEFAULT (datetime('now'))
+        );
+      `);
+      await tursoClient.execute(`
         CREATE TABLE IF NOT EXISTS processed_telegram_updates (
           update_id INTEGER PRIMARY KEY,
           created_at TEXT DEFAULT (datetime('now'))
@@ -144,10 +151,33 @@ async function initDatabase() {
           const raw = resSettings.rows[0].data;
           const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
           systemSettings = { ...systemSettings, ...parsed };
+          if (systemSettings.territories && systemSettings.territories.length > 0) {
+            territories = systemSettings.territories;
+          }
+          if (systemSettings.branches && systemSettings.branches.length > 0) {
+            branches = systemSettings.branches;
+          }
+          if (systemSettings.priceTypes && systemSettings.priceTypes.length > 0) {
+            priceTypes = systemSettings.priceTypes;
+          }
           if (!systemSettings.paymentMethods || systemSettings.paymentMethods.length === 0) {
             systemSettings.paymentMethods = defaultPaymentMethods;
           }
           console.log('⚙️ Loaded system settings from Turso DB.');
+        } else {
+          // Check local JSON fallback or seed
+          try {
+            const settingsPath = path.join(_appDir, 'src/data/system_settings.json');
+            if (fs.existsSync(settingsPath)) {
+              const localJson = JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+              systemSettings = { ...systemSettings, ...localJson };
+            }
+          } catch (_) {}
+          await tursoClient.execute({
+            sql: "INSERT OR REPLACE INTO settings_db (id, data, updated_at) VALUES ('main_settings', ?, datetime('now'))",
+            args: [JSON.stringify(systemSettings)],
+          });
+          console.log('⚙️ Seeded system settings into Turso DB.');
         }
       } catch (sErr) {
         console.warn('Turso settings load note:', sErr);
@@ -187,6 +217,25 @@ async function initDatabase() {
         }
       } catch (cErr) {
         console.warn('Turso clients load note:', cErr);
+      }
+
+      // Load staff
+      try {
+        const resStaff = await tursoClient.execute('SELECT data FROM staff_db ORDER BY updated_at DESC');
+        if (resStaff.rows.length > 0) {
+          staffMembers = resStaff.rows.map((row: any) => (typeof row.data === 'string' ? JSON.parse(row.data) : row.data));
+          console.log(`👥 Loaded ${staffMembers.length} staff members from Turso DB.`);
+        } else {
+          for (const st of INITIAL_STAFF) {
+            await tursoClient.execute({
+              sql: "INSERT OR REPLACE INTO staff_db (id, data, updated_at) VALUES (?, ?, datetime('now'))",
+              args: [st.id, JSON.stringify(st)],
+            });
+          }
+          console.log(`👥 Seeded ${INITIAL_STAFF.length} staff members into Turso DB.`);
+        }
+      } catch (stErr) {
+        console.warn('Turso staff load note:', stErr);
       }
     }
   } catch (tursoErr) {
@@ -352,8 +401,58 @@ async function saveSettingsToDb(settingsData: SystemSettings) {
       "INSERT INTO settings_db (id, data, updated_at) VALUES ('main_settings', $1, NOW()) ON CONFLICT (id) DO UPDATE SET data = $1, updated_at = NOW()",
       [JSON.stringify(settingsData)]
     ).catch(() => {});
+
+    try {
+      const settingsPath = path.join(_appDir, 'src/data/system_settings.json');
+      fs.writeFileSync(settingsPath, JSON.stringify(settingsData, null, 2), 'utf8');
+    } catch (_) {}
   } catch (err) {
     console.error('Db save settings error:', err);
+  }
+}
+
+async function saveStaffToDb(staffData: StaffMember) {
+  try {
+    if (tursoClient) {
+      await tursoClient.execute({
+        sql: "INSERT OR REPLACE INTO staff_db (id, data, updated_at) VALUES (?, ?, datetime('now'))",
+        args: [staffData.id, JSON.stringify(staffData)],
+      });
+    }
+    dbPool.query(
+      'INSERT INTO staff_db (id, data, updated_at) VALUES ($1, $2, NOW()) ON CONFLICT (id) DO UPDATE SET data = $2, updated_at = NOW()',
+      [staffData.id, JSON.stringify(staffData)]
+    ).catch(() => {});
+  } catch (err) {
+    console.error('Db save staff error:', err);
+  }
+}
+
+async function deleteStaffFromDb(staffId: string) {
+  try {
+    if (tursoClient) {
+      await tursoClient.execute({
+        sql: 'DELETE FROM staff_db WHERE id = ?',
+        args: [staffId],
+      });
+    }
+    dbPool.query('DELETE FROM staff_db WHERE id = $1', [staffId]).catch(() => {});
+  } catch (err) {
+    console.error('Db delete staff error:', err);
+  }
+}
+
+async function deleteProductFromDb(productId: string) {
+  try {
+    if (tursoClient) {
+      await tursoClient.execute({
+        sql: 'DELETE FROM products_db WHERE id = ?',
+        args: [productId],
+      });
+    }
+    dbPool.query('DELETE FROM products_db WHERE id = $1', [productId]).catch(() => {});
+  } catch (err) {
+    console.error('Db delete product error:', err);
   }
 }
 
@@ -1296,11 +1395,15 @@ app.post('/api/products', async (req, res) => {
     },
     minStockAlert: Number(pData.minStockAlert) || 20,
     tags: pData.tags || ['yangi'],
+    isCustomAdminProduct: true,
+    adminModified: true,
   };
 
   products.unshift(newProduct);
   try {
     await saveProductToDb(newProduct);
+    const jsonOutput = JSON.stringify(products, null, 2);
+    fs.writeFileSync('src/data/all_clean_products.json', jsonOutput, 'utf8');
   } catch (e) {}
 
   addAuditLog('ADD_PRODUCT', 'Inventory', `Yangi mahsulot yaratildi: ${newProduct.nameUz} (SKU: ${newProduct.sku})`);
@@ -1326,10 +1429,14 @@ app.put('/api/products/:id', async (req, res) => {
     ...body,
     image: finalImage,
     imageUrl: finalImage,
+    adminModified: true,
+    updatedAt: new Date().toISOString(),
   };
 
   try {
     await saveProductToDb(products[index]);
+    const jsonOutput = JSON.stringify(products, null, 2);
+    fs.writeFileSync('src/data/all_clean_products.json', jsonOutput, 'utf8');
   } catch (e) {}
 
   addAuditLog('UPDATE_PRODUCT', 'Inventory', `Mahsulot ma'lumoti tahrirlandi: ${products[index].nameUz}`);
@@ -1631,24 +1738,9 @@ app.delete('/api/products/:id', async (req, res) => {
     return res.status(404).json({ error: 'Mahsulot topilmadi' });
   }
   const deleted = products.splice(index, 1)[0];
-  try {
-    const client = await dbPool.connect();
-    await client.query('DELETE FROM products_db WHERE id = $1', [id]).catch(() => {});
-    client.release();
-  } catch (e) {}
+  await deleteProductFromDb(id);
   addAuditLog('DELETE_PRODUCT', 'Inventory', `Mahsulot o'chirildi: ${deleted.nameUz}`);
   res.json({ success: true, deletedProduct: deleted });
-});
-
-// Settings API
-app.get('/api/settings', (req, res) => {
-  res.json(systemSettings);
-});
-
-app.put('/api/settings', (req, res) => {
-  systemSettings = { ...systemSettings, ...req.body };
-  addAuditLog('UPDATE_SETTINGS', 'Security', 'Tizim sozlamalari va limitlar yangilandi');
-  res.json(systemSettings);
 });
 
 // Price Types API
@@ -2300,7 +2392,7 @@ app.get('/api/territories', (req, res) => {
   res.json(territories);
 });
 
-app.post('/api/territories', (req, res) => {
+app.post('/api/territories', async (req, res) => {
   const { name, code, description } = req.body;
   if (!name) return res.status(400).json({ error: 'Teritoriya nomi kiritilmadi' });
   const newTerritory: Territory = {
@@ -2312,24 +2404,27 @@ app.post('/api/territories', (req, res) => {
   };
   territories.push(newTerritory);
   systemSettings.territories = territories;
+  await saveSettingsToDb(systemSettings);
   addAuditLog('CREATE_TERRITORY', 'Branches' as any, `Yangi teritoriya qo'shildi: ${newTerritory.name}`);
   res.status(201).json(newTerritory);
 });
 
-app.put('/api/territories/:id', (req, res) => {
+app.put('/api/territories/:id', async (req, res) => {
   const { id } = req.params;
   const idx = territories.findIndex((t) => t.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Teritoriya topilmadi' });
   territories[idx] = { ...territories[idx], ...req.body };
   systemSettings.territories = territories;
+  await saveSettingsToDb(systemSettings);
   addAuditLog('UPDATE_TERRITORY', 'Branches' as any, `Teritoriya tahrirlandi: ${territories[idx].name}`);
   res.json(territories[idx]);
 });
 
-app.delete('/api/territories/:id', (req, res) => {
+app.delete('/api/territories/:id', async (req, res) => {
   const { id } = req.params;
   territories = territories.filter((t) => t.id !== id);
   systemSettings.territories = territories;
+  await saveSettingsToDb(systemSettings);
   addAuditLog('DELETE_TERRITORY', 'Branches' as any, `Teritoriya o'chirildi: ${id}`);
   res.json({ success: true, message: 'Teritoriya o\'chirildi' });
 });
@@ -2344,17 +2439,26 @@ app.get('/api/keep-alive', (req, res) => {
 });
 
 app.get('/api/settings', (req, res) => {
-  res.json({ ...systemSettings, territories });
+  res.json({ ...systemSettings, territories, branches, priceTypes });
 });
 
 app.put('/api/settings', async (req, res) => {
   systemSettings = { ...systemSettings, ...req.body };
   if (req.body.territories) {
     territories = req.body.territories;
+    systemSettings.territories = territories;
+  }
+  if (req.body.branches) {
+    branches = req.body.branches;
+    systemSettings.branches = branches;
+  }
+  if (req.body.priceTypes) {
+    priceTypes = req.body.priceTypes;
+    systemSettings.priceTypes = priceTypes;
   }
   await saveSettingsToDb(systemSettings);
-  addAuditLog('UPDATE_SETTINGS', 'Security', 'Tizim sozlamalari va yetkazib berish narxlari yangilandi');
-  res.json({ ...systemSettings, territories });
+  addAuditLog('UPDATE_SETTINGS', 'Security', 'Tizim sozlamalari va ma\'lumotlari yangilandi');
+  res.json({ ...systemSettings, territories, branches, priceTypes });
 });
 
 app.post('/api/admin/reset-database-except-products', (req, res) => {
@@ -2378,7 +2482,7 @@ app.get('/api/staff', (req, res) => {
   res.json(staffMembers);
 });
 
-app.post('/api/staff', (req, res) => {
+app.post('/api/staff', async (req, res) => {
   const s = req.body;
   const newStaff: StaffMember = {
     id: `st_${Date.now()}`,
@@ -2391,11 +2495,12 @@ app.post('/api/staff', (req, res) => {
     joinedDate: new Date().toISOString().split('T')[0],
   };
   staffMembers.unshift(newStaff);
+  await saveStaffToDb(newStaff);
   addAuditLog('CREATE_STAFF', 'Security', `Yangi xodim profil yaratildi: ${newStaff.name} (${newStaff.role})`);
   res.status(201).json(newStaff);
 });
 
-app.put('/api/staff/:id', (req, res) => {
+app.put('/api/staff/:id', async (req, res) => {
   const { id } = req.params;
   const idx = staffMembers.findIndex((st) => st.id === id);
   if (idx === -1) {
@@ -2409,19 +2514,25 @@ app.put('/api/staff/:id', (req, res) => {
     id: existing.id,
   };
   staffMembers[idx] = updated;
+  await saveStaffToDb(updated);
   addAuditLog('UPDATE_STAFF', 'Security', `Xodim ma'lumotlari tahrirlandi: ${updated.name} (${updated.role})`);
   res.json(updated);
 });
 
-app.delete('/api/staff/:id', (req, res) => {
+app.delete('/api/staff/:id', async (req, res) => {
   const { id } = req.params;
   staffMembers = staffMembers.filter((s) => s.id !== id);
+  await deleteStaffFromDb(id);
   addAuditLog('DELETE_STAFF', 'Security', `Xodim o'chirildi: ${id}`);
   res.json({ success: true, message: 'Xodim o\'chirildi' });
 });
 
-app.delete('/api/staff', (req, res) => {
+app.delete('/api/staff', async (req, res) => {
   staffMembers = [];
+  try {
+    if (tursoClient) await tursoClient.execute('DELETE FROM staff_db');
+    dbPool.query('DELETE FROM staff_db').catch(() => {});
+  } catch (e) {}
   addAuditLog('CLEAR_STAFF', 'Security', `Barcha xodimlar o'chirildi`);
   res.json({ success: true, message: 'Barcha xodimlar o\'chirildi' });
 });
@@ -5091,22 +5202,32 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
           });
         }
 
+        const isAdminMod = Boolean((existing as any).adminModified);
+        const finalPrice = isAdminMod && existing.price ? existing.price : newPrice;
+        const finalNameUz = isAdminMod && existing.nameUz ? existing.nameUz : nameUz;
+        const finalNameRu = isAdminMod && existing.nameRu ? existing.nameRu : nameRu;
+        const finalImage = existing.image || existing.imageUrl || '';
+        const finalBrand = isAdminMod && existing.brand ? existing.brand : (existing.brand || brand);
+        const finalCategory = isAdminMod && existing.categoryId ? existing.categoryId : (existing.categoryId || categoryId);
+
         const updatedProduct: Product = {
           ...existing,
           id: prodId,
           sku: finalSku,
-          nameUz,
-          nameRu,
-          nameEn: nameUz,
+          nameUz: finalNameUz,
+          nameRu: finalNameRu,
+          nameEn: finalNameUz,
+          categoryId: finalCategory,
+          brand: finalBrand,
           barcode: uniqueBc,
           barcodes: [uniqueBc],
-          price: newPrice,
+          price: finalPrice,
           costPrice,
           wholesalePrice,
           vipPrice,
           prices: {
             prixod: costPrice,
-            roznitsa: newPrice,
+            roznitsa: finalPrice,
             optom: wholesalePrice,
             vip: vipPrice,
           },
@@ -5116,8 +5237,9 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
             br_chilanzar: Math.max(0, Math.floor((stockQty * 0.4) / barcodes.length)),
             br_samarkand: Math.max(0, Math.floor((stockQty * 0.2) / barcodes.length)),
           },
-          image: existing.image || '',
-          imageUrl: existing.imageUrl || '',
+          image: finalImage,
+          imageUrl: finalImage,
+          adminModified: isAdminMod,
         };
 
         uniqueProductMap.set(prodId, updatedProduct);
@@ -5163,7 +5285,17 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
     });
   }
 
-  // Replace active catalog: Delete any products not present in Regos
+  // Preserve any custom admin products or manual products
+  const customAdminProducts = products.filter(
+    (p: any) => p.isCustomAdminProduct || (p.tags && !p.tags.includes('regos_') && p.tags.includes('yangi'))
+  );
+  for (const cap of customAdminProducts) {
+    if (!uniqueProductMap.has(cap.id)) {
+      uniqueProductMap.set(cap.id, cap);
+    }
+  }
+
+  // Replace active catalog
   products = Array.from(uniqueProductMap.values());
 
   // Save to JSON files safely with atomic write

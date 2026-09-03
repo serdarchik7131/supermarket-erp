@@ -159,6 +159,9 @@ export interface Product {
   sizes?: string[]; // e.g. ['S', 'M', 'L', 'XL'] or ['38', '39', '40', '41']
   colors?: string[]; // e.g. ['Qora', 'Oq', 'Qizil', 'Ko\'k']
   isActive?: boolean;
+  isCustomAdminProduct?: boolean;
+  adminModified?: boolean;
+  updatedAt?: string;
 }
 
 export interface OrderItem {
@@ -464,6 +467,13 @@ export interface SystemSettings {
   territories?: Territory[];
   paymentMethods?: CustomPaymentMethod[];
   dualBotConfig?: Partial<DualBotConfig>;
+  storeName?: string;
+  storeBadge?: string;
+  adminPin?: string;
+  agentPin?: string;
+  adminPhone?: string;
+  branches?: Branch[];
+  priceTypes?: PriceType[];
 }
 
 
