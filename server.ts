@@ -1252,20 +1252,65 @@ async function notifyCustomerOrderStatus(order: Order, status: string) {
   }
 }
 
-// Gemini AI Helper
+// Gemini AI Helper with multi-model auto fallback
 function getGeminiClient() {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = (process.env.GEMINI_API_KEY || '').trim();
   if (!apiKey) {
     console.warn('GEMINI_API_KEY is missing in environment variables.');
   }
   return new GoogleGenAI({
-    apiKey: apiKey || '',
+    apiKey,
     httpOptions: {
       headers: {
         'User-Agent': 'aistudio-build',
       },
     },
   });
+}
+
+const GEMINI_MODELS_CASCADE = [
+  'gemini-3.8-flash',
+  'gemini-3.7-flash',
+  'gemini-flash-latest',
+  'gemini-3.6-flash',
+];
+
+async function callGeminiGenerateContent(params: {
+  contents: any;
+  systemInstruction?: string;
+  responseMimeType?: string;
+  preferredModel?: string;
+}): Promise<string> {
+  const ai = getGeminiClient();
+  const models = [
+    params.preferredModel || 'gemini-3.8-flash',
+    ...GEMINI_MODELS_CASCADE.filter((m) => m !== (params.preferredModel || 'gemini-3.8-flash')),
+  ];
+
+  let lastError: any = null;
+
+  for (const model of models) {
+    try {
+      const config: any = {};
+      if (params.systemInstruction) config.systemInstruction = params.systemInstruction;
+      if (params.responseMimeType) config.responseMimeType = params.responseMimeType;
+
+      const res = await ai.models.generateContent({
+        model,
+        contents: params.contents,
+        config,
+      });
+
+      if (res && typeof res.text === 'string' && res.text.trim()) {
+        return res.text.trim();
+      }
+    } catch (err: any) {
+      lastError = err;
+      console.warn(`[Gemini] Model ${model} attempt failed: ${err?.message || err}. Trying fallback...`);
+    }
+  }
+
+  throw lastError || new Error('All Gemini model fallbacks failed');
 }
 
 // System Audit Logger
@@ -2115,15 +2160,19 @@ app.post('/api/admin/ai-assistant', async (req, res) => {
 
   try {
     const ai = getGeminiClient();
+    const relevantProducts = getRelevantProductsForAI(prompt, 30);
+    const inStockCount = products.filter(p => Object.values(p.stockByBranch || {}).reduce((a,b)=>a+b,0) > 0).length;
     const systemInstruction = `
 Siz Tradeuz SFA va ERP Tizimining AVTONOM BOSH AI MENECERISIZ.
 Siz nafaqat savollarga javob berishingiz, balki ADMIN PANELDA ISTALGAN AMALNI BUYRUQ BO'YICHA BAJARISHINGIZ MUMKIN.
 
 Mavjud ma'lumotlar va holat:
-- Mahsulotlar ro'yxati: ${JSON.stringify(products.map(p => ({ id: p.id, name: p.nameUz, price: p.price, costPrice: p.costPrice, barcode: p.barcode, sku: p.sku, stock: p.stockByBranch })))}
+- Tizimdagi jami tovarlar soni: ${products.length} ta
+- Omborda mavjud tovarlar: ${inStockCount} ta
+- So'rovga mos mahsulotlar namunalari: ${JSON.stringify(relevantProducts)}
 - Filiallar: ${JSON.stringify(branches.map(b => ({ id: b.id, name: b.name })))}
-- Mijozlar: ${JSON.stringify(clients.map(c => ({ id: c.id, companyName: c.companyName, phone: c.phone, debt: c.currentDebt })))}
-- Buyurtmalar soni: ${orders.length}
+- Mijozlar (namuna): ${JSON.stringify(clients.slice(0, 15).map(c => ({ id: c.id, companyName: c.companyName, phone: c.phone, debt: c.currentDebt })))}
+- Buyurtmalar soni: ${orders.length} ta
 
 AGAR ADMIN AMAL BAJARISHNI SO'RASA (masalan: mahsulot qo'shish, narx o'zgartirish, qoldiq qo'shish/ayirish, mijoz yaratish, buyurtma yaratish yoki status o'zgartirish):
 Siz quyidagi strukturali JSON ob'ektini qaytarishingiz SHART:
@@ -2151,16 +2200,14 @@ Action turlari va payload sxemasi:
 Javobingiz har doim to'g'ridan-to'g'ri va xavfsiz JSON ko'rinishida bo'lsin!
 `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
+    const responseText = await callGeminiGenerateContent({
+      preferredModel: 'gemini-3.8-flash',
       contents: prompt,
-      config: {
-        systemInstruction,
-        responseMimeType: 'application/json',
-      },
+      systemInstruction,
+      responseMimeType: 'application/json',
     });
 
-    const parsed = JSON.parse(response.text || '{}');
+    const parsed = JSON.parse(cleanJsonString(responseText || '{}'));
     let actionExecutedMsg = '';
 
     if (parsed.action) {
@@ -3043,16 +3090,28 @@ JAVOBNI FAQAT QUYIDAGI SOF JSON FORMATDA QAYTARING:
     }
     contents.push({ role: 'user', parts: [{ text: userPrompt }] });
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
-      contents: contents.length === 1 ? userPrompt : contents,
-      config: {
+    let parsed: any = null;
+    try {
+      const responseText = await callGeminiGenerateContent({
+        preferredModel: 'gemini-3.8-flash',
+        contents: contents.length === 1 ? userPrompt : contents,
         systemInstruction,
         responseMimeType: 'application/json',
-      },
-    });
+      });
+      parsed = JSON.parse(cleanJsonString(responseText || '{}'));
+    } catch (modelErr) {
+      console.warn('[AI Assistant] Model call or JSON parse error, switching to smart fallback:', modelErr);
+    }
 
-    const parsed = JSON.parse(cleanJsonString(response.text || '{}'));
+    if (!parsed || !parsed.replyText) {
+      const fallbackRes = processTelegramSmartFallback(userPrompt, userProfile.name || 'Mijoz');
+      const matched = getRelevantProductsForAI(userPrompt, 8);
+      parsed = {
+        replyText: fallbackRes.replyText,
+        matchedProductIds: matched.map((m) => m.id),
+        suggestedActions: ["🛍 Xaridni boshlash", "Katalog", "Savatni ko'rish"],
+      };
+    }
 
     // Record conversation turn in session memory
     if (parsed.replyText) {
@@ -3221,15 +3280,13 @@ app.post('/api/ai/sales-forecast', async (req, res) => {
     }
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
+    const responseText = await callGeminiGenerateContent({
+      preferredModel: 'gemini-3.8-flash',
       contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-      },
+      responseMimeType: 'application/json',
     });
 
-    const parsed = JSON.parse(response.text || '{}');
+    const parsed = JSON.parse(cleanJsonString(responseText || '{}'));
     res.json(parsed);
   } catch (err) {
     // Fallback forecast calculation
@@ -3278,15 +3335,13 @@ app.post('/api/ai/marketing-campaign', async (req, res) => {
     }
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.7-flash',
+    const responseText = await callGeminiGenerateContent({
+      preferredModel: 'gemini-3.8-flash',
       contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-      },
+      responseMimeType: 'application/json',
     });
 
-    res.json(JSON.parse(response.text || '{}'));
+    res.json(JSON.parse(cleanJsonString(responseText || '{}')));
   } catch (err) {
     res.json({
       title: "🔥 Dam O'lish Kunlari Chegirmalari!",
@@ -3985,15 +4040,22 @@ function getTelegramWebAppUrl(): string {
   return 'https://supermarket-erp-bot.onrender.com';
 }
 
-// Clean JSON response string from Gemini markdown wrappers
+// Clean JSON response string from Gemini markdown wrappers or surrounding text
 function cleanJsonString(str: string): string {
+  if (!str) return '{}';
   let cleaned = str.trim();
-  if (cleaned.startsWith('```json')) {
-    cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-  } else if (cleaned.startsWith('```')) {
-    cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  if (cleaned.includes('```json')) {
+    cleaned = cleaned.replace(/^[\s\S]*?```json\s*/, '').replace(/\s*```[\s\S]*$/, '');
+  } else if (cleaned.includes('```')) {
+    cleaned = cleaned.replace(/^[\s\S]*?```\s*/, '').replace(/\s*```[\s\S]*$/, '');
   }
-  return cleaned.trim();
+  cleaned = cleaned.trim();
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace = cleaned.lastIndexOf('}');
+  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+    return cleaned.substring(firstBrace, lastBrace + 1);
+  }
+  return cleaned;
 }
 
 // Compact & Ultra-Fast Semantic RAG / Product Search for AI Assistant Context
@@ -4553,16 +4615,14 @@ FAQAT QUYIDAGI SOF JSON FORMATDA JAVOB BERING:
       }
       contents.push({ role: 'user', parts: [{ text }] });
 
-      const res = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+      const responseText = await callGeminiGenerateContent({
+        preferredModel: 'gemini-3.8-flash',
         contents: contents.length === 1 ? text : contents,
-        config: {
-          systemInstruction,
-          responseMimeType: 'application/json',
-        },
+        systemInstruction,
+        responseMimeType: 'application/json',
       });
 
-      const jsonStr = cleanJsonString(res.text || '{}');
+      const jsonStr = cleanJsonString(responseText || '{}');
       const parsed = JSON.parse(jsonStr);
 
       if (parsed.replyText) {
@@ -4908,7 +4968,7 @@ async function handleSyncBotUpdate(update: any) {
 
           const aiClient = getGeminiClient();
           const response = await aiClient.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: 'gemini-3.8-flash',
             contents: [
               {
                 role: 'user',

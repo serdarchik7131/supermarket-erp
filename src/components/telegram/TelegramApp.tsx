@@ -698,7 +698,7 @@ export const TelegramApp: React.FC<TelegramAppProps> = ({ initialTab, onOpenAdmi
         ...prev,
         {
           sender: 'ai',
-          text: res.replyText,
+          text: res.replyText || "So'rovingiz qabul qilindi.",
           createdOrder: res.createdOrder,
         },
       ]);
@@ -708,9 +708,40 @@ export const TelegramApp: React.FC<TelegramAppProps> = ({ initialTab, onOpenAdmi
         setMyOrders((prev) => [res.createdOrder!, ...prev]);
       }
     } catch (e) {
+      console.warn('AI Assistant error, activating local fast assistant:', e);
+      const lower = textToSend.toLowerCase();
+      const matched = products
+        .filter(
+          (p) =>
+            lower.includes(p.nameUz.toLowerCase()) ||
+            (p.brand && lower.includes(p.brand.toLowerCase())) ||
+            (p.tags && p.tags.some((t) => lower.includes(t.toLowerCase())))
+        )
+        .slice(0, 4);
+
+      let fallbackText = '';
+      if (matched.length > 0) {
+        fallbackText =
+          `🛒 Sizning so'rovingiz bo'yicha topilgan mahsulotlar:\n\n` +
+          matched
+            .map(
+              (m) =>
+                `• ${m.nameUz} — ${(m.discountPrice || m.price).toLocaleString()} UZS`
+            )
+            .join('\n') +
+          `\n\nBuyurtma berish uchun mahsulot ustiga bosing yoki savatga qo'shing!`;
+      } else {
+        fallbackText =
+          `Salom! Men Osiyo Supermarket AI Operatoriman. Menga mahsulot nomini yozing (masalan: "Coca Cola", "Sut", "Non") yoki pastdagi "Katalog" bo'limi orqali qulay xarid qiling!`;
+      }
+
       setAiMessages((prev) => [
         ...prev,
-        { sender: 'ai', text: 'Kechirasiz, javob berishda xatolik yuz berdi. Qaytadan harakat qiling.' },
+        {
+          sender: 'ai',
+          text: fallbackText,
+          matchedProducts: matched,
+        },
       ]);
     } finally {
       setIsAiLoading(false);
@@ -2228,7 +2259,54 @@ export const TelegramApp: React.FC<TelegramAppProps> = ({ initialTab, onOpenAdmi
                         : 'bg-white text-slate-900 border border-emerald-200 rounded-bl-none shadow-sm'
                     }`}
                   >
-                    <p className="whitespace-pre-line">{msg.text}</p>
+                    <div
+                      className="whitespace-pre-line leading-relaxed"
+                      dangerouslySetInnerHTML={{
+                        __html: msg.text
+                          .replace(/\n/g, '<br/>')
+                          .replace(/<b>(.*?)<\/b>/gi, '<strong class="font-bold text-emerald-950">$1</strong>')
+                          .replace(/<i>(.*?)<\/i>/gi, '<em class="italic text-slate-600">$1</em>'),
+                      }}
+                    />
+
+                    {msg.createdOrder && (
+                      <div className="mt-2 p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 text-slate-900 text-xs">
+                        <div className="flex items-center justify-between font-bold text-emerald-800">
+                          <span>📦 #{msg.createdOrder.orderNumber}</span>
+                          <span>{msg.createdOrder.finalTotal.toLocaleString()} UZS</span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setActiveOrder(msg.createdOrder);
+                            setActiveTab('orders');
+                          }}
+                          className="mt-2 w-full py-1.5 bg-emerald-600 text-white font-bold rounded-lg text-center text-[11px] shadow-sm hover:bg-emerald-700"
+                        >
+                          Buyurtmani ko'rish
+                        </button>
+                      </div>
+                    )}
+
+                    {msg.matchedProducts && msg.matchedProducts.length > 0 && (
+                      <div className="mt-2 space-y-1.5 pt-1.5 border-t border-slate-100">
+                        {msg.matchedProducts.map((p) => (
+                          <div
+                            key={p.id}
+                            className="flex items-center justify-between p-1.5 bg-slate-50 rounded-lg text-[11px]"
+                          >
+                            <span className="font-medium text-slate-800 truncate max-w-[150px]">
+                              {p.nameUz}
+                            </span>
+                            <button
+                              onClick={() => addToCart(p)}
+                              className="px-2 py-0.5 bg-emerald-600 text-white rounded font-bold hover:bg-emerald-700 active:scale-95 transition-transform"
+                            >
+                              + Savatga
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
