@@ -257,7 +257,7 @@
     "stock": 10,
     "stockByBranch": {
       "br_toshkent_main": 2,
-      "br_chilanzar": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -303,7 +303,7 @@
     "stock": 10,
     "stockByBranch": {
       "br_toshkent_main": 2,
-      "br_chilanzar": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -349,7 +349,7 @@
     "stock": 10,
     "stockByBranch": {
       "br_toshkent_main": 2,
-      "br_chilanzar": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -395,7 +395,7 @@
     "stock": 10,
     "stockByBranch": {
       "br_toshkent_main": 2,
-      "br_chilanzar": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -2004,9 +2004,9 @@
     "stepQuantity": 1,
     "stock": 57,
     "stockByBranch": {
-      "br_toshkent_main": 57,
-      "br_chilanzar": 22,
-      "br_samarkand": 11
+      "br_toshkent_main": 54,
+      "br_chilanzar": 21,
+      "br_samarkand": 10
     },
     "image": "",
     "imageUrl": "",
@@ -2050,9 +2050,9 @@
     "stepQuantity": 1,
     "stock": 54,
     "stockByBranch": {
-      "br_toshkent_main": 46,
-      "br_chilanzar": 18,
-      "br_samarkand": 9
+      "br_toshkent_main": 43,
+      "br_chilanzar": 17,
+      "br_samarkand": 8
     },
     "image": "",
     "imageUrl": "",
@@ -5178,9 +5178,9 @@
     "stepQuantity": 1,
     "stock": 398,
     "stockByBranch": {
-      "br_toshkent_main": 351,
-      "br_chilanzar": 140,
-      "br_samarkand": 70
+      "br_toshkent_main": 346,
+      "br_chilanzar": 138,
+      "br_samarkand": 69
     },
     "image": "",
     "imageUrl": "",
@@ -5224,9 +5224,9 @@
     "stepQuantity": 1,
     "stock": 654,
     "stockByBranch": {
-      "br_toshkent_main": 300,
-      "br_chilanzar": 120,
-      "br_samarkand": 60
+      "br_toshkent_main": 299,
+      "br_chilanzar": 119,
+      "br_samarkand": 59
     },
     "image": "",
     "imageUrl": "",
@@ -5270,9 +5270,9 @@
     "stepQuantity": 1,
     "stock": 654,
     "stockByBranch": {
-      "br_toshkent_main": 300,
-      "br_chilanzar": 120,
-      "br_samarkand": 60
+      "br_toshkent_main": 299,
+      "br_chilanzar": 119,
+      "br_samarkand": 59
     },
     "image": "",
     "imageUrl": "",
@@ -5684,7 +5684,7 @@
     "stepQuantity": 1,
     "stock": 140,
     "stockByBranch": {
-      "br_toshkent_main": 116,
+      "br_toshkent_main": 115,
       "br_chilanzar": 46,
       "br_samarkand": 23
     },
@@ -6650,7 +6650,7 @@
     "stepQuantity": 1,
     "stock": 770,
     "stockByBranch": {
-      "br_toshkent_main": 236,
+      "br_toshkent_main": 235,
       "br_chilanzar": 94,
       "br_samarkand": 47
     },
@@ -6696,7 +6696,7 @@
     "stepQuantity": 1,
     "stock": 770,
     "stockByBranch": {
-      "br_toshkent_main": 236,
+      "br_toshkent_main": 235,
       "br_chilanzar": 94,
       "br_samarkand": 47
     },
@@ -6742,7 +6742,7 @@
     "stepQuantity": 1,
     "stock": 770,
     "stockByBranch": {
-      "br_toshkent_main": 236,
+      "br_toshkent_main": 235,
       "br_chilanzar": 94,
       "br_samarkand": 47
     },
@@ -10284,7 +10284,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10330,7 +10330,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10376,7 +10376,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10422,7 +10422,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10468,7 +10468,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10514,7 +10514,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10560,7 +10560,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10606,7 +10606,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10652,7 +10652,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10698,7 +10698,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10744,7 +10744,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10790,7 +10790,7 @@
     "stepQuantity": 1,
     "stock": 1432,
     "stockByBranch": {
-      "br_toshkent_main": 109,
+      "br_toshkent_main": 108,
       "br_chilanzar": 43,
       "br_samarkand": 21
     },
@@ -10882,8 +10882,8 @@
     "stepQuantity": 1,
     "stock": 1261,
     "stockByBranch": {
-      "br_toshkent_main": 583,
-      "br_chilanzar": 233,
+      "br_toshkent_main": 581,
+      "br_chilanzar": 232,
       "br_samarkand": 116
     },
     "image": "",
@@ -10928,8 +10928,8 @@
     "stepQuantity": 1,
     "stock": 1261,
     "stockByBranch": {
-      "br_toshkent_main": 583,
-      "br_chilanzar": 233,
+      "br_toshkent_main": 581,
+      "br_chilanzar": 232,
       "br_samarkand": 116
     },
     "image": "",
@@ -11020,9 +11020,9 @@
     "stepQuantity": 1,
     "stock": 778,
     "stockByBranch": {
-      "br_toshkent_main": 763,
-      "br_chilanzar": 305,
-      "br_samarkand": 152
+      "br_toshkent_main": 755,
+      "br_chilanzar": 302,
+      "br_samarkand": 151
     },
     "image": "",
     "imageUrl": "",
@@ -12078,7 +12078,7 @@
     "stepQuantity": 1,
     "stock": 964,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -12124,7 +12124,7 @@
     "stepQuantity": 1,
     "stock": 964,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -12170,7 +12170,7 @@
     "stepQuantity": 1,
     "stock": 964,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -12216,7 +12216,7 @@
     "stepQuantity": 1,
     "stock": 964,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -12262,7 +12262,7 @@
     "stepQuantity": 1,
     "stock": 964,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -12538,8 +12538,8 @@
     "stepQuantity": 1,
     "stock": 922,
     "stockByBranch": {
-      "br_toshkent_main": 893,
-      "br_chilanzar": 357,
+      "br_toshkent_main": 892,
+      "br_chilanzar": 356,
       "br_samarkand": 178
     },
     "image": "",
@@ -12722,8 +12722,8 @@
     "stepQuantity": 1,
     "stock": 439,
     "stockByBranch": {
-      "br_toshkent_main": 203,
-      "br_chilanzar": 81,
+      "br_toshkent_main": 202,
+      "br_chilanzar": 80,
       "br_samarkand": 40
     },
     "image": "",
@@ -12768,8 +12768,8 @@
     "stepQuantity": 1,
     "stock": 439,
     "stockByBranch": {
-      "br_toshkent_main": 203,
-      "br_chilanzar": 81,
+      "br_toshkent_main": 202,
+      "br_chilanzar": 80,
       "br_samarkand": 40
     },
     "image": "",
@@ -12860,9 +12860,9 @@
     "stepQuantity": 1,
     "stock": 536,
     "stockByBranch": {
-      "br_toshkent_main": 220,
-      "br_chilanzar": 88,
-      "br_samarkand": 44
+      "br_toshkent_main": 217,
+      "br_chilanzar": 86,
+      "br_samarkand": 43
     },
     "image": "",
     "imageUrl": "",
@@ -12906,9 +12906,9 @@
     "stepQuantity": 1,
     "stock": 536,
     "stockByBranch": {
-      "br_toshkent_main": 220,
-      "br_chilanzar": 88,
-      "br_samarkand": 44
+      "br_toshkent_main": 217,
+      "br_chilanzar": 86,
+      "br_samarkand": 43
     },
     "image": "",
     "imageUrl": "",
@@ -12952,9 +12952,9 @@
     "stepQuantity": 1,
     "stock": 587,
     "stockByBranch": {
-      "br_toshkent_main": 513,
-      "br_chilanzar": 205,
-      "br_samarkand": 102
+      "br_toshkent_main": 509,
+      "br_chilanzar": 203,
+      "br_samarkand": 101
     },
     "image": "",
     "imageUrl": "",
@@ -12998,8 +12998,8 @@
     "stepQuantity": 1,
     "stock": 432,
     "stockByBranch": {
-      "br_toshkent_main": 298,
-      "br_chilanzar": 119,
+      "br_toshkent_main": 296,
+      "br_chilanzar": 118,
       "br_samarkand": 59
     },
     "image": "",
@@ -16080,7 +16080,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16126,7 +16126,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16172,7 +16172,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16218,7 +16218,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16264,7 +16264,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16310,7 +16310,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16356,7 +16356,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16402,7 +16402,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16448,7 +16448,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16494,7 +16494,7 @@
     "stepQuantity": 1,
     "stock": 175,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -16586,8 +16586,8 @@
     "stepQuantity": 1,
     "stock": 57,
     "stockByBranch": {
-      "br_toshkent_main": 43,
-      "br_chilanzar": 17,
+      "br_toshkent_main": 42,
+      "br_chilanzar": 16,
       "br_samarkand": 8
     },
     "image": "",
@@ -16724,7 +16724,7 @@
     "stepQuantity": 1,
     "stock": 96,
     "stockByBranch": {
-      "br_toshkent_main": 29,
+      "br_toshkent_main": 28,
       "br_chilanzar": 11,
       "br_samarkand": 5
     },
@@ -16770,7 +16770,7 @@
     "stepQuantity": 1,
     "stock": 96,
     "stockByBranch": {
-      "br_toshkent_main": 29,
+      "br_toshkent_main": 28,
       "br_chilanzar": 11,
       "br_samarkand": 5
     },
@@ -16816,9 +16816,9 @@
     "stepQuantity": 1,
     "stock": 194,
     "stockByBranch": {
-      "br_toshkent_main": 75,
-      "br_chilanzar": 30,
-      "br_samarkand": 15
+      "br_toshkent_main": 70,
+      "br_chilanzar": 28,
+      "br_samarkand": 14
     },
     "image": "",
     "imageUrl": "",
@@ -16862,9 +16862,9 @@
     "stepQuantity": 1,
     "stock": 194,
     "stockByBranch": {
-      "br_toshkent_main": 75,
-      "br_chilanzar": 30,
-      "br_samarkand": 15
+      "br_toshkent_main": 70,
+      "br_chilanzar": 28,
+      "br_samarkand": 14
     },
     "image": "",
     "imageUrl": "",
@@ -16908,9 +16908,9 @@
     "stepQuantity": 1,
     "stock": 1173,
     "stockByBranch": {
-      "br_toshkent_main": 1141,
-      "br_chilanzar": 456,
-      "br_samarkand": 228
+      "br_toshkent_main": 1139,
+      "br_chilanzar": 455,
+      "br_samarkand": 227
     },
     "image": "",
     "imageUrl": "",
@@ -17368,9 +17368,9 @@
     "stepQuantity": 1,
     "stock": 7,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -18104,7 +18104,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18150,7 +18150,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18196,7 +18196,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18242,7 +18242,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18288,7 +18288,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18334,7 +18334,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -18380,7 +18380,7 @@
     "stepQuantity": 1,
     "stock": 78,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -19668,7 +19668,7 @@
     "stepQuantity": 1,
     "stock": 76,
     "stockByBranch": {
-      "br_toshkent_main": 74,
+      "br_toshkent_main": 73,
       "br_chilanzar": 29,
       "br_samarkand": 14
     },
@@ -20128,8 +20128,8 @@
     "stepQuantity": 0.1,
     "stock": 50.955,
     "stockByBranch": {
-      "br_toshkent_main": 3,
-      "br_chilanzar": 1,
+      "br_toshkent_main": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -20220,7 +20220,7 @@
     "stepQuantity": 0.1,
     "stock": 548.406,
     "stockByBranch": {
-      "br_toshkent_main": 539,
+      "br_toshkent_main": 538,
       "br_chilanzar": 215,
       "br_samarkand": 107
     },
@@ -20542,9 +20542,9 @@
     "stepQuantity": 0.1,
     "stock": 28.19,
     "stockByBranch": {
-      "br_toshkent_main": 17,
-      "br_chilanzar": 6,
-      "br_samarkand": 3
+      "br_toshkent_main": 13,
+      "br_chilanzar": 5,
+      "br_samarkand": 2
     },
     "image": "",
     "imageUrl": "",
@@ -22106,7 +22106,7 @@
     "stepQuantity": 1,
     "stock": 102,
     "stockByBranch": {
-      "br_toshkent_main": 101,
+      "br_toshkent_main": 100,
       "br_chilanzar": 40,
       "br_samarkand": 20
     },
@@ -22428,9 +22428,9 @@
     "stepQuantity": 1,
     "stock": 68,
     "stockByBranch": {
-      "br_toshkent_main": 20,
-      "br_chilanzar": 8,
-      "br_samarkand": 4
+      "br_toshkent_main": 16,
+      "br_chilanzar": 6,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -23670,7 +23670,7 @@
     "stepQuantity": 0.1,
     "stock": 24.23,
     "stockByBranch": {
-      "br_toshkent_main": 19,
+      "br_toshkent_main": 18,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -23716,9 +23716,9 @@
     "stepQuantity": 0.1,
     "stock": 50.792,
     "stockByBranch": {
-      "br_toshkent_main": 45,
-      "br_chilanzar": 18,
-      "br_samarkand": 9
+      "br_toshkent_main": 43,
+      "br_chilanzar": 17,
+      "br_samarkand": 8
     },
     "image": "",
     "imageUrl": "",
@@ -24314,8 +24314,8 @@
     "stepQuantity": 0.1,
     "stock": 69.069,
     "stockByBranch": {
-      "br_toshkent_main": 54,
-      "br_chilanzar": 21,
+      "br_toshkent_main": 50,
+      "br_chilanzar": 20,
       "br_samarkand": 10
     },
     "image": "",
@@ -24406,9 +24406,9 @@
     "stepQuantity": 0.1,
     "stock": 7.034,
     "stockByBranch": {
-      "br_toshkent_main": 6,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -24820,7 +24820,7 @@
     "stepQuantity": 0.1,
     "stock": 6.847,
     "stockByBranch": {
-      "br_toshkent_main": 4,
+      "br_toshkent_main": 3,
       "br_chilanzar": 1,
       "br_samarkand": 0
     },
@@ -25142,9 +25142,9 @@
     "stepQuantity": 0.1,
     "stock": 170.62,
     "stockByBranch": {
-      "br_toshkent_main": 127,
-      "br_chilanzar": 50,
-      "br_samarkand": 25
+      "br_toshkent_main": 123,
+      "br_chilanzar": 49,
+      "br_samarkand": 24
     },
     "image": "",
     "imageUrl": "",
@@ -27810,9 +27810,9 @@
     "stepQuantity": 1,
     "stock": 182,
     "stockByBranch": {
-      "br_toshkent_main": 180,
-      "br_chilanzar": 72,
-      "br_samarkand": 36
+      "br_toshkent_main": 179,
+      "br_chilanzar": 71,
+      "br_samarkand": 35
     },
     "image": "",
     "imageUrl": "",
@@ -28362,8 +28362,8 @@
     "stepQuantity": 1,
     "stock": 25,
     "stockByBranch": {
-      "br_toshkent_main": 23,
-      "br_chilanzar": 9,
+      "br_toshkent_main": 22,
+      "br_chilanzar": 8,
       "br_samarkand": 4
     },
     "image": "",
@@ -46762,8 +46762,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -46808,8 +46808,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -46854,8 +46854,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -46900,8 +46900,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -46946,8 +46946,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -46992,8 +46992,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47038,8 +47038,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47084,8 +47084,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47130,8 +47130,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47176,8 +47176,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47222,8 +47222,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47268,8 +47268,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47314,8 +47314,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47360,8 +47360,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47406,8 +47406,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47452,8 +47452,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47498,8 +47498,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -47544,8 +47544,8 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 1,
       "br_samarkand": 0
     },
     "image": "",
@@ -49108,9 +49108,9 @@
     "stepQuantity": 1,
     "stock": 76,
     "stockByBranch": {
-      "br_toshkent_main": 73,
-      "br_chilanzar": 29,
-      "br_samarkand": 14
+      "br_toshkent_main": 68,
+      "br_chilanzar": 27,
+      "br_samarkand": 13
     },
     "image": "",
     "imageUrl": "",
@@ -50902,7 +50902,7 @@
     "stepQuantity": 1,
     "stock": 17,
     "stockByBranch": {
-      "br_toshkent_main": 17,
+      "br_toshkent_main": 16,
       "br_chilanzar": 6,
       "br_samarkand": 3
     },
@@ -62034,9 +62034,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62080,9 +62080,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62126,9 +62126,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62172,9 +62172,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62218,9 +62218,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62264,9 +62264,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62310,9 +62310,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62356,9 +62356,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62402,9 +62402,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62448,9 +62448,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -62494,9 +62494,9 @@
     "stepQuantity": 1,
     "stock": 123,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -63460,7 +63460,7 @@
     "stepQuantity": 1,
     "stock": 1069,
     "stockByBranch": {
-      "br_toshkent_main": 352,
+      "br_toshkent_main": 350,
       "br_chilanzar": 140,
       "br_samarkand": 70
     },
@@ -63506,7 +63506,7 @@
     "stepQuantity": 1,
     "stock": 1069,
     "stockByBranch": {
-      "br_toshkent_main": 352,
+      "br_toshkent_main": 350,
       "br_chilanzar": 140,
       "br_samarkand": 70
     },
@@ -63552,7 +63552,7 @@
     "stepQuantity": 1,
     "stock": 1069,
     "stockByBranch": {
-      "br_toshkent_main": 352,
+      "br_toshkent_main": 350,
       "br_chilanzar": 140,
       "br_samarkand": 70
     },
@@ -65484,7 +65484,7 @@
     "stepQuantity": 1,
     "stock": 60,
     "stockByBranch": {
-      "br_toshkent_main": 59,
+      "br_toshkent_main": 58,
       "br_chilanzar": 23,
       "br_samarkand": 11
     },
@@ -69242,7 +69242,7 @@
     "stepQuantity": 1,
     "stock": 4363,
     "stockByBranch": {
-      "br_toshkent_main": 2069,
+      "br_toshkent_main": 2068,
       "br_chilanzar": 827,
       "br_samarkand": 413
     },
@@ -69288,7 +69288,7 @@
     "stepQuantity": 1,
     "stock": 4363,
     "stockByBranch": {
-      "br_toshkent_main": 2069,
+      "br_toshkent_main": 2068,
       "br_chilanzar": 827,
       "br_samarkand": 413
     },
@@ -69426,7 +69426,7 @@
     "stepQuantity": 0.1,
     "stock": 27.174,
     "stockByBranch": {
-      "br_toshkent_main": 24,
+      "br_toshkent_main": 23,
       "br_chilanzar": 9,
       "br_samarkand": 4
     },
@@ -71680,8 +71680,8 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 9,
-      "br_chilanzar": 3,
+      "br_toshkent_main": 5,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -72002,8 +72002,8 @@
     "stepQuantity": 0.1,
     "stock": 143.571,
     "stockByBranch": {
-      "br_toshkent_main": 124,
-      "br_chilanzar": 49,
+      "br_toshkent_main": 121,
+      "br_chilanzar": 48,
       "br_samarkand": 24
     },
     "image": "",
@@ -72048,9 +72048,9 @@
     "stepQuantity": 0.1,
     "stock": 92.854,
     "stockByBranch": {
-      "br_toshkent_main": 85,
-      "br_chilanzar": 34,
-      "br_samarkand": 17
+      "br_toshkent_main": 83,
+      "br_chilanzar": 33,
+      "br_samarkand": 16
     },
     "image": "",
     "imageUrl": "",
@@ -72094,9 +72094,9 @@
     "stepQuantity": 0.1,
     "stock": 48.963,
     "stockByBranch": {
-      "br_toshkent_main": 39,
-      "br_chilanzar": 15,
-      "br_samarkand": 7
+      "br_toshkent_main": 34,
+      "br_chilanzar": 13,
+      "br_samarkand": 6
     },
     "image": "",
     "imageUrl": "",
@@ -72324,7 +72324,7 @@
     "stepQuantity": 0.1,
     "stock": 14.64,
     "stockByBranch": {
-      "br_toshkent_main": 14,
+      "br_toshkent_main": 13,
       "br_chilanzar": 5,
       "br_samarkand": 2
     },
@@ -73612,7 +73612,7 @@
     "stepQuantity": 0.1,
     "stock": 8.827,
     "stockByBranch": {
-      "br_toshkent_main": 14,
+      "br_toshkent_main": 13,
       "br_chilanzar": 5,
       "br_samarkand": 2
     },
@@ -73704,9 +73704,9 @@
     "stepQuantity": 0.1,
     "stock": 25,
     "stockByBranch": {
-      "br_toshkent_main": 13,
-      "br_chilanzar": 5,
-      "br_samarkand": 2
+      "br_toshkent_main": 18,
+      "br_chilanzar": 7,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -74072,7 +74072,7 @@
     "stepQuantity": 0.1,
     "stock": 8.271,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -74119,7 +74119,7 @@
     "stock": 4.272,
     "stockByBranch": {
       "br_toshkent_main": 2,
-      "br_chilanzar": 1,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -79362,7 +79362,7 @@
     "stepQuantity": 1,
     "stock": 9,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -80282,8 +80282,8 @@
     "stepQuantity": 1,
     "stock": 8,
     "stockByBranch": {
-      "br_toshkent_main": 28,
-      "br_chilanzar": 11,
+      "br_toshkent_main": 27,
+      "br_chilanzar": 10,
       "br_samarkand": 5
     },
     "image": "",
@@ -82766,7 +82766,7 @@
     "stepQuantity": 1,
     "stock": 174,
     "stockByBranch": {
-      "br_toshkent_main": 49,
+      "br_toshkent_main": 48,
       "br_chilanzar": 19,
       "br_samarkand": 9
     },
@@ -82812,7 +82812,7 @@
     "stepQuantity": 1,
     "stock": 174,
     "stockByBranch": {
-      "br_toshkent_main": 49,
+      "br_toshkent_main": 48,
       "br_chilanzar": 19,
       "br_samarkand": 9
     },
@@ -82858,7 +82858,7 @@
     "stepQuantity": 1,
     "stock": 174,
     "stockByBranch": {
-      "br_toshkent_main": 49,
+      "br_toshkent_main": 48,
       "br_chilanzar": 19,
       "br_samarkand": 9
     },
@@ -83042,8 +83042,8 @@
     "stepQuantity": 1,
     "stock": 160,
     "stockByBranch": {
-      "br_toshkent_main": 143,
-      "br_chilanzar": 57,
+      "br_toshkent_main": 142,
+      "br_chilanzar": 56,
       "br_samarkand": 28
     },
     "image": "",
@@ -84192,9 +84192,9 @@
     "stepQuantity": 1,
     "stock": 143,
     "stockByBranch": {
-      "br_toshkent_main": 147,
-      "br_chilanzar": 58,
-      "br_samarkand": 29
+      "br_toshkent_main": 140,
+      "br_chilanzar": 56,
+      "br_samarkand": 28
     },
     "image": "",
     "imageUrl": "",
@@ -84468,9 +84468,9 @@
     "stepQuantity": 1,
     "stock": 112,
     "stockByBranch": {
-      "br_toshkent_main": 195,
-      "br_chilanzar": 78,
-      "br_samarkand": 39
+      "br_toshkent_main": 190,
+      "br_chilanzar": 76,
+      "br_samarkand": 38
     },
     "image": "",
     "imageUrl": "",
@@ -85020,8 +85020,8 @@
     "stepQuantity": 1,
     "stock": 31,
     "stockByBranch": {
-      "br_toshkent_main": 12,
-      "br_chilanzar": 5,
+      "br_toshkent_main": 11,
+      "br_chilanzar": 4,
       "br_samarkand": 2
     },
     "image": "",
@@ -85066,8 +85066,8 @@
     "stepQuantity": 1,
     "stock": 31,
     "stockByBranch": {
-      "br_toshkent_main": 12,
-      "br_chilanzar": 5,
+      "br_toshkent_main": 11,
+      "br_chilanzar": 4,
       "br_samarkand": 2
     },
     "image": "",
@@ -86170,7 +86170,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86216,7 +86216,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86262,7 +86262,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86308,7 +86308,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86354,7 +86354,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86400,7 +86400,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86446,7 +86446,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86492,7 +86492,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86538,7 +86538,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86584,7 +86584,7 @@
     "stepQuantity": 1,
     "stock": 148,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -86676,9 +86676,9 @@
     "stepQuantity": 1,
     "stock": 37,
     "stockByBranch": {
-      "br_toshkent_main": 75,
-      "br_chilanzar": 30,
-      "br_samarkand": 15
+      "br_toshkent_main": 72,
+      "br_chilanzar": 28,
+      "br_samarkand": 14
     },
     "image": "",
     "imageUrl": "",
@@ -86906,9 +86906,9 @@
     "stepQuantity": 1,
     "stock": 9,
     "stockByBranch": {
-      "br_toshkent_main": 7,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -87780,9 +87780,9 @@
     "stepQuantity": 1,
     "stock": 34,
     "stockByBranch": {
-      "br_toshkent_main": 33,
-      "br_chilanzar": 13,
-      "br_samarkand": 6
+      "br_toshkent_main": 26,
+      "br_chilanzar": 10,
+      "br_samarkand": 5
     },
     "image": "",
     "imageUrl": "",
@@ -88608,7 +88608,7 @@
     "stepQuantity": 1,
     "stock": 48,
     "stockByBranch": {
-      "br_toshkent_main": 46,
+      "br_toshkent_main": 45,
       "br_chilanzar": 18,
       "br_samarkand": 9
     },
@@ -90303,9 +90303,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -90349,9 +90349,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -90395,9 +90395,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -90441,9 +90441,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -97480,7 +97480,7 @@
     "stock": 30,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -97526,7 +97526,7 @@
     "stock": 30,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -97572,7 +97572,7 @@
     "stock": 30,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -97618,7 +97618,7 @@
     "stock": 30,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -98675,7 +98675,7 @@
     "stepQuantity": 1,
     "stock": 45,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -98721,7 +98721,7 @@
     "stepQuantity": 1,
     "stock": 45,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -98767,7 +98767,7 @@
     "stepQuantity": 1,
     "stock": 45,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -98813,7 +98813,7 @@
     "stepQuantity": 1,
     "stock": 45,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -100101,9 +100101,9 @@
     "stepQuantity": 1,
     "stock": 102,
     "stockByBranch": {
-      "br_toshkent_main": 51,
-      "br_chilanzar": 20,
-      "br_samarkand": 10
+      "br_toshkent_main": 49,
+      "br_chilanzar": 19,
+      "br_samarkand": 9
     },
     "image": "",
     "imageUrl": "",
@@ -100147,9 +100147,9 @@
     "stepQuantity": 1,
     "stock": 102,
     "stockByBranch": {
-      "br_toshkent_main": 51,
-      "br_chilanzar": 20,
-      "br_samarkand": 10
+      "br_toshkent_main": 49,
+      "br_chilanzar": 19,
+      "br_samarkand": 9
     },
     "image": "",
     "imageUrl": "",
@@ -103505,7 +103505,7 @@
     "stepQuantity": 1,
     "stock": 4,
     "stockByBranch": {
-      "br_toshkent_main": 4,
+      "br_toshkent_main": 3,
       "br_chilanzar": 1,
       "br_samarkand": 0
     },
@@ -104287,7 +104287,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 24,
+      "br_toshkent_main": 22,
       "br_chilanzar": 9,
       "br_samarkand": 4
     },
@@ -104333,7 +104333,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 24,
+      "br_toshkent_main": 22,
       "br_chilanzar": 9,
       "br_samarkand": 4
     },
@@ -105253,9 +105253,9 @@
     "stepQuantity": 1,
     "stock": 21,
     "stockByBranch": {
-      "br_toshkent_main": 17,
-      "br_chilanzar": 6,
-      "br_samarkand": 3
+      "br_toshkent_main": 13,
+      "br_chilanzar": 5,
+      "br_samarkand": 2
     },
     "image": "",
     "imageUrl": "",
@@ -108059,7 +108059,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108105,7 +108105,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108151,7 +108151,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108197,7 +108197,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108243,7 +108243,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108289,7 +108289,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108335,7 +108335,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108381,7 +108381,7 @@
     "stepQuantity": 1,
     "stock": 155,
     "stockByBranch": {
-      "br_toshkent_main": 18,
+      "br_toshkent_main": 17,
       "br_chilanzar": 7,
       "br_samarkand": 3
     },
@@ -108427,9 +108427,9 @@
     "stepQuantity": 1,
     "stock": 1905,
     "stockByBranch": {
-      "br_toshkent_main": 1832,
-      "br_chilanzar": 732,
-      "br_samarkand": 366
+      "br_toshkent_main": 1810,
+      "br_chilanzar": 724,
+      "br_samarkand": 362
     },
     "image": "",
     "imageUrl": "",
@@ -109715,9 +109715,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109761,9 +109761,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109807,9 +109807,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109853,9 +109853,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109899,9 +109899,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109945,9 +109945,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -109991,9 +109991,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110037,9 +110037,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110083,9 +110083,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110129,9 +110129,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110175,9 +110175,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110221,9 +110221,9 @@
     "stepQuantity": 1,
     "stock": 782,
     "stockByBranch": {
-      "br_toshkent_main": 257,
-      "br_chilanzar": 102,
-      "br_samarkand": 51
+      "br_toshkent_main": 254,
+      "br_chilanzar": 101,
+      "br_samarkand": 50
     },
     "image": "",
     "imageUrl": "",
@@ -110451,9 +110451,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110497,9 +110497,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110543,9 +110543,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110589,9 +110589,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110635,9 +110635,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110681,9 +110681,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110727,9 +110727,9 @@
     "stepQuantity": 1,
     "stock": 6518,
     "stockByBranch": {
-      "br_toshkent_main": 1660,
-      "br_chilanzar": 664,
-      "br_samarkand": 332
+      "br_toshkent_main": 1659,
+      "br_chilanzar": 663,
+      "br_samarkand": 331
     },
     "image": "",
     "imageUrl": "",
@@ -110911,9 +110911,9 @@
     "stepQuantity": 1,
     "stock": -58,
     "stockByBranch": {
-      "br_toshkent_main": 211,
-      "br_chilanzar": 84,
-      "br_samarkand": 42
+      "br_toshkent_main": 208,
+      "br_chilanzar": 83,
+      "br_samarkand": 41
     },
     "image": "",
     "imageUrl": "",
@@ -110957,9 +110957,9 @@
     "stepQuantity": 1,
     "stock": -58,
     "stockByBranch": {
-      "br_toshkent_main": 211,
-      "br_chilanzar": 84,
-      "br_samarkand": 42
+      "br_toshkent_main": 208,
+      "br_chilanzar": 83,
+      "br_samarkand": 41
     },
     "image": "",
     "imageUrl": "",
@@ -112245,8 +112245,8 @@
     "stepQuantity": 1,
     "stock": 10,
     "stockByBranch": {
-      "br_toshkent_main": 8,
-      "br_chilanzar": 3,
+      "br_toshkent_main": 7,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -115649,9 +115649,9 @@
     "stepQuantity": 1,
     "stock": 27,
     "stockByBranch": {
-      "br_toshkent_main": 25,
-      "br_chilanzar": 10,
-      "br_samarkand": 5
+      "br_toshkent_main": 24,
+      "br_chilanzar": 9,
+      "br_samarkand": 4
     },
     "image": "",
     "imageUrl": "",
@@ -117535,9 +117535,9 @@
     "stepQuantity": 1,
     "stock": 711,
     "stockByBranch": {
-      "br_toshkent_main": 711,
-      "br_chilanzar": 284,
-      "br_samarkand": 142
+      "br_toshkent_main": 703,
+      "br_chilanzar": 281,
+      "br_samarkand": 140
     },
     "image": "",
     "imageUrl": "",
@@ -117857,9 +117857,9 @@
     "stepQuantity": 1,
     "stock": 37,
     "stockByBranch": {
-      "br_toshkent_main": 26,
-      "br_chilanzar": 10,
-      "br_samarkand": 5
+      "br_toshkent_main": 24,
+      "br_chilanzar": 9,
+      "br_samarkand": 4
     },
     "image": "",
     "imageUrl": "",
@@ -117949,7 +117949,7 @@
     "stepQuantity": 1,
     "stock": 68,
     "stockByBranch": {
-      "br_toshkent_main": 67,
+      "br_toshkent_main": 66,
       "br_chilanzar": 26,
       "br_samarkand": 13
     },
@@ -117995,9 +117995,9 @@
     "stepQuantity": 1,
     "stock": 110,
     "stockByBranch": {
-      "br_toshkent_main": 110,
-      "br_chilanzar": 44,
-      "br_samarkand": 22
+      "br_toshkent_main": 106,
+      "br_chilanzar": 42,
+      "br_samarkand": 21
     },
     "image": "",
     "imageUrl": "",
@@ -118317,7 +118317,7 @@
     "stepQuantity": 1,
     "stock": 548,
     "stockByBranch": {
-      "br_toshkent_main": 134,
+      "br_toshkent_main": 133,
       "br_chilanzar": 53,
       "br_samarkand": 26
     },
@@ -118363,7 +118363,7 @@
     "stepQuantity": 1,
     "stock": 548,
     "stockByBranch": {
-      "br_toshkent_main": 134,
+      "br_toshkent_main": 133,
       "br_chilanzar": 53,
       "br_samarkand": 26
     },
@@ -118409,7 +118409,7 @@
     "stepQuantity": 1,
     "stock": 548,
     "stockByBranch": {
-      "br_toshkent_main": 134,
+      "br_toshkent_main": 133,
       "br_chilanzar": 53,
       "br_samarkand": 26
     },
@@ -118455,7 +118455,7 @@
     "stepQuantity": 1,
     "stock": 548,
     "stockByBranch": {
-      "br_toshkent_main": 134,
+      "br_toshkent_main": 133,
       "br_chilanzar": 53,
       "br_samarkand": 26
     },
@@ -119513,9 +119513,9 @@
     "stepQuantity": 1,
     "stock": 16,
     "stockByBranch": {
-      "br_toshkent_main": 15,
-      "br_chilanzar": 6,
-      "br_samarkand": 3
+      "br_toshkent_main": 14,
+      "br_chilanzar": 5,
+      "br_samarkand": 2
     },
     "image": "",
     "imageUrl": "",
@@ -120525,9 +120525,9 @@
     "stepQuantity": 1,
     "stock": 115,
     "stockByBranch": {
-      "br_toshkent_main": 115,
-      "br_chilanzar": 46,
-      "br_samarkand": 23
+      "br_toshkent_main": 114,
+      "br_chilanzar": 45,
+      "br_samarkand": 22
     },
     "image": "",
     "imageUrl": "",
@@ -120571,9 +120571,9 @@
     "stepQuantity": 1,
     "stock": 5977,
     "stockByBranch": {
-      "br_toshkent_main": 4989,
-      "br_chilanzar": 1995,
-      "br_samarkand": 997
+      "br_toshkent_main": 4966,
+      "br_chilanzar": 1986,
+      "br_samarkand": 993
     },
     "image": "",
     "imageUrl": "",
@@ -121215,8 +121215,8 @@
     "stepQuantity": 1,
     "stock": 190,
     "stockByBranch": {
-      "br_toshkent_main": 179,
-      "br_chilanzar": 71,
+      "br_toshkent_main": 176,
+      "br_chilanzar": 70,
       "br_samarkand": 35
     },
     "image": "",
@@ -125631,8 +125631,8 @@
     "stepQuantity": 1,
     "stock": 568,
     "stockByBranch": {
-      "br_toshkent_main": 504,
-      "br_chilanzar": 201,
+      "br_toshkent_main": 501,
+      "br_chilanzar": 200,
       "br_samarkand": 100
     },
     "image": "",
@@ -147559,9 +147559,9 @@
     "stepQuantity": 1,
     "stock": 503,
     "stockByBranch": {
-      "br_toshkent_main": 503,
-      "br_chilanzar": 201,
-      "br_samarkand": 100
+      "br_toshkent_main": 493,
+      "br_chilanzar": 197,
+      "br_samarkand": 98
     },
     "image": "",
     "imageUrl": "",
@@ -148387,9 +148387,9 @@
     "stepQuantity": 0.1,
     "stock": 131.396,
     "stockByBranch": {
-      "br_toshkent_main": 81,
-      "br_chilanzar": 32,
-      "br_samarkand": 16
+      "br_toshkent_main": 77,
+      "br_chilanzar": 30,
+      "br_samarkand": 15
     },
     "image": "",
     "imageUrl": "",
@@ -148479,7 +148479,7 @@
     "stepQuantity": 0.1,
     "stock": 239.922,
     "stockByBranch": {
-      "br_toshkent_main": 239,
+      "br_toshkent_main": 238,
       "br_chilanzar": 95,
       "br_samarkand": 47
     },
@@ -150273,8 +150273,8 @@
     "stepQuantity": 0.1,
     "stock": 545.261,
     "stockByBranch": {
-      "br_toshkent_main": 419,
-      "br_chilanzar": 167,
+      "br_toshkent_main": 415,
+      "br_chilanzar": 166,
       "br_samarkand": 83
     },
     "image": "",
@@ -151101,9 +151101,9 @@
     "stepQuantity": 0.1,
     "stock": 31.468,
     "stockByBranch": {
-      "br_toshkent_main": 31,
-      "br_chilanzar": 12,
-      "br_samarkand": 6
+      "br_toshkent_main": 29,
+      "br_chilanzar": 11,
+      "br_samarkand": 5
     },
     "image": "",
     "imageUrl": "",
@@ -152481,8 +152481,8 @@
     "stepQuantity": 0.1,
     "stock": 3,
     "stockByBranch": {
-      "br_toshkent_main": 3,
-      "br_chilanzar": 1,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -155747,9 +155747,9 @@
     "stepQuantity": 1,
     "stock": 237,
     "stockByBranch": {
-      "br_toshkent_main": 226,
-      "br_chilanzar": 90,
-      "br_samarkand": 45
+      "br_toshkent_main": 224,
+      "br_chilanzar": 89,
+      "br_samarkand": 44
     },
     "image": "",
     "imageUrl": "",
@@ -156667,9 +156667,9 @@
     "stepQuantity": 1,
     "stock": 35,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -156713,9 +156713,9 @@
     "stepQuantity": 1,
     "stock": 35,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -157219,9 +157219,9 @@
     "stepQuantity": 1,
     "stock": 5,
     "stockByBranch": {
-      "br_toshkent_main": 4,
-      "br_chilanzar": 1,
-      "br_samarkand": 0
+      "br_toshkent_main": 5,
+      "br_chilanzar": 2,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -157817,7 +157817,7 @@
     "stepQuantity": 1,
     "stock": 18,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -157863,7 +157863,7 @@
     "stepQuantity": 1,
     "stock": 18,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -159565,7 +159565,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 5,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -160163,7 +160163,7 @@
     "stepQuantity": 1,
     "stock": 89,
     "stockByBranch": {
-      "br_toshkent_main": 82,
+      "br_toshkent_main": 81,
       "br_chilanzar": 32,
       "br_samarkand": 16
     },
@@ -160577,7 +160577,7 @@
     "stepQuantity": 1,
     "stock": 65,
     "stockByBranch": {
-      "br_toshkent_main": 61,
+      "br_toshkent_main": 60,
       "br_chilanzar": 24,
       "br_samarkand": 12
     },
@@ -161359,9 +161359,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -161405,9 +161405,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -161451,9 +161451,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -161497,9 +161497,9 @@
     "stepQuantity": 1,
     "stock": 20,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 4,
+      "br_chilanzar": 1,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -162647,7 +162647,7 @@
     "stepQuantity": 1,
     "stock": 124,
     "stockByBranch": {
-      "br_toshkent_main": 122,
+      "br_toshkent_main": 121,
       "br_chilanzar": 48,
       "br_samarkand": 24
     },
@@ -166097,8 +166097,8 @@
     "stepQuantity": 1,
     "stock": 891,
     "stockByBranch": {
-      "br_toshkent_main": 848,
-      "br_chilanzar": 339,
+      "br_toshkent_main": 847,
+      "br_chilanzar": 338,
       "br_samarkand": 169
     },
     "image": "",
@@ -167109,8 +167109,8 @@
     "stepQuantity": 1,
     "stock": 15,
     "stockByBranch": {
-      "br_toshkent_main": 13,
-      "br_chilanzar": 5,
+      "br_toshkent_main": 11,
+      "br_chilanzar": 4,
       "br_samarkand": 2
     },
     "image": "",
@@ -167247,7 +167247,7 @@
     "stepQuantity": 1,
     "stock": 23,
     "stockByBranch": {
-      "br_toshkent_main": 22,
+      "br_toshkent_main": 21,
       "br_chilanzar": 8,
       "br_samarkand": 4
     },
@@ -167891,9 +167891,9 @@
     "stepQuantity": 1,
     "stock": 2,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 1,
+      "br_chilanzar": 0,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -168167,9 +168167,9 @@
     "stepQuantity": 1,
     "stock": 5,
     "stockByBranch": {
-      "br_toshkent_main": 5,
-      "br_chilanzar": 2,
-      "br_samarkand": 1
+      "br_toshkent_main": 2,
+      "br_chilanzar": 0,
+      "br_samarkand": 0
     },
     "image": "",
     "imageUrl": "",
@@ -168397,9 +168397,9 @@
     "stepQuantity": 1,
     "stock": 40,
     "stockByBranch": {
-      "br_toshkent_main": 40,
-      "br_chilanzar": 16,
-      "br_samarkand": 8
+      "br_toshkent_main": 39,
+      "br_chilanzar": 15,
+      "br_samarkand": 7
     },
     "image": "",
     "imageUrl": "",
@@ -168627,7 +168627,7 @@
     "stepQuantity": 1,
     "stock": 31,
     "stockByBranch": {
-      "br_toshkent_main": 26,
+      "br_toshkent_main": 25,
       "br_chilanzar": 10,
       "br_samarkand": 5
     },
@@ -169501,8 +169501,8 @@
     "stepQuantity": 1,
     "stock": 86,
     "stockByBranch": {
-      "br_toshkent_main": 63,
-      "br_chilanzar": 25,
+      "br_toshkent_main": 62,
+      "br_chilanzar": 24,
       "br_samarkand": 12
     },
     "image": "",
@@ -170467,7 +170467,7 @@
     "stepQuantity": 1,
     "stock": 785,
     "stockByBranch": {
-      "br_toshkent_main": 156,
+      "br_toshkent_main": 155,
       "br_chilanzar": 62,
       "br_samarkand": 31
     },
@@ -170513,7 +170513,7 @@
     "stepQuantity": 1,
     "stock": 785,
     "stockByBranch": {
-      "br_toshkent_main": 156,
+      "br_toshkent_main": 155,
       "br_chilanzar": 62,
       "br_samarkand": 31
     },
@@ -170559,7 +170559,7 @@
     "stepQuantity": 1,
     "stock": 785,
     "stockByBranch": {
-      "br_toshkent_main": 156,
+      "br_toshkent_main": 155,
       "br_chilanzar": 62,
       "br_samarkand": 31
     },
@@ -170605,7 +170605,7 @@
     "stepQuantity": 1,
     "stock": 785,
     "stockByBranch": {
-      "br_toshkent_main": 156,
+      "br_toshkent_main": 155,
       "br_chilanzar": 62,
       "br_samarkand": 31
     },
@@ -170651,7 +170651,7 @@
     "stepQuantity": 1,
     "stock": 785,
     "stockByBranch": {
-      "br_toshkent_main": 156,
+      "br_toshkent_main": 155,
       "br_chilanzar": 62,
       "br_samarkand": 31
     },
@@ -172123,9 +172123,9 @@
     "stepQuantity": 1,
     "stock": 32,
     "stockByBranch": {
-      "br_toshkent_main": 30,
-      "br_chilanzar": 12,
-      "br_samarkand": 6
+      "br_toshkent_main": 29,
+      "br_chilanzar": 11,
+      "br_samarkand": 5
     },
     "image": "",
     "imageUrl": "",
@@ -174055,7 +174055,7 @@
     "stepQuantity": 0.1,
     "stock": 17.298,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -174331,7 +174331,7 @@
     "stepQuantity": 0.1,
     "stock": 15.312,
     "stockByBranch": {
-      "br_toshkent_main": 14,
+      "br_toshkent_main": 13,
       "br_chilanzar": 5,
       "br_samarkand": 2
     },
@@ -174653,7 +174653,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -174699,7 +174699,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -174745,7 +174745,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -174791,7 +174791,7 @@
     "stepQuantity": 1,
     "stock": 50,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -175527,8 +175527,8 @@
     "stepQuantity": 0.1,
     "stock": 10.763,
     "stockByBranch": {
-      "br_toshkent_main": 29,
-      "br_chilanzar": 11,
+      "br_toshkent_main": 27,
+      "br_chilanzar": 10,
       "br_samarkand": 5
     },
     "image": "",
@@ -177643,7 +177643,7 @@
     "stepQuantity": 0.1,
     "stock": 23.97,
     "stockByBranch": {
-      "br_toshkent_main": 44,
+      "br_toshkent_main": 43,
       "br_chilanzar": 17,
       "br_samarkand": 8
     },
@@ -178563,7 +178563,7 @@
     "stepQuantity": 0.1,
     "stock": 36.461,
     "stockByBranch": {
-      "br_toshkent_main": 21,
+      "br_toshkent_main": 20,
       "br_chilanzar": 8,
       "br_samarkand": 4
     },
@@ -180495,7 +180495,7 @@
     "stepQuantity": 0.1,
     "stock": 44.366,
     "stockByBranch": {
-      "br_toshkent_main": 43,
+      "br_toshkent_main": 42,
       "br_chilanzar": 17,
       "br_samarkand": 8
     },
@@ -180817,7 +180817,7 @@
     "stepQuantity": 0.1,
     "stock": 55.58,
     "stockByBranch": {
-      "br_toshkent_main": 49,
+      "br_toshkent_main": 48,
       "br_chilanzar": 19,
       "br_samarkand": 9
     },
@@ -181139,7 +181139,7 @@
     "stepQuantity": 0.1,
     "stock": 16.558,
     "stockByBranch": {
-      "br_toshkent_main": 16,
+      "br_toshkent_main": 15,
       "br_chilanzar": 6,
       "br_samarkand": 3
     },
@@ -182749,8 +182749,8 @@
     "stepQuantity": 1,
     "stock": 54,
     "stockByBranch": {
-      "br_toshkent_main": 53,
-      "br_chilanzar": 21,
+      "br_toshkent_main": 52,
+      "br_chilanzar": 20,
       "br_samarkand": 10
     },
     "image": "",
@@ -184819,7 +184819,7 @@
     "stepQuantity": 1,
     "stock": 52,
     "stockByBranch": {
-      "br_toshkent_main": 52,
+      "br_toshkent_main": 51,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -185601,8 +185601,8 @@
     "stepQuantity": 1,
     "stock": 30,
     "stockByBranch": {
-      "br_toshkent_main": 28,
-      "br_chilanzar": 11,
+      "br_toshkent_main": 27,
+      "br_chilanzar": 10,
       "br_samarkand": 5
     },
     "image": "",
@@ -186291,9 +186291,9 @@
     "stepQuantity": 1,
     "stock": -17,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
-      "br_samarkand": 0
+      "br_toshkent_main": 62,
+      "br_chilanzar": 24,
+      "br_samarkand": 12
     },
     "image": "",
     "imageUrl": "",
@@ -186475,7 +186475,7 @@
     "stepQuantity": 1,
     "stock": 11,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -187487,7 +187487,7 @@
     "stepQuantity": 1,
     "stock": 18,
     "stockByBranch": {
-      "br_toshkent_main": 8,
+      "br_toshkent_main": 7,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -187533,7 +187533,7 @@
     "stepQuantity": 1,
     "stock": 18,
     "stockByBranch": {
-      "br_toshkent_main": 8,
+      "br_toshkent_main": 7,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -187855,9 +187855,9 @@
     "stepQuantity": 1,
     "stock": 2,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
-      "br_samarkand": 0
+      "br_toshkent_main": 18,
+      "br_chilanzar": 7,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -187993,9 +187993,9 @@
     "stepQuantity": 1,
     "stock": 138,
     "stockByBranch": {
-      "br_toshkent_main": 136,
-      "br_chilanzar": 54,
-      "br_samarkand": 27
+      "br_toshkent_main": 134,
+      "br_chilanzar": 53,
+      "br_samarkand": 26
     },
     "image": "",
     "imageUrl": "",
@@ -188269,9 +188269,9 @@
     "stepQuantity": 1,
     "stock": -3,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
-      "br_samarkand": 0
+      "br_toshkent_main": 18,
+      "br_chilanzar": 7,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -188407,9 +188407,9 @@
     "stepQuantity": 1,
     "stock": -1,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
-      "br_samarkand": 0
+      "br_toshkent_main": 21,
+      "br_chilanzar": 8,
+      "br_samarkand": 4
     },
     "image": "",
     "imageUrl": "",
@@ -190891,9 +190891,9 @@
     "stepQuantity": 1,
     "stock": 290,
     "stockByBranch": {
-      "br_toshkent_main": 241,
-      "br_chilanzar": 96,
-      "br_samarkand": 48
+      "br_toshkent_main": 481,
+      "br_chilanzar": 192,
+      "br_samarkand": 96
     },
     "image": "",
     "imageUrl": "",
@@ -192133,7 +192133,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192179,7 +192179,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192225,7 +192225,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192271,7 +192271,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192317,7 +192317,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192363,7 +192363,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192409,7 +192409,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192455,7 +192455,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192501,7 +192501,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -192547,7 +192547,7 @@
     "stepQuantity": 1,
     "stock": 81,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 6,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -194801,9 +194801,9 @@
     "stepQuantity": 0.1,
     "stock": 184.254,
     "stockByBranch": {
-      "br_toshkent_main": 172,
-      "br_chilanzar": 68,
-      "br_samarkand": 34
+      "br_toshkent_main": 168,
+      "br_chilanzar": 67,
+      "br_samarkand": 33
     },
     "image": "",
     "imageUrl": "",
@@ -198297,9 +198297,9 @@
     "stepQuantity": 1,
     "stock": 95,
     "stockByBranch": {
-      "br_toshkent_main": 75,
-      "br_chilanzar": 30,
-      "br_samarkand": 15
+      "br_toshkent_main": 73,
+      "br_chilanzar": 29,
+      "br_samarkand": 14
     },
     "image": "",
     "imageUrl": "",
@@ -206255,9 +206255,9 @@
     "stepQuantity": 1,
     "stock": 11,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -207175,9 +207175,9 @@
     "stepQuantity": 1,
     "stock": 29,
     "stockByBranch": {
-      "br_toshkent_main": 22,
-      "br_chilanzar": 8,
-      "br_samarkand": 4
+      "br_toshkent_main": 17,
+      "br_chilanzar": 6,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -207681,9 +207681,9 @@
     "stepQuantity": 1,
     "stock": 10,
     "stockByBranch": {
-      "br_toshkent_main": 10,
-      "br_chilanzar": 4,
-      "br_samarkand": 2
+      "br_toshkent_main": 9,
+      "br_chilanzar": 3,
+      "br_samarkand": 1
     },
     "image": "",
     "imageUrl": "",
@@ -210257,9 +210257,9 @@
     "stepQuantity": 1,
     "stock": 41,
     "stockByBranch": {
-      "br_toshkent_main": 76,
-      "br_chilanzar": 30,
-      "br_samarkand": 15
+      "br_toshkent_main": 74,
+      "br_chilanzar": 29,
+      "br_samarkand": 14
     },
     "image": "",
     "imageUrl": "",
@@ -212281,7 +212281,7 @@
     "stepQuantity": 1,
     "stock": 542,
     "stockByBranch": {
-      "br_toshkent_main": 121,
+      "br_toshkent_main": 120,
       "br_chilanzar": 48,
       "br_samarkand": 24
     },
@@ -212327,7 +212327,7 @@
     "stepQuantity": 1,
     "stock": 542,
     "stockByBranch": {
-      "br_toshkent_main": 121,
+      "br_toshkent_main": 120,
       "br_chilanzar": 48,
       "br_samarkand": 24
     },
@@ -212373,7 +212373,7 @@
     "stepQuantity": 1,
     "stock": 542,
     "stockByBranch": {
-      "br_toshkent_main": 121,
+      "br_toshkent_main": 120,
       "br_chilanzar": 48,
       "br_samarkand": 24
     },
@@ -212419,7 +212419,7 @@
     "stepQuantity": 1,
     "stock": 542,
     "stockByBranch": {
-      "br_toshkent_main": 121,
+      "br_toshkent_main": 120,
       "br_chilanzar": 48,
       "br_samarkand": 24
     },
@@ -212925,8 +212925,8 @@
     "stepQuantity": 0.1,
     "stock": 7.658,
     "stockByBranch": {
-      "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_toshkent_main": 6,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -213661,8 +213661,8 @@
     "stepQuantity": 1,
     "stock": 8,
     "stockByBranch": {
-      "br_toshkent_main": 4,
-      "br_chilanzar": 1,
+      "br_toshkent_main": 2,
+      "br_chilanzar": 0,
       "br_samarkand": 0
     },
     "image": "",
@@ -216099,9 +216099,9 @@
     "stepQuantity": 1,
     "stock": 596,
     "stockByBranch": {
-      "br_toshkent_main": 596,
-      "br_chilanzar": 238,
-      "br_samarkand": 119
+      "br_toshkent_main": 591,
+      "br_chilanzar": 236,
+      "br_samarkand": 118
     },
     "image": "",
     "imageUrl": "",
@@ -216467,9 +216467,9 @@
     "stepQuantity": 1,
     "stock": 47,
     "stockByBranch": {
-      "br_toshkent_main": 45,
-      "br_chilanzar": 18,
-      "br_samarkand": 9
+      "br_toshkent_main": 44,
+      "br_chilanzar": 17,
+      "br_samarkand": 8
     },
     "image": "",
     "imageUrl": "",
@@ -222769,7 +222769,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -226081,7 +226081,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -226127,7 +226127,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -226173,7 +226173,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -226219,7 +226219,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -226265,7 +226265,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -226311,7 +226311,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -229900,7 +229900,7 @@
     "stock": 133,
     "stockByBranch": {
       "br_toshkent_main": 32,
-      "br_chilanzar": 13,
+      "br_chilanzar": 12,
       "br_samarkand": 6
     },
     "image": "",
@@ -229946,7 +229946,7 @@
     "stock": 133,
     "stockByBranch": {
       "br_toshkent_main": 32,
-      "br_chilanzar": 13,
+      "br_chilanzar": 12,
       "br_samarkand": 6
     },
     "image": "",
@@ -229992,7 +229992,7 @@
     "stock": 133,
     "stockByBranch": {
       "br_toshkent_main": 32,
-      "br_chilanzar": 13,
+      "br_chilanzar": 12,
       "br_samarkand": 6
     },
     "image": "",
@@ -230038,7 +230038,7 @@
     "stock": 133,
     "stockByBranch": {
       "br_toshkent_main": 32,
-      "br_chilanzar": 13,
+      "br_chilanzar": 12,
       "br_samarkand": 6
     },
     "image": "",
@@ -239283,7 +239283,7 @@
     "stepQuantity": 1,
     "stock": 12,
     "stockByBranch": {
-      "br_toshkent_main": 12,
+      "br_toshkent_main": 11,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -243968,7 +243968,7 @@
     "stepQuantity": 1,
     "stock": 11,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -249488,9 +249488,9 @@
     "stepQuantity": 0.1,
     "stock": 20.982,
     "stockByBranch": {
-      "br_toshkent_main": 20,
-      "br_chilanzar": 8,
-      "br_samarkand": 4
+      "br_toshkent_main": 18,
+      "br_chilanzar": 7,
+      "br_samarkand": 3
     },
     "image": "",
     "imageUrl": "",
@@ -249902,7 +249902,7 @@
     "stepQuantity": 0.1,
     "stock": 188.189,
     "stockByBranch": {
-      "br_toshkent_main": 187,
+      "br_toshkent_main": 186,
       "br_chilanzar": 74,
       "br_samarkand": 37
     },
@@ -251052,9 +251052,9 @@
     "stepQuantity": 1,
     "stock": 2,
     "stockByBranch": {
-      "br_toshkent_main": 1,
-      "br_chilanzar": 0,
-      "br_samarkand": 0
+      "br_toshkent_main": 10,
+      "br_chilanzar": 4,
+      "br_samarkand": 2
     },
     "image": "",
     "imageUrl": "",
@@ -255560,7 +255560,7 @@
     "stepQuantity": 1,
     "stock": 10,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -256526,7 +256526,7 @@
     "stepQuantity": 1,
     "stock": 23,
     "stockByBranch": {
-      "br_toshkent_main": 22,
+      "br_toshkent_main": 20,
       "br_chilanzar": 8,
       "br_samarkand": 4
     },
@@ -257630,9 +257630,9 @@
     "stepQuantity": 1,
     "stock": 29,
     "stockByBranch": {
-      "br_toshkent_main": 29,
-      "br_chilanzar": 11,
-      "br_samarkand": 5
+      "br_toshkent_main": 59,
+      "br_chilanzar": 23,
+      "br_samarkand": 11
     },
     "image": "",
     "imageUrl": "",
@@ -267934,8 +267934,8 @@
     "stepQuantity": 1,
     "stock": 73,
     "stockByBranch": {
-      "br_toshkent_main": 63,
-      "br_chilanzar": 25,
+      "br_toshkent_main": 60,
+      "br_chilanzar": 24,
       "br_samarkand": 12
     },
     "image": "",
@@ -269958,7 +269958,7 @@
     "stepQuantity": 1,
     "stock": 14,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -270004,7 +270004,7 @@
     "stepQuantity": 1,
     "stock": 14,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -270050,7 +270050,7 @@
     "stepQuantity": 1,
     "stock": 14,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -270096,7 +270096,7 @@
     "stepQuantity": 1,
     "stock": 14,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -270142,7 +270142,7 @@
     "stepQuantity": 1,
     "stock": 14,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -278468,7 +278468,7 @@
     "stepQuantity": 1,
     "stock": 65,
     "stockByBranch": {
-      "br_toshkent_main": 51,
+      "br_toshkent_main": 50,
       "br_chilanzar": 20,
       "br_samarkand": 10
     },
@@ -279343,7 +279343,7 @@
     "stock": 28.792,
     "stockByBranch": {
       "br_toshkent_main": 27,
-      "br_chilanzar": 11,
+      "br_chilanzar": 10,
       "br_samarkand": 5
     },
     "image": "",
@@ -280216,7 +280216,7 @@
     "stepQuantity": 0.1,
     "stock": 9.576,
     "stockByBranch": {
-      "br_toshkent_main": 13,
+      "br_toshkent_main": 12,
       "br_chilanzar": 5,
       "br_samarkand": 2
     },
@@ -282930,7 +282930,7 @@
     "stepQuantity": 1,
     "stock": 8,
     "stockByBranch": {
-      "br_toshkent_main": 7,
+      "br_toshkent_main": 5,
       "br_chilanzar": 2,
       "br_samarkand": 1
     },
@@ -286886,9 +286886,9 @@
     "stepQuantity": 0.1,
     "stock": 406.382,
     "stockByBranch": {
-      "br_toshkent_main": 287,
-      "br_chilanzar": 115,
-      "br_samarkand": 57
+      "br_toshkent_main": 271,
+      "br_chilanzar": 108,
+      "br_samarkand": 54
     },
     "image": "",
     "imageUrl": "",
@@ -294975,7 +294975,7 @@
     "stepQuantity": 1,
     "stock": 165,
     "stockByBranch": {
-      "br_toshkent_main": 164,
+      "br_toshkent_main": 163,
       "br_chilanzar": 65,
       "br_samarkand": 32
     },
@@ -296677,9 +296677,9 @@
     "stepQuantity": 0.1,
     "stock": 171.194,
     "stockByBranch": {
-      "br_toshkent_main": 97,
-      "br_chilanzar": 39,
-      "br_samarkand": 19
+      "br_toshkent_main": 55,
+      "br_chilanzar": 22,
+      "br_samarkand": 11
     },
     "image": "",
     "imageUrl": "",
@@ -296769,7 +296769,7 @@
     "stepQuantity": 0.1,
     "stock": 4.072,
     "stockByBranch": {
-      "br_toshkent_main": 3,
+      "br_toshkent_main": 2,
       "br_chilanzar": 1,
       "br_samarkand": 0
     },
@@ -299391,7 +299391,7 @@
     "stepQuantity": 1,
     "stock": 10,
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -300173,7 +300173,7 @@
     "stepQuantity": 0.1,
     "stock": 12.204,
     "stockByBranch": {
-      "br_toshkent_main": 11,
+      "br_toshkent_main": 10,
       "br_chilanzar": 4,
       "br_samarkand": 2
     },
@@ -300265,7 +300265,7 @@
     "stepQuantity": 0.1,
     "stock": 4.304,
     "stockByBranch": {
-      "br_toshkent_main": 3,
+      "br_toshkent_main": 2,
       "br_chilanzar": 1,
       "br_samarkand": 0
     },
@@ -302059,7 +302059,7 @@
     "stepQuantity": 1,
     "stock": 26,
     "stockByBranch": {
-      "br_toshkent_main": 26,
+      "br_toshkent_main": 25,
       "br_chilanzar": 10,
       "br_samarkand": 5
     },
@@ -303301,7 +303301,7 @@
     "stepQuantity": 1,
     "stock": 2,
     "stockByBranch": {
-      "br_toshkent_main": 2,
+      "br_toshkent_main": 1,
       "br_chilanzar": 0,
       "br_samarkand": 0
     },
@@ -308821,9 +308821,9 @@
     "stepQuantity": 0.1,
     "stock": 163.071,
     "stockByBranch": {
-      "br_toshkent_main": 62,
-      "br_chilanzar": 25,
-      "br_samarkand": 12
+      "br_toshkent_main": 51,
+      "br_chilanzar": 20,
+      "br_samarkand": 10
     },
     "image": "",
     "imageUrl": "",
@@ -314387,7 +314387,7 @@
     "stepQuantity": 1,
     "stock": 21,
     "stockByBranch": {
-      "br_toshkent_main": 21,
+      "br_toshkent_main": 20,
       "br_chilanzar": 8,
       "br_samarkand": 4
     },
@@ -323291,7 +323291,7 @@
     "stock": 17,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -323337,7 +323337,7 @@
     "stock": 17,
     "stockByBranch": {
       "br_toshkent_main": 7,
-      "br_chilanzar": 3,
+      "br_chilanzar": 2,
       "br_samarkand": 1
     },
     "image": "",
@@ -324072,7 +324072,7 @@
     "stepQuantity": 1,
     "stock": 5,
     "stockByBranch": {
-      "br_toshkent_main": 4,
+      "br_toshkent_main": 3,
       "br_chilanzar": 1,
       "br_samarkand": 0
     },
@@ -324818,7 +324818,7 @@
       "regos_unpacked"
     ],
     "stockByBranch": {
-      "br_toshkent_main": 9,
+      "br_toshkent_main": 8,
       "br_chilanzar": 3,
       "br_samarkand": 1
     },
@@ -325169,9 +325169,9 @@
       "regos_unpacked"
     ],
     "stockByBranch": {
-      "br_toshkent_main": 35,
-      "br_chilanzar": 14,
-      "br_samarkand": 7
+      "br_toshkent_main": 34,
+      "br_chilanzar": 13,
+      "br_samarkand": 6
     },
     "adminModified": false
   },

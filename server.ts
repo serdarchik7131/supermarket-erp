@@ -53,6 +53,22 @@ const _appDir = process.cwd();
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 
+// Telegram WebApp and CORS header configuration to prevent 403 / iframe blocks
+app.use((req, res, next) => {
+  res.removeHeader('X-Frame-Options');
+  res.setHeader(
+    'Content-Security-Policy',
+    "frame-ancestors * 'self' https://web.telegram.org https://telegram.org https://*.telegram.org;"
+  );
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 // Turso libSQL Database Connection Configuration
 const TURSO_DATABASE_URL = process.env.TURSO_DATABASE_URL || 'libsql://osiyo-sardor7131.aws-ap-south-1.turso.io';
 const TURSO_AUTH_TOKEN = process.env.TURSO_AUTH_TOKEN || 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJleHAiOjE4MTk4NzkxNDYsImlhdCI6MTc4ODM0MzE0NywiaWQiOiIwMWEwNjE4YS1iOTAxLTc5ZGItOTIyYS1iMjU0MjAyOTM2YTgiLCJraWQiOiJFVjBsUkowTXMyaHp3SkoxekJEbzN2Q0NXZksxZ1FtaDNlZ3hQbnVRbUlzIiwicmlkIjoiNTkwZDcwY2MtZWM2Ny00MTk5LWJkYjYtYzgxYWU4ODdmYTE3In0.3CdyUEMjl--g7hlh02qUgxabEHaHtiRgl4_zfkbvswAmcM_u0NA49B5cjC2XsFfKjH9ZODVKtBKr6thp59zxCA';
@@ -645,10 +661,11 @@ interface POSReceipt {
 
 
 // Real Telegram Dual Bot Credentials
-let TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8732452657:AAFzmcCvC7OvKSSQZKQOJDJgS2yfpgjznkQ'; // Bot 1: Savdo Boti
-let TELEGRAM_SYNC_BOT_TOKEN = process.env.TELEGRAM_SYNC_BOT_TOKEN || '8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I'; // Bot 2: Ma'lumot / Ko'chirma Boti (@Botbazaos_bot)
+let TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8902975462:AAF0YQcWn1VfJ83iswlJyKSA_2au7EMzUuQ'; // Bot 1: Savdo Boti (@osiyo_go_bot)
+let TELEGRAM_SECONDARY_BOT_TOKEN = '8816495224:AAFuYrdgUe-rwcqbFp-xthP4Cxd3I1TTpEo'; // Bot 2: Qo'shimcha Savdo Boti (@Bozochago_bot)
+let TELEGRAM_SYNC_BOT_TOKEN = process.env.TELEGRAM_SYNC_BOT_TOKEN || '8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I'; // Bot 3: Ma'lumot / Ko'chirma Boti (@Botbazaos_bot)
 let TELEGRAM_ADMIN_ID = process.env.TELEGRAM_ADMIN_ID || '7230016421';
-let CUSTOM_WEB_APP_URL = process.env.APP_URL || '';
+let CUSTOM_WEB_APP_URL = 'https://supermarket-erp-bot.onrender.com';
 let SYNC_BOT_SOURCE_USERNAME = '@bondi_supplier_bot';
 let AUTO_SYNC_INTERVAL_MINUTES = 15;
 let AUTO_UPDATE_VARIANTS = true;
@@ -970,11 +987,14 @@ function tryParseTelegramPriceChange(text: string): { typeKey: string; price: nu
   return null;
 }
 
+let currentProcessingBotToken: string = '';
+
 // Telegram Bot API Helper Functions
-async function sendTelegramMessage(chatId: string | number, text: string, replyMarkup?: any) {
-  if (!TELEGRAM_BOT_TOKEN) return null;
+async function sendTelegramMessage(chatId: string | number, text: string, replyMarkup?: any, botToken?: string) {
+  const token = botToken || currentProcessingBotToken || TELEGRAM_BOT_TOKEN;
+  if (!token) return null;
   try {
-    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -984,17 +1004,27 @@ async function sendTelegramMessage(chatId: string | number, text: string, replyM
         reply_markup: replyMarkup,
       }),
     });
-    return await res.json();
+    const data = await res.json().catch(() => null);
+    if (!res.ok) {
+      console.warn(`Telegram sendMessage HTTP ${res.status} (token: ${token.substring(0, 10)}...):`, JSON.stringify(data));
+      // If 403 Forbidden (e.g. user blocked specific bot) and fallback token exists, retry with fallback
+      if (res.status === 403 && !botToken && token !== TELEGRAM_SECONDARY_BOT_TOKEN && TELEGRAM_SECONDARY_BOT_TOKEN) {
+        console.log('Retrying sendMessage with secondary bot token...');
+        return await sendTelegramMessage(chatId, text, replyMarkup, TELEGRAM_SECONDARY_BOT_TOKEN);
+      }
+    }
+    return data;
   } catch (err) {
     console.error('Telegram sendMessage Error:', err);
     return null;
   }
 }
 
-async function sendTelegramLocation(chatId: string | number, latitude: number, longitude: number) {
-  if (!TELEGRAM_BOT_TOKEN) return null;
+async function sendTelegramLocation(chatId: string | number, latitude: number, longitude: number, botToken?: string) {
+  const token = botToken || TELEGRAM_BOT_TOKEN;
+  if (!token) return null;
   try {
-    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendLocation`, {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendLocation`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3924,17 +3954,35 @@ let lastTelegramUpdateId = 0;
 
 // Helper to retrieve public Telegram WebApp URL without 403 auth block
 function getTelegramWebAppUrl(): string {
-  if (CUSTOM_WEB_APP_URL && CUSTOM_WEB_APP_URL.startsWith('http')) {
-    return CUSTOM_WEB_APP_URL;
+  // If custom URL is set and valid (not empty, not ais-dev private url, not malicious phishing domain)
+  if (CUSTOM_WEB_APP_URL && typeof CUSTOM_WEB_APP_URL === 'string') {
+    const trimmed = CUSTOM_WEB_APP_URL.trim();
+    if (
+      trimmed.startsWith('http') &&
+      !trimmed.includes('ais-dev-') &&
+      !trimmed.includes('dobrobot1109') &&
+      !trimmed.includes('552952342062')
+    ) {
+      return trimmed.replace(/\/$/, '');
+    }
   }
-  let url = process.env.APP_URL || '';
-  if (url.includes('ais-dev-')) {
-    url = url.replace('ais-dev-', 'ais-pre-');
+
+  // Priority 1: Render production deployment URL
+  const envUrl = (process.env.APP_URL || '').trim();
+  if (process.env.RENDER || envUrl.includes('onrender.com')) {
+    return 'https://supermarket-erp-bot.onrender.com';
   }
-  if (!url || !url.startsWith('http')) {
-    url = 'https://ais-pre-gewlzhlqcvjtso52kwsiow-552952342062.asia-southeast1.run.app';
+
+  // Priority 2: AI Studio public preview URL (convert ais-dev- to ais-pre-)
+  if (envUrl) {
+    if (envUrl.includes('ais-dev-')) {
+      return envUrl.replace('ais-dev-', 'ais-pre-').replace(/\/$/, '');
+    }
+    return envUrl.replace(/\/$/, '');
   }
-  return url;
+
+  // Priority 3: Reliable live production Render fallback
+  return 'https://supermarket-erp-bot.onrender.com';
 }
 
 // Clean JSON response string from Gemini markdown wrappers
@@ -5148,43 +5196,89 @@ async function startTelegramSyncBotPolling() {
   pollSync();
 }
 
+async function setupBotMenuAndCommands(token: string) {
+  if (!token) return;
+  const webAppUrl = getTelegramWebAppUrl();
+  try {
+    // 1. Clear any webhook so long-polling receives updates
+    await fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=false`);
+
+    // 2. Set native Chat Menu Button to open the live store directly (without 403 blocks)
+    await fetch(`https://api.telegram.org/bot${token}/setChatMenuButton`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        menu_button: {
+          type: 'web_app',
+          text: "🛍 Do'konni ochish",
+          web_app: {
+            url: webAppUrl,
+          },
+        },
+      }),
+    });
+
+    // 3. Set standard bot commands
+    await fetch(`https://api.telegram.org/bot${token}/setMyCommands`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        commands: [
+          { command: 'start', description: "Do'konni ishga tushirish va menyu" },
+          { command: 'katalog', description: "Mahsulotlar katalogi (turlar bo'yicha)" },
+          { command: 'buyurtma', description: 'Xaridlarni boshlash (Mini App)' },
+          { command: 'status', description: 'Buyurtma holatini tekshirish' },
+          { command: 'yordam', description: 'Admin bilan aloqa va yordam' },
+        ],
+      }),
+    });
+    console.log(`✅ Bot menu & commands configured for token ${token.substring(0, 10)}... (URL: ${webAppUrl})`);
+  } catch (err) {
+    console.warn(`⚠️ Error configuring menu/commands for ${token.substring(0, 10)}...:`, err);
+  }
+}
+
 async function startTelegramBotPolling() {
-  if (!TELEGRAM_BOT_TOKEN) return;
+  if (!TELEGRAM_BOT_TOKEN && !TELEGRAM_SECONDARY_BOT_TOKEN) return;
   if (isTelegramPollingStarted) {
     console.log('⚠️ Telegram polling is already active in this process instance.');
     return;
   }
   isTelegramPollingStarted = true;
-  console.log('🤖 Telegram Bot Polling faollashtirilmoqda... Token:', TELEGRAM_BOT_TOKEN.substring(0, 12) + '...');
 
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/deleteWebhook`);
-  } catch (e) {
-    // ignore
-  }
+  const tokensToPoll = Array.from(
+    new Set([TELEGRAM_BOT_TOKEN, TELEGRAM_SECONDARY_BOT_TOKEN].filter(Boolean))
+  );
 
-  const poll = async () => {
-    try {
-      const res = await fetch(
-        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?offset=${lastTelegramUpdateId + 1}&timeout=10`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        if (data.ok && Array.isArray(data.result)) {
-          for (const update of data.result) {
-            lastTelegramUpdateId = update.update_id;
-            await handleTelegramUpdate(update);
+  for (const token of tokensToPoll) {
+    console.log('🤖 Telegram Bot Polling faollashtirilmoqda... Token:', token.substring(0, 12) + '...');
+    await setupBotMenuAndCommands(token);
+
+    let lastOffset = 0;
+    const poll = async () => {
+      try {
+        const res = await fetch(
+          `https://api.telegram.org/bot${token}/getUpdates?offset=${lastOffset + 1}&timeout=10`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          if (data.ok && Array.isArray(data.result)) {
+            for (const update of data.result) {
+              lastOffset = update.update_id;
+              currentProcessingBotToken = token;
+              await handleTelegramUpdate(update);
+            }
           }
         }
+      } catch (err) {
+        // Retry
+      } finally {
+        setTimeout(poll, 3000);
       }
-    } catch (err) {
-      // Retry
-    } finally {
-      setTimeout(poll, 3000);
-    }
-  };
+    };
 
-  poll();
+    poll();
+  }
 }
 
 // Real Regos API Integration Engine & Live Synchronizer
