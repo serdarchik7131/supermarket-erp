@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { Product, Category } from '../../types';
 import { processProductImage, StudioProcessOptions } from '../../utils/imageStudioProcessor';
-import { playBarcodeBeep, triggerHapticFeedback, createZXingBarcodeReader } from '../../utils/barcodeScannerUtils';
+import { playBarcodeBeep, triggerHapticFeedback, createZXingBarcodeReader, decodeBarcodeFromImage, getCameraBarcodeConstraints } from '../../utils/barcodeScannerUtils';
 
 interface ProductStudioModalProps {
   product: Product;
@@ -86,6 +86,9 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
   const [isBarcodeScanOpen, setIsBarcodeScanOpen] = useState<boolean>(false);
   const barcodeVideoRef = useRef<HTMLVideoElement | null>(null);
   const barcodeReaderRef = useRef<any>(null);
+  const barcodeCameraInputRef = useRef<HTMLInputElement | null>(null);
+  const [isScanningPhoto, setIsScanningPhoto] = useState<boolean>(false);
+  const [scanStatusMsg, setScanStatusMsg] = useState<string | null>(null);
 
   // File input refs
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -275,22 +278,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
 
   // Barcode scanner logic inside modal
   const startBarcodeScan = () => {
-    // If in Telegram WebApp
-    const tg = (window as any).Telegram?.WebApp;
-    if (tg?.showScanQrPopup) {
-      tg.showScanQrPopup({ text: "Shtrix-kodni skanerlang" }, (text: string) => {
-        if (text) {
-          tg.closeScanQrPopup?.();
-          playBarcodeBeep();
-          triggerHapticFeedback();
-          setBarcode(text.trim());
-          return true;
-        }
-        return false;
-      });
-      return;
-    }
-
+    setScanStatusMsg(null);
     setIsBarcodeScanOpen(true);
     setTimeout(() => {
       initZXingBarcodeScanner();
@@ -302,14 +290,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
       const reader = createZXingBarcodeReader();
       barcodeReaderRef.current = reader;
 
-      const constraints = {
-        video: {
-          facingMode: { ideal: 'environment' },
-          width: { ideal: 1280, min: 640 },
-          height: { ideal: 720, min: 480 },
-        },
-        audio: false,
-      };
+      const constraints = getCameraBarcodeConstraints();
 
       if (barcodeVideoRef.current) {
         barcodeVideoRef.current.setAttribute('playsinline', 'true');
@@ -328,8 +309,52 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
           }
         }
       });
-    } catch (e) {
-      console.warn('ZXing modal barcode scan error:', e);
+    } catch (e: any) {
+      console.warn('ZXing modal barcode scan error, trying basic constraints:', e);
+      // Fallback for strict iOS Safari constraints
+      try {
+        if (barcodeReaderRef.current && barcodeVideoRef.current) {
+          await barcodeReaderRef.current.decodeFromConstraints({ video: { facingMode: 'environment' } }, barcodeVideoRef.current, (result: any) => {
+            if (result && result.getText()) {
+              playBarcodeBeep();
+              triggerHapticFeedback();
+              setBarcode(result.getText().trim());
+              stopBarcodeScanner();
+            }
+          });
+        }
+      } catch (fallbackErr) {
+        console.warn('Camera video scan unavailable:', fallbackErr);
+        setScanStatusMsg("Video kameradan o'qib bo'lmadi. Quyidagi 'Foto orqali skanerlash' tugmasidan foydalaning (iPhone uchun qulay).");
+      }
+    }
+  };
+
+  // Photo-based scanner for iPhone with autofocus
+  const handleBarcodePhotoCapture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsScanningPhoto(true);
+      setScanStatusMsg("Shtrix-kod tahlil qilinmoqda...");
+      const detected = await decodeBarcodeFromImage(file);
+      if (detected) {
+        playBarcodeBeep();
+        triggerHapticFeedback();
+        setBarcode(detected.trim());
+        setScanStatusMsg(`Shtrix-kod topildi: ${detected.trim()}`);
+        setTimeout(() => {
+          stopBarcodeScanner();
+        }, 400);
+      } else {
+        setScanStatusMsg("Shtrix-kod aniqlanmadi. Iltimos, shtrix-kodga yaqinroq va yorug' joyda suratga oling.");
+      }
+    } catch (err) {
+      setScanStatusMsg("Suratni tahlil qilishda xatolik yuz berdi.");
+    } finally {
+      setIsScanningPhoto(false);
+      if (e.target) e.target.value = '';
     }
   };
 
@@ -341,6 +366,8 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
       barcodeReaderRef.current = null;
     }
     setIsBarcodeScanOpen(false);
+    setIsScanningPhoto(false);
+    setScanStatusMsg(null);
   };
 
   const handleSaveProduct = async (andNext: boolean = false) => {
@@ -1044,7 +1071,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
         {/* Modal Barcode Scanner Popup */}
         {isBarcodeScanOpen && (
           <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 max-w-xs w-full space-y-4 shadow-2xl text-center">
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 max-w-sm w-full space-y-4 shadow-2xl text-center">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
                   <Scan className="w-4 h-4 text-amber-400" />
@@ -1063,23 +1090,60 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                 <video
                   ref={barcodeVideoRef}
                   playsInline
+                  webkit-playsinline="true"
                   muted
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-0.5 bg-rose-500 shadow-lg shadow-rose-500/50 animate-pulse" />
+                <div className="absolute inset-4 border border-dashed border-amber-400/60 rounded-xl pointer-events-none" />
+
+                {isScanningPhoto && (
+                  <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center p-4 space-y-2">
+                    <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
+                    <p className="text-xs text-amber-300 font-bold">Surat tahlil qilinmoqda...</p>
+                  </div>
+                )}
               </div>
 
-              <p className="text-[11px] text-slate-400">
-                iOS va Android kameralari orqali avtomatik o'qiladi.
-              </p>
+              {scanStatusMsg ? (
+                <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-xl p-2.5">
+                  {scanStatusMsg}
+                </p>
+              ) : (
+                <p className="text-[11px] text-slate-400">
+                  Jonli video orqali avtomatik taniy olmasa, pastdagi tugma orqali rasmga oling.
+                </p>
+              )}
 
-              <button
-                type="button"
-                onClick={stopBarcodeScanner}
-                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold"
-              >
-                Yopish
-              </button>
+              {/* iPhone Native Camera Photo Scanner Input & Button */}
+              <input
+                ref={barcodeCameraInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleBarcodePhotoCapture}
+              />
+
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => barcodeCameraInputRef.current?.click()}
+                  disabled={isScanningPhoto}
+                  className="flex items-center justify-center gap-1.5 py-2.5 px-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold rounded-xl text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all disabled:opacity-50"
+                >
+                  <Camera className="w-4 h-4" />
+                  Foto olish (iPhone)
+                </button>
+
+                <button
+                  type="button"
+                  onClick={stopBarcodeScanner}
+                  className="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold active:scale-95 transition-all"
+                >
+                  Yopish
+                </button>
+              </div>
             </div>
           </div>
         )}

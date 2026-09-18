@@ -122,21 +122,111 @@ export function findProductByScannedBarcode(products: Product[], scannedBarcode:
 export const findProductByBarcode = findProductByScannedBarcode;
 
 /**
- * Decodes barcode directly from an image file/blob
+ * Universal safe camera constraints for iOS Safari & Android
+ */
+export function getCameraBarcodeConstraints() {
+  return {
+    video: {
+      facingMode: { ideal: 'environment' },
+      width: { ideal: 1280 },
+      height: { ideal: 720 },
+    },
+    audio: false,
+  };
+}
+
+/**
+ * Decodes barcode directly from an image file/blob with multi-pass resolution and contrast enhancement (ideal for iPhone cameras)
  */
 export async function decodeBarcodeFromImage(fileOrBlob: File | Blob): Promise<string | null> {
   const reader = createZXingBarcodeReader();
   const url = URL.createObjectURL(fileOrBlob);
+
   try {
-    const result = await reader.decodeFromImageUrl(url);
-    if (result) {
-      return result.getText();
+    // Pass 1: Direct decode from original image URL
+    try {
+      const result = await reader.decodeFromImageUrl(url);
+      if (result && result.getText()) {
+        return result.getText().trim();
+      }
+    } catch {
+      // Continue to canvas fallback
     }
-    return null;
+
+    // Pass 2: Resize & optimize for iPhone large photo formats via Canvas
+    return await new Promise<string | null>((resolve) => {
+      const img = new Image();
+      img.onload = async () => {
+        try {
+          const maxDim = 1280;
+          let width = img.naturalWidth || img.width;
+          let height = img.naturalHeight || img.height;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(null);
+            return;
+          }
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Attempt decode from scaled canvas data URL
+          const scaledDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+          try {
+            const scaledResult = await reader.decodeFromImageUrl(scaledDataUrl);
+            if (scaledResult && scaledResult.getText()) {
+              resolve(scaledResult.getText().trim());
+              return;
+            }
+          } catch {}
+
+          // Pass 3: Grayscale / High-contrast pass for barcodes under shadows
+          const imgData = ctx.getImageData(0, 0, width, height);
+          const d = imgData.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const gray = (d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114);
+            // Boost contrast
+            const contrast = gray > 128 ? Math.min(255, gray + 40) : Math.max(0, gray - 40);
+            d[i] = contrast;
+            d[i + 1] = contrast;
+            d[i + 2] = contrast;
+          }
+          ctx.putImageData(imgData, 0, 0);
+
+          const contrastDataUrl = canvas.toDataURL('image/jpeg', 0.95);
+          const contrastResult = await reader.decodeFromImageUrl(contrastDataUrl);
+          if (contrastResult && contrastResult.getText()) {
+            resolve(contrastResult.getText().trim());
+          } else {
+            resolve(null);
+          }
+        } catch {
+          resolve(null);
+        }
+      };
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
   } catch {
     return null;
   } finally {
     URL.revokeObjectURL(url);
-    reader.reset();
+    try {
+      reader.reset();
+    } catch {}
   }
 }
+
