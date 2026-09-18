@@ -3,7 +3,7 @@
   "botToken": "8902975462:AAF0YQcWn1VfJ83iswlJyKSA_2au7EMzUuQ",
   "syncBotToken": "8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I",
   "adminId": "7230016421",
-  "customWebAppUrl": "https://supermarket-erp-bot.onrender.com",
+  "customWebAppUrl": "https://osiyogo.onrender.com",
   "sourceBotUsername": "@bondi_supplier_bot",
   "autoSyncIntervalMinutes": 15,
   "autoUpdateVariants": true,

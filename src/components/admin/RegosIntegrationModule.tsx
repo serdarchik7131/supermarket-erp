@@ -58,7 +58,7 @@ export const RegosIntegrationModule: React.FC = () => {
   const [apiKey, setApiKey] = useState<string>('6d9d2188297c45f193449a7fc7a0e8a1');
   const [branchId, setBranchId] = useState<string>('regos_savdo_branch_01');
   const [copiedHandler, setCopiedHandler] = useState<boolean>(false);
-  const webhookHandlerUrl = 'https://supermarket-erp-bot.onrender.com/api/regos/webhook';
+  const webhookHandlerUrl = 'https://osiyogo.onrender.com/api/regos/webhook';
   const [autoSyncProducts, setAutoSyncProducts] = useState<boolean>(true);
   const [autoSyncStock, setAutoSyncStock] = useState<boolean>(true);
   const [autoExportOrders, setAutoExportOrders] = useState<boolean>(true);

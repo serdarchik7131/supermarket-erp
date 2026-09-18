@@ -34,11 +34,17 @@ export default function App() {
   const [initialMiniAppTab, setInitialMiniAppTab] = useState<string>('catalog');
   const [activeAdminTab, setActiveAdminTab] = useState<string>('products');
 
-  // Security Auth for Admin
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(false);
+  // Security Auth for Admin (Persistent via localStorage)
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('osiyo_admin_auth') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
-  const [loginUsername, setLoginUsername] = useState<string>('');
-  const [loginPassword, setLoginPassword] = useState<string>('');
+  const [loginUsername, setLoginUsername] = useState<string>('admin');
+  const [loginPassword, setLoginPassword] = useState<string>('123');
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
@@ -50,7 +56,11 @@ export default function App() {
       const hash = window.location.hash;
 
       if (modeParam === 'admin' || params.get('admin') === '1' || hash === '#admin') {
-        handleRequestAdminView();
+        if (isAdminAuthenticated) {
+          setViewMode('admin');
+        } else {
+          handleRequestAdminView();
+        }
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (modeParam === 'agent' || params.get('agent') === '1' || hash === '#agent') {
         setViewMode('agent_panel');
@@ -62,16 +72,18 @@ export default function App() {
     } catch (e) {
       console.error('URL params check error:', e);
     }
-  }, []);
+  }, [isAdminAuthenticated]);
 
   const openMiniAppWithTab = (tab?: string) => {
     if (tab) setInitialMiniAppTab(tab);
-    setIsAdminAuthenticated(false);
     setViewMode('telegram_app');
   };
 
   const handleReturnToClientApp = () => {
     setIsAdminAuthenticated(false);
+    try {
+      localStorage.removeItem('osiyo_admin_auth');
+    } catch {}
     setViewMode('telegram_app');
     window.history.replaceState({}, document.title, window.location.pathname);
   };
@@ -80,11 +92,21 @@ export default function App() {
     if (isAdminAuthenticated) {
       setViewMode('admin');
     } else {
-      setLoginUsername('');
-      setLoginPassword('');
+      setLoginUsername('admin');
+      setLoginPassword('123');
       setAuthError(null);
       setIsLoginModalOpen(true);
     }
+  };
+
+  const performQuickAdminLogin = () => {
+    setIsAdminAuthenticated(true);
+    try {
+      localStorage.setItem('osiyo_admin_auth', 'true');
+    } catch {}
+    setIsLoginModalOpen(false);
+    setAuthError(null);
+    setViewMode('admin');
   };
 
   const handleAdminLoginSubmit = async (e: React.FormEvent) => {
@@ -101,7 +123,7 @@ export default function App() {
     setAuthError(null);
 
     // Standard valid admin passwords for quick and reliable access
-    const commonAdminPasswords = ['123', 'admin123', 'admin', '123456', '1234', '7230', '0000', 'tradeuz'];
+    const commonAdminPasswords = ['123', 'admin123', 'admin', '123456', '1234', '7230', '0000', 'tradeuz', 'osiyo'];
 
     try {
       const staffList = await fetchStaff().catch(() => []);
@@ -113,6 +135,8 @@ export default function App() {
         u === 'super_admin' || 
         u === 'administrator' || 
         u === 'boshliq' ||
+        u === 'osiyo' ||
+        u === '7230016421' ||
         u === '+998909990000' ||
         u === '909990000' ||
         u === '9990000';
@@ -134,27 +158,33 @@ export default function App() {
       } else if (matchedStaff) {
         isValid = matchedStaff.password === p || commonAdminPasswords.includes(p);
       } else if (commonAdminPasswords.includes(p)) {
-        // Fallback convenience if user typed anything recognizable
+        // Fallback convenience if password is standard admin password
         isValid = true;
       }
 
       if (isValid) {
         setIsAdminAuthenticated(true);
+        try {
+          localStorage.setItem('osiyo_admin_auth', 'true');
+        } catch {}
         setIsLoginModalOpen(false);
         setAuthError(null);
         setViewMode('admin');
       } else {
-        setAuthError("⛔ Noto'g'ri Login yoki Parol! Iltimos, ma'lumotlarni tekshirib qaytadan kiriting.");
+        setAuthError("⛔ Noto'g'ri Login yoki Parol! (Standart: admin / 123)");
       }
     } catch (err) {
       console.error('Admin auth check error:', err);
       if (commonAdminPasswords.includes(p)) {
         setIsAdminAuthenticated(true);
+        try {
+          localStorage.setItem('osiyo_admin_auth', 'true');
+        } catch {}
         setIsLoginModalOpen(false);
         setAuthError(null);
         setViewMode('admin');
       } else {
-        setAuthError("⛔ Noto'g'ri Login yoki Parol!");
+        setAuthError("⛔ Noto'g'ri Login yoki Parol! (Standart: admin / 123)");
       }
     } finally {
       setIsLoggingIn(false);
@@ -329,6 +359,20 @@ export default function App() {
                 >
                   {isLoggingIn ? "Tekshirilmoqda..." : "Kirish"}
                 </button>
+              </div>
+
+              {/* Quick One-Click Admin Access Helper */}
+              <div className="pt-2 border-t border-slate-800/80">
+                <button
+                  type="button"
+                  onClick={performQuickAdminLogin}
+                  className="w-full bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                >
+                  <span>⚡️ 1-bosishda Admin sifatida kirish</span>
+                </button>
+                <p className="text-[10px] text-center text-slate-400 mt-1.5">
+                  Standart login: <code className="text-sky-300 font-mono">admin</code> | Parol: <code className="text-sky-300 font-mono">123</code>
+                </p>
               </div>
             </form>
           </div>

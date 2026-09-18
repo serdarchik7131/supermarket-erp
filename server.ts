@@ -702,7 +702,7 @@ let TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8902975462:AAF0YQcWn
 let TELEGRAM_SECONDARY_BOT_TOKEN = '8816495224:AAFuYrdgUe-rwcqbFp-xthP4Cxd3I1TTpEo'; // Bot 2: Qo'shimcha Savdo Boti (@Bozochago_bot)
 let TELEGRAM_SYNC_BOT_TOKEN = process.env.TELEGRAM_SYNC_BOT_TOKEN || '8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I'; // Bot 3: Ma'lumot / Ko'chirma Boti (@Botbazaos_bot)
 let TELEGRAM_ADMIN_ID = process.env.TELEGRAM_ADMIN_ID || '7230016421';
-let CUSTOM_WEB_APP_URL = 'https://supermarket-erp-bot.onrender.com';
+let CUSTOM_WEB_APP_URL = 'https://osiyogo.onrender.com';
 let SYNC_BOT_SOURCE_USERNAME = '@bondi_supplier_bot';
 let AUTO_SYNC_INTERVAL_MINUTES = 15;
 let AUTO_UPDATE_VARIANTS = true;
@@ -4205,12 +4205,13 @@ let lastTelegramUpdateId = 0;
 
 // Helper to retrieve public Telegram WebApp URL without 403 auth block
 function getTelegramWebAppUrl(): string {
-  // If custom URL is set and valid (not empty, not ais-dev private url, not malicious phishing domain)
+  // If custom URL is set and valid (not empty, not ais-dev private url, not old domain)
   if (CUSTOM_WEB_APP_URL && typeof CUSTOM_WEB_APP_URL === 'string') {
     const trimmed = CUSTOM_WEB_APP_URL.trim();
     if (
       trimmed.startsWith('http') &&
       !trimmed.includes('ais-dev-') &&
+      !trimmed.includes('supermarket-erp-bot.onrender.com') &&
       !trimmed.includes('dobrobot1109') &&
       !trimmed.includes('552952342062')
     ) {
@@ -4218,22 +4219,23 @@ function getTelegramWebAppUrl(): string {
     }
   }
 
-  // Priority 1: Render production deployment URL
-  const envUrl = (process.env.APP_URL || '').trim();
-  if (process.env.RENDER || envUrl.includes('onrender.com')) {
-    return 'https://supermarket-erp-bot.onrender.com';
-  }
-
-  // Priority 2: AI Studio public preview URL (convert ais-dev- to ais-pre-)
-  if (envUrl) {
-    if (envUrl.includes('ais-dev-')) {
-      return envUrl.replace('ais-dev-', 'ais-pre-').replace(/\/$/, '');
-    }
+  // Priority 1: Render external URL or APP_URL environment variable
+  const envUrl = (process.env.RENDER_EXTERNAL_URL || process.env.APP_URL || '').trim();
+  if (
+    envUrl &&
+    !envUrl.includes('supermarket-erp-bot.onrender.com') &&
+    !envUrl.includes('ais-dev-')
+  ) {
     return envUrl.replace(/\/$/, '');
   }
 
-  // Priority 3: Reliable live production Render fallback
-  return 'https://supermarket-erp-bot.onrender.com';
+  // Priority 2: AI Studio public preview URL (convert ais-dev- to ais-pre-)
+  if (envUrl && envUrl.includes('ais-dev-')) {
+    return envUrl.replace('ais-dev-', 'ais-pre-').replace(/\/$/, '');
+  }
+
+  // Priority 3: Active production Render live domain
+  return 'https://osiyogo.onrender.com';
 }
 
 // Clean JSON response string from Gemini markdown wrappers or surrounding text
@@ -4475,8 +4477,11 @@ function processTelegramSmartFallback(text: string, senderName: string) {
 
 const processedTelegramUpdateIds = new Set<number>();
 
-async function handleTelegramUpdate(update: any) {
+async function handleTelegramUpdate(update: any, botToken?: string) {
   if (!update || !update.update_id) return;
+  if (botToken) {
+    currentProcessingBotToken = botToken;
+  }
 
   // 1. In-memory check first to avoid processing duplicate updates inside the same process
   if (processedTelegramUpdateIds.has(update.update_id)) {
@@ -5522,14 +5527,16 @@ async function startTelegramBotPolling() {
             for (const update of data.result) {
               lastOffset = update.update_id;
               currentProcessingBotToken = token;
-              await handleTelegramUpdate(update);
+              await handleTelegramUpdate(update, token);
             }
           }
+        } else if (res.status === 409) {
+          await fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=false`).catch(() => {});
         }
       } catch (err) {
         // Retry
       } finally {
-        setTimeout(poll, 3000);
+        setTimeout(poll, 2500);
       }
     };
 
@@ -6070,7 +6077,7 @@ app.get('/api/regos/status', (req, res) => {
     isConnected: true,
     storeName: 'REGOS.ONLINE — savdo (Jonli Integratsiya)',
     gatewayUrl: REGOS_LIVE_GATEWAY_URL,
-    webhookHandlerUrl: 'https://supermarket-erp-bot.onrender.com/api/regos/webhook',
+    webhookHandlerUrl: 'https://osiyogo.onrender.com/api/regos/webhook',
     activeEvents: ['ItemAdded', 'ItemEdited', 'ItemDeleted', 'StockEdited', 'ReceiptAdded', 'AccountAdded', 'AccountEdited'],
     posVersion: 'Regos.online Cloud v1.26.63',
     totalProductsCount: products.length,
@@ -6232,9 +6239,8 @@ function initKeepAliveEngine(port: number) {
   setInterval(async () => {
     try {
       await fetch(`http://127.0.0.1:${port}/api/ping`);
-      if (externalUrl && !externalUrl.includes('supermarket-erp-bot.onrender.com')) {
-        await fetch(`${externalUrl}/api/ping`).catch(() => {});
-      }
+      const targetPingUrl = externalUrl || 'https://osiyogo.onrender.com';
+      await fetch(`${targetPingUrl}/api/ping`).catch(() => {});
     } catch (_) {}
   }, 5 * 60 * 1000);
 }
