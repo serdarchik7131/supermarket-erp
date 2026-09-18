@@ -25,7 +25,8 @@ import {
   SwitchCamera,
   Zap,
   Smartphone,
-  Maximize2
+  Maximize2,
+  Loader2
 } from 'lucide-react';
 import { Product, Category } from '../../types';
 import { processProductImage, StudioProcessOptions } from '../../utils/imageStudioProcessor';
