@@ -425,7 +425,7 @@ async function initDatabase() {
 
   console.log(`📦 Active catalog initialized: ${products.length} pure REGOS products in ERP.`);
 
-  // Active Keep-Alive & Anti-Sleep Engine every 2 minutes
+  // Active Database Keep-Alive every 5 minutes (Local only, no external bandwidth waste)
   setInterval(async () => {
     try {
       if (tursoClient) {
@@ -433,24 +433,10 @@ async function initDatabase() {
           await tursoClient.execute("SELECT 1 as ping");
         } catch (_) {}
       }
-
-      // Keep web service alive by pinging self & public endpoint
-      const endpoints = [
-        'https://supermarket-erp-bot.onrender.com/api/ping',
-        'https://supermarket-erp-bot.onrender.com/api/keep-alive',
-        'http://127.0.0.1:3000/api/ping',
-        'http://127.0.0.1:3000/api/keep-alive',
-      ];
-
-      for (const url of endpoints) {
-        fetch(url).catch(() => {});
-      }
-
-      console.log(`⚡ [2-MIN KEEP-ALIVE] Heartbeat sent at ${new Date().toISOString()} (Turso libSQL active)`);
     } catch (e) {
-      console.error('Keep-Alive ping error:', e);
+      console.error('Turso DB ping error:', e);
     }
-  }, 120000);
+  }, 5 * 60 * 1000);
 }
 
 async function saveOrderToDb(order: Order) {
@@ -5962,15 +5948,19 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
   // Replace active catalog
   products = Array.from(uniqueProductMap.values());
 
-  // Save to JSON files safely with atomic write
-  try {
-    const jsonOutput = JSON.stringify(products, null, 2);
-    fs.writeFileSync('src/data/all_clean_products.json.tmp', jsonOutput, 'utf8');
-    fs.renameSync('src/data/all_clean_products.json.tmp', 'src/data/all_clean_products.json');
-    fs.writeFileSync('regos_live_products.json.tmp', jsonOutput, 'utf8');
-    fs.renameSync('regos_live_products.json.tmp', 'regos_live_products.json');
-  } catch (fsErr) {
-    console.error('File write error during Regos sync:', fsErr);
+  // Save to JSON files safely with atomic write ONLY if changes occurred
+  const hasCatalogChanges = priceChangesCount > 0 || newProductsCount > 0 || updatedStockCount > 0;
+  if (hasCatalogChanges) {
+    try {
+      const jsonOutput = JSON.stringify(products);
+      fs.writeFileSync('src/data/all_clean_products.json.tmp', jsonOutput, 'utf8');
+      fs.renameSync('src/data/all_clean_products.json.tmp', 'src/data/all_clean_products.json');
+      fs.writeFileSync('regos_live_products.json.tmp', jsonOutput, 'utf8');
+      fs.renameSync('regos_live_products.json.tmp', 'regos_live_products.json');
+      console.log(`💾 Catalog saved to disk: ${products.length} products updated.`);
+    } catch (fsErr) {
+      console.error('File write error during Regos sync:', fsErr);
+    }
   }
 
   // Save updated products to PostgreSQL if prices changed
@@ -6053,17 +6043,17 @@ async function performFullRegosSync(triggerSource: string = 'Avtomatik Sinxroniz
   };
 }
 
-// Scheduled Background Auto-Sync every 1 minute (60,000 ms)
+// Scheduled Background Auto-Sync every 15 minutes (900,000 ms)
 let syncCycleCount = 0;
 setInterval(async () => {
   syncCycleCount++;
   try {
-    const result = await performFullRegosSync('Avtomatik 1-daqiqalik tekshiruv');
-    console.log(`🔄 [1-MIN SYNC #${syncCycleCount}] Regos sync completed: ${products.length} products active. Price changes: ${result?.priceChangesCount || 0}`);
+    const result = await performFullRegosSync('Avtomatik 15-daqiqalik davriy tekshiruv');
+    console.log(`🔄 [15-MIN SYNC #${syncCycleCount}] Regos sync completed: ${products.length} products active. Price changes: ${result?.priceChangesCount || 0}`);
   } catch (err) {
     console.error('Background Regos auto-sync error:', err);
   }
-}, 60000);
+}, 15 * 60 * 1000);
 
 // Trigger initial sync 15 seconds after server startup
 setTimeout(() => {
@@ -6233,24 +6223,20 @@ app.get('/api/ping', (req, res) => {
   });
 });
 
-// Automatic self-ping Keep-Alive Engine to prevent free tier servers from sleeping (Runs every 2 minutes)
+// Automatic self-ping Keep-Alive Engine to prevent free tier servers from sleeping
 function initKeepAliveEngine(port: number) {
-  const targetUrl = process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL || 'https://supermarket-erp-bot.onrender.com';
-  console.log(`📡 24/7 Anti-Sleep Keep-Alive Engine activated (target: ${targetUrl})`);
+  const externalUrl = process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL;
+  console.log(`📡 24/7 Anti-Sleep Keep-Alive Engine activated`);
 
-  // Ping every 2 minutes (120,000 ms) to keep server and database awake 24/7
+  // Local heartbeat every 5 minutes (zero external bandwidth cost)
   setInterval(async () => {
     try {
-      const res = await fetch(`${targetUrl}/api/ping`);
-      if (res.ok) {
-        console.log(`[${new Date().toISOString()}] 💓 Keep-Alive ping healthy (Render + Neon active)`);
+      await fetch(`http://127.0.0.1:${port}/api/ping`);
+      if (externalUrl && !externalUrl.includes('supermarket-erp-bot.onrender.com')) {
+        await fetch(`${externalUrl}/api/ping`).catch(() => {});
       }
-    } catch {
-      try {
-        await fetch(`http://127.0.0.1:${port}/api/ping`);
-      } catch (_) {}
-    }
-  }, 2 * 60 * 1000);
+    } catch (_) {}
+  }, 5 * 60 * 1000);
 }
 
 // Serve Vite frontend
