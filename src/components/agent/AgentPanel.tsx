@@ -233,50 +233,71 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
   });
 
   useEffect(() => {
-    loadAgentData();
+    loadAgentData(true);
     const unsub = subscribeAppDataSync(() => {
-      loadAgentData();
+      loadAgentData(true);
     });
     const interval = setInterval(() => {
-      loadAgentData();
-    }, 6000);
+      loadAgentData(false);
+    }, 12000);
     return () => {
       unsub();
       clearInterval(interval);
     };
   }, []);
 
-  const loadAgentData = async () => {
+  const loadAgentData = async (includeCatalog: boolean = true) => {
     try {
-      const [staffList, clientList, prodList, catList, branchList, orderList, stData, terrList] = await Promise.all([
+      const promises: [
+        Promise<StaffMember[]>,
+        Promise<Client[]>,
+        Promise<Product[] | null>,
+        Promise<Category[] | null>,
+        Promise<Branch[] | null>,
+        Promise<Order[]>,
+        Promise<SystemSettings | null>,
+        Promise<Territory[] | null>
+      ] = [
         fetchStaff(),
         fetchClients(),
-        fetchProducts(),
-        fetchCategories(),
-        fetchBranches(),
+        includeCatalog || products.length === 0 ? fetchProducts() : Promise.resolve(null),
+        includeCatalog || categories.length === 0 ? fetchCategories() : Promise.resolve(null),
+        includeCatalog || branches.length === 0 ? fetchBranches() : Promise.resolve(null),
         fetchOrders(),
-        fetchSettings(),
-        fetchTerritories(),
-      ]);
+        includeCatalog ? fetchSettings() : Promise.resolve(null),
+        includeCatalog || territories.length === 0 ? fetchTerritories() : Promise.resolve(null),
+      ];
+
+      const results = await Promise.allSettled(promises);
+      const staffList = results[0].status === 'fulfilled' ? results[0].value : [];
+      const clientList = results[1].status === 'fulfilled' ? results[1].value : [];
+      const prodList = results[2].status === 'fulfilled' ? results[2].value : null;
+      const catList = results[3].status === 'fulfilled' ? results[3].value : null;
+      const branchList = results[4].status === 'fulfilled' ? results[4].value : null;
+      const orderList = results[5].status === 'fulfilled' ? results[5].value : [];
+      const stData = results[6].status === 'fulfilled' ? results[6].value : null;
+      const terrList = results[7].status === 'fulfilled' ? results[7].value : null;
 
       if (stData) setSystemSettings(stData);
-      setTerritories(terrList || []);
       if (terrList && terrList.length > 0) {
-        setNewClientTerritoryId(terrList[0].id);
+        setTerritories(terrList);
+        setNewClientTerritoryId((prev) => prev || terrList[0].id);
       }
 
-    const salesAgents = staffList.filter(
-      (s) => s.role === 'sales_agent' || s.role === 'super_admin' || s.role === 'manager' || s.role === 'content_agent'
-    );
-    setAgents(salesAgents);
+      if (staffList && staffList.length > 0) {
+        const salesAgents = staffList.filter(
+          (s) => s.role === 'sales_agent' || s.role === 'super_admin' || s.role === 'manager' || s.role === 'content_agent'
+        );
+        setAgents(salesAgents);
+      }
 
-    setClients(clientList);
-    setProducts(prodList);
-    setCategories(catList);
-    setBranches(branchList);
-    setAgentOrders(orderList);
+      if (clientList && clientList.length > 0) setClients(clientList);
+      if (prodList && prodList.length > 0) setProducts(prodList);
+      if (catList && catList.length > 0) setCategories(catList);
+      if (branchList && branchList.length > 0) setBranches(branchList);
+      if (orderList) setAgentOrders(orderList);
     } catch (err) {
-      console.error('Error loading Agent data:', err);
+      console.warn('Agent data load note:', err);
     }
   };
 

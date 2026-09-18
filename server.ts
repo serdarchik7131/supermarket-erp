@@ -365,11 +365,17 @@ async function initDatabase() {
         products = products.map((p) => {
           const dbItem = dbMap.get(p.id);
           if (dbItem) {
+            const dbImg = dbItem.image || dbItem.imageUrl;
+            const hasValidDbImg = dbImg && !dbImg.includes('placeholder') && dbImg.trim().length > 5;
             return {
               ...p,
+              image: hasValidDbImg ? dbImg.trim() : (p.image || ''),
+              imageUrl: hasValidDbImg ? dbImg.trim() : (p.imageUrl || p.image || ''),
               price: dbItem.price || p.price,
               prices: dbItem.prices || p.prices,
               stockByBranch: dbItem.stockByBranch || dbItem.branchStock || p.stockByBranch,
+              adminModified: dbItem.adminModified || p.adminModified,
+              imageVerificationStatus: dbItem.imageVerificationStatus || p.imageVerificationStatus,
             };
           }
           return p;
@@ -378,6 +384,43 @@ async function initDatabase() {
     } catch (tursoProdErr: any) {
       console.warn('Turso products_db read warning (continuing with active catalog):', tursoProdErr.message);
     }
+  }
+
+  // Check PostgreSQL products_db for verified product images as primary/backup store
+  try {
+    const pgRes = await dbPool.query(
+      "SELECT id, data FROM products_db WHERE (data->>'image' IS NOT NULL AND data->>'image' != '' AND data->>'image' NOT LIKE '%placeholder%') OR (data->>'imageUrl' IS NOT NULL AND data->>'imageUrl' != '' AND data->>'imageUrl' NOT LIKE '%placeholder%')"
+    );
+    if (pgRes.rows && pgRes.rows.length > 0) {
+      const pgMap = new Map<string, string>();
+      pgRes.rows.forEach((r: any) => {
+        const d = typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
+        if (!d) return;
+        const img = d.image || d.imageUrl;
+        if (img && !img.includes('placeholder') && img.trim().length > 5) {
+          if (r.id) pgMap.set(r.id, img.trim());
+          if (d.id) pgMap.set(d.id, img.trim());
+        }
+      });
+
+      let pgRestored = 0;
+      products = products.map((p) => {
+        const img = pgMap.get(p.id);
+        if (img && (!p.image || p.image.includes('placeholder') || p.image.trim() === '')) {
+          pgRestored++;
+          return {
+            ...p,
+            image: img,
+            imageUrl: img,
+            adminModified: true,
+          };
+        }
+        return p;
+      });
+      console.log(`🖼️ Synchronized and preserved ${pgRestored} product images from PostgreSQL products_db.`);
+    }
+  } catch (pgImgErr: any) {
+    console.warn('PostgreSQL image load note:', pgImgErr.message);
   }
 
   console.log(`📦 Active catalog initialized: ${products.length} pure REGOS products in ERP.`);

@@ -1,14 +1,49 @@
 import { Branch, Category, Product, Order, Courier, AuditLog, Client, StaffMember, PaymentRecord, AktSverkaEntry, Promotion, PriceType, SystemSettings, Territory, DualBotConfig, PendingProduct, PriceChangeLog, ProductTypeGroup } from '../types';
 import { notifySyncEvent } from '../utils/syncManager';
 
+/**
+ * Universal safe JSON fetcher:
+ * 1. Checks HTTP response status
+ * 2. Checks Content-Type to prevent parsing HTML fallback (<!doctype html>...) as JSON
+ * 3. Returns a safe typed fallback instead of throwing unexpected syntax errors
+ */
+export async function safeFetchJson<T>(
+  url: string,
+  options?: RequestInit,
+  fallback: T = [] as any
+): Promise<T> {
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) {
+      console.warn(`[API] HTTP ${res.status} for ${url}`);
+      return fallback;
+    }
+    const contentType = res.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      const text = await res.text();
+      if (text.trim().startsWith('<')) {
+        console.warn(`[API] Received HTML instead of JSON for ${url} (possible route mismatch or proxy error)`);
+        return fallback;
+      }
+      try {
+        return JSON.parse(text) as T;
+      } catch {
+        return fallback;
+      }
+    }
+    return await res.json();
+  } catch (err) {
+    console.warn(`[API] Fetch error for ${url}:`, err);
+    return fallback;
+  }
+}
+
 export async function fetchBranches(): Promise<Branch[]> {
-  const res = await fetch('/api/branches');
-  return res.json();
+  return safeFetchJson<Branch[]>('/api/branches', undefined, []);
 }
 
 export async function fetchCategories(): Promise<Category[]> {
-  const res = await fetch('/api/categories');
-  return res.json();
+  return safeFetchJson<Category[]>('/api/categories', undefined, []);
 }
 
 export interface PaginatedProductsResponse {
@@ -34,8 +69,7 @@ export async function fetchProducts(params?: {
   if (params?.inStockOnly) query.append('inStockOnly', 'true');
   if (params?.branchId) query.append('branchId', params.branchId);
 
-  const res = await fetch(`/api/products?${query.toString()}`);
-  const data = await res.json();
+  const data = await safeFetchJson<any>(`/api/products?${query.toString()}`, undefined, []);
   if (Array.isArray(data)) return data;
   if (data && Array.isArray(data.items)) return data.items;
   return [];
@@ -122,8 +156,7 @@ export async function updateProduct(id: string, productData: Partial<Product>): 
 }
 
 export async function fetchOrders(): Promise<Order[]> {
-  const res = await fetch('/api/orders');
-  return res.json();
+  return safeFetchJson<Order[]>('/api/orders', undefined, []);
 }
 
 export async function createOrder(orderData: Partial<Order>): Promise<Order> {
@@ -166,8 +199,7 @@ export async function deleteOrder(orderId: string): Promise<void> {
 
 // B2B Clients API
 export async function fetchClients(): Promise<Client[]> {
-  const res = await fetch('/api/clients');
-  return res.json();
+  return safeFetchJson<Client[]>('/api/clients', undefined, []);
 }
 
 export async function createClient(clientData: Partial<Client>): Promise<Client> {
@@ -199,8 +231,7 @@ export async function deleteClient(id: string): Promise<void> {
 
 // Staff & Employees API
 export async function fetchStaff(): Promise<StaffMember[]> {
-  const res = await fetch('/api/staff');
-  return res.json();
+  return safeFetchJson<StaffMember[]>('/api/staff', undefined, []);
 }
 
 export async function createStaff(staffData: Partial<StaffMember>): Promise<StaffMember> {
@@ -551,11 +582,12 @@ export async function updateProductPrices(productId: string, prices: Record<stri
 }
 
 export async function fetchSettings(): Promise<SystemSettings> {
-  const res = await fetch('/api/settings');
-  if (!res.ok) {
-    throw new Error(`Sozlamalarni yuklashda xatolik yuz berdi (${res.status})`);
-  }
-  return res.json();
+  const fallbackSettings: SystemSettings = {
+    minOrderAmountClient: 50000,
+    minOrderAmountAgent: 100000,
+    isGeolocationRequiredForClient: true,
+  };
+  return safeFetchJson<SystemSettings>('/api/settings', undefined, fallbackSettings);
 }
 
 export async function updateSettings(settingsData: Partial<SystemSettings>): Promise<SystemSettings> {
@@ -582,8 +614,7 @@ export async function askAdminAi(prompt: string): Promise<{ text: string }> {
 
 // Territories API
 export async function fetchTerritories(): Promise<Territory[]> {
-  const res = await fetch('/api/territories');
-  return res.json();
+  return safeFetchJson<Territory[]>('/api/territories', undefined, []);
 }
 
 export async function createTerritory(data: Partial<Territory>): Promise<Territory> {
