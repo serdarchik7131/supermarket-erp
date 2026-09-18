@@ -329,8 +329,12 @@ async function initDatabase() {
       const fileContent = fs.readFileSync(path.join(_appDir, 'regos_live_products.json'), 'utf8');
       const parsed = JSON.parse(fileContent);
       if (Array.isArray(parsed) && parsed.length > 5000) {
-        products = parsed.map((p: any) => ({ ...p, image: '', imageUrl: '' }));
-        console.log(`📦 Loaded ${products.length} pure REGOS unpacked products from live dataset.`);
+        products = parsed.map((p: any) => ({
+          ...p,
+          image: p.image || p.imageUrl || '',
+          imageUrl: p.imageUrl || p.image || '',
+        }));
+        console.log(`📦 Loaded ${products.length} pure REGOS products from live dataset.`);
       }
     }
   } catch (fsErr) {
@@ -338,7 +342,11 @@ async function initDatabase() {
   }
 
   if (!products || products.length === 0) {
-    products = INITIAL_PRODUCTS.map(p => ({ ...p, image: '', imageUrl: '' }));
+    products = INITIAL_PRODUCTS.map(p => ({
+      ...p,
+      image: p.image || p.imageUrl || '',
+      imageUrl: p.imageUrl || p.image || '',
+    }));
   }
 
   // Check Turso products_db and sync if available
@@ -3784,6 +3792,165 @@ app.get('/api/admin/manual-sync', async (req, res) => {
       clientsCount: clients.length,
       staffCount: staffMembers.length,
     },
+  });
+});
+
+// ==========================================
+// TASNIF.SOLIQ.UZ SINXRONIZATSIYA API-LARI
+// ==========================================
+
+// 1. Tasnif sinxronizatsiya holati va statistikasi
+app.get('/api/admin/tasnif/stats', (req, res) => {
+  const total = products.length;
+  const withBarcode = products.filter(p => p.barcode && String(p.barcode).trim().length >= 8);
+  const withImage = products.filter(p => (p.image && p.image.trim() !== '') || (p.imageUrl && p.imageUrl.trim() !== ''));
+  const withoutImage = products.filter(p => (!p.image || p.image.trim() === '') && (!p.imageUrl || p.imageUrl.trim() === ''));
+
+  res.json({
+    success: true,
+    totalProducts: total,
+    withBarcodeCount: withBarcode.length,
+    withImageCount: withImage.length,
+    withoutImageCount: withoutImage.length,
+    sampleWithBarcode: withBarcode.slice(0, 5).map(p => ({
+      id: p.id,
+      nameUz: p.nameUz,
+      barcode: p.barcode,
+      hasImage: !!(p.image || p.imageUrl)
+    }))
+  });
+});
+
+// 2. Shtrix-kodli tovarlarni partiyalab olish (Brauzer orqali sinxronlash uchun)
+app.get('/api/admin/tasnif/products-to-sync', (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
+  const offset = parseInt(req.query.offset as string) || 0;
+  const onlyWithoutImage = req.query.onlyWithoutImage === 'true';
+
+  let eligible = products.filter(p => p.barcode && String(p.barcode).trim().length >= 8);
+  if (onlyWithoutImage) {
+    eligible = eligible.filter(p => (!p.image || p.image.trim() === '') && (!p.imageUrl || p.imageUrl.trim() === ''));
+  }
+
+  const batch = eligible.slice(offset, offset + limit).map(p => ({
+    id: p.id,
+    barcode: String(p.barcode).trim(),
+    nameUz: p.nameUz,
+    currentImage: p.image || p.imageUrl || '',
+    category: (p as any).category || p.categoryId || '',
+    price: p.price
+  }));
+
+  res.json({
+    success: true,
+    totalEligible: eligible.length,
+    offset,
+    limit,
+    count: batch.length,
+    products: batch
+  });
+});
+
+// 3. Tasnif Soliq dan chiqqan ma'lumotlarni 100% aniqlik bilan bazaga qo'llash
+app.post('/api/admin/tasnif/bulk-update', (req, res) => {
+  const { updates } = req.body;
+
+  if (!Array.isArray(updates) || updates.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Yangilanishlar ro'yxati (updates) bo'sh yoki noto'g'ri formatda"
+    });
+  }
+
+  let updatedCount = 0;
+  let skippedCount = 0;
+  let newImagesCount = 0;
+  const sampleUpdated: any[] = [];
+
+  // Tezkor qidiruv uchun Map yaratamiz
+  const productByBarcodeMap = new Map<string, any>();
+  for (const p of products) {
+    if (p.barcode) {
+      productByBarcodeMap.set(String(p.barcode).trim(), p);
+    }
+  }
+
+  for (const item of updates) {
+    if (!item.barcode) {
+      skippedCount++;
+      continue;
+    }
+
+    const cleanBarcode = String(item.barcode).trim();
+    const existing = productByBarcodeMap.get(cleanBarcode);
+
+    // QAT'IY TALAB: Faqat shtrix kodi 100% to'liq mos kelgan tovarlargina yangilanadi!
+    // Chiqmagan yoki mos kelmagan tovarlar 100% asli holatda qoladi!
+    if (existing) {
+      let isChanged = false;
+
+      // 1. Agar Tasnif Soliq rasmiy nomi bo'lsa
+      if (item.nameUz && typeof item.nameUz === 'string' && item.nameUz.trim().length >= 2) {
+        existing.nameUz = item.nameUz.trim();
+        isChanged = true;
+      }
+
+      if (item.nameRu && typeof item.nameRu === 'string' && item.nameRu.trim().length >= 2) {
+        existing.nameRu = item.nameRu.trim();
+      }
+
+      // 2. Agar Tasnif Soliq rasmi bo'lsa
+      const newImg = item.imageUrl || item.image || item.photo || item.photoUrl;
+      if (newImg && typeof newImg === 'string' && newImg.trim().length > 5) {
+        existing.image = newImg.trim();
+        existing.imageUrl = newImg.trim();
+        newImagesCount++;
+        isChanged = true;
+      }
+
+      // 3. Agar MXIK / IKPU kodi bo'lsa
+      if (item.mxikCode) {
+        existing.ikpu = String(item.mxikCode).trim();
+        existing.mxik = String(item.mxikCode).trim();
+      }
+
+      if (isChanged) {
+        updatedCount++;
+        if (sampleUpdated.length < 5) {
+          sampleUpdated.push({
+            barcode: cleanBarcode,
+            nameUz: existing.nameUz,
+            image: existing.image
+          });
+        }
+      } else {
+        skippedCount++;
+      }
+    } else {
+      skippedCount++;
+    }
+  }
+
+  // O'zgarishlarni fayllarga xavfsiz atomik saqlash
+  try {
+    const jsonOutput = JSON.stringify(products, null, 2);
+    fs.writeFileSync('src/data/all_clean_products.json.tmp', jsonOutput, 'utf8');
+    fs.renameSync('src/data/all_clean_products.json.tmp', 'src/data/all_clean_products.json');
+    fs.writeFileSync('regos_live_products.json.tmp', jsonOutput, 'utf8');
+    fs.renameSync('regos_live_products.json.tmp', 'regos_live_products.json');
+    console.log(`✅ [Tasnif Soliq Bulk Update] ${updatedCount} ta tovar 100% aniqlik bilan muvaffaqiyatli saqlandi.`);
+  } catch (fsErr) {
+    console.error('Tasnif Soliq file save error:', fsErr);
+  }
+
+  res.json({
+    success: true,
+    message: `${updatedCount} ta mahsulot Tasnif Soliq ma'lumotlari bilan yangilandi. Chiqmaganlar asli holatda saqlandi.`,
+    updatedCount,
+    newImagesCount,
+    skippedCount,
+    totalSubmitted: updates.length,
+    sampleUpdated
   });
 });
 

@@ -22,10 +22,14 @@ import {
   Barcode,
   FolderTree,
   Eye,
-  SwitchCamera
+  SwitchCamera,
+  Zap,
+  Smartphone,
+  Maximize2
 } from 'lucide-react';
 import { Product, Category } from '../../types';
 import { processProductImage, StudioProcessOptions } from '../../utils/imageStudioProcessor';
+import { playBarcodeBeep, triggerHapticFeedback, createZXingBarcodeReader } from '../../utils/barcodeScannerUtils';
 
 interface ProductStudioModalProps {
   product: Product;
@@ -60,13 +64,14 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
 
   // Montage adjustment options
   const [bgMode, setBgMode] = useState<'studio_white' | 'soft_gradient' | 'warm_studio' | 'original'>('studio_white');
+  const [fitMode, setFitMode] = useState<'smart_cover' | 'contain'>('smart_cover');
   const [rotation, setRotation] = useState<number>(0);
   const [zoom, setZoom] = useState<number>(1.0);
   const [brightness, setBrightness] = useState<number>(2);
   const [contrast, setContrast] = useState<number>(8);
   const [saturation, setSaturation] = useState<number>(6);
   const [groundShadow, setGroundShadow] = useState<boolean>(true);
-  const [paddingPercent, setPaddingPercent] = useState<number>(10);
+  const [paddingPercent, setPaddingPercent] = useState<number>(0);
   const [showAdvancedSliders, setShowAdvancedSliders] = useState<boolean>(false);
 
   // Camera states
@@ -75,9 +80,16 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
   const [isCameraActive, setIsCameraActive] = useState<boolean>(false);
   const [facingMode, setFacingMode] = useState<'environment' | 'user'>('environment');
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isTorchOn, setIsTorchOn] = useState<boolean>(false);
 
-  // File input ref
+  // Barcode scanner modal inside studio
+  const [isBarcodeScanOpen, setIsBarcodeScanOpen] = useState<boolean>(false);
+  const barcodeVideoRef = useRef<HTMLVideoElement | null>(null);
+  const barcodeReaderRef = useRef<any>(null);
+
+  // File input refs
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const nativeCameraInputRef = useRef<HTMLInputElement | null>(null);
 
   // Run auto montage whenever raw image source or montage parameters change
   useEffect(() => {
@@ -91,6 +103,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
 
         const options: StudioProcessOptions = {
           backgroundMode: bgMode,
+          fitMode,
           rotation,
           zoom,
           brightness,
@@ -98,8 +111,8 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
           saturation,
           addGroundShadow: groundShadow,
           paddingPercent,
-          outputSize: 800,
-          quality: 0.90,
+          outputSize: 900,
+          quality: 0.92,
         };
 
         const result = await processProductImage(rawImageSource, options);
@@ -121,12 +134,13 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [rawImageSource, bgMode, rotation, zoom, brightness, contrast, saturation, groundShadow, paddingPercent]);
+  }, [rawImageSource, bgMode, fitMode, rotation, zoom, brightness, contrast, saturation, groundShadow, paddingPercent]);
 
   // Clean up camera stream on unmount
   useEffect(() => {
     return () => {
       stopCamera();
+      stopBarcodeScanner();
     };
   }, []);
 
@@ -137,14 +151,17 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: { ideal: facing },
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
+          width: { ideal: 1920, min: 1080 },
+          height: { ideal: 1920, min: 720 },
         },
         audio: false,
       });
 
       streamRef.current = stream;
       if (videoRef.current) {
+        videoRef.current.setAttribute('playsinline', 'true');
+        videoRef.current.setAttribute('webkit-playsinline', 'true');
+        videoRef.current.muted = true;
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         setIsCameraActive(true);
@@ -165,6 +182,23 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
       videoRef.current.srcObject = null;
     }
     setIsCameraActive(false);
+    setIsTorchOn(false);
+  };
+
+  const toggleTorch = async () => {
+    if (!streamRef.current) return;
+    const track = streamRef.current.getVideoTracks()[0];
+    if (track) {
+      try {
+        const nextTorch = !isTorchOn;
+        await (track as any).applyConstraints({
+          advanced: [{ torch: nextTorch }],
+        });
+        setIsTorchOn(nextTorch);
+      } catch (e) {
+        console.warn('Torch is not supported on this device/browser');
+      }
+    }
   };
 
   const toggleCameraFacing = () => {
@@ -173,23 +207,38 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
     startCamera(nextFacing);
   };
 
+  // Extract the exact high-res center square matching the viewfinder, zero shrink!
   const capturePhotoFromCamera = () => {
     if (!videoRef.current) return;
     const video = videoRef.current;
+    const vw = video.videoWidth || 1280;
+    const vh = video.videoHeight || 720;
+
+    // Viewfinder is a 1:1 square. Extract the exact center square from the video
+    const squareDim = Math.min(vw, vh);
+    const sx = Math.max(0, (vw - squareDim) / 2);
+    const sy = Math.max(0, (vh - squareDim) / 2);
+
+    const targetSize = Math.max(1200, squareDim);
     const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth || 800;
-    canvas.height = video.videoHeight || 800;
+    canvas.width = targetSize;
+    canvas.height = targetSize;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const snapDataUrl = canvas.toDataURL('image/jpeg', 0.95);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    // Draw the center square directly to fill canvas without letterbox bars
+    ctx.drawImage(video, sx, sy, squareDim, squareDim, 0, 0, targetSize, targetSize);
+    const snapDataUrl = canvas.toDataURL('image/jpeg', 0.96);
 
     stopCamera();
     setRawImageSource(snapDataUrl);
-    // Reset rotations / zoom to clean state
     setRotation(0);
     setZoom(1.0);
+    setFitMode('smart_cover'); // Fills square prominently
+    setPaddingPercent(0); // Zero margins
     setActiveTab('upload');
   };
 
@@ -199,6 +248,8 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
       setRawImageSource(file);
       setRotation(0);
       setZoom(1.0);
+      setFitMode('smart_cover');
+      setPaddingPercent(0);
     }
   };
 
@@ -207,17 +258,89 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
     if (!urlInput.trim()) return;
     setRawImageSource(urlInput.trim());
     setUrlInput('');
+    setFitMode('smart_cover');
   };
 
   const handleAutoEnhanceReset = () => {
     setBgMode('studio_white');
+    setFitMode('smart_cover');
     setRotation(0);
     setZoom(1.0);
     setBrightness(2);
     setContrast(8);
     setSaturation(6);
     setGroundShadow(true);
-    setPaddingPercent(10);
+    setPaddingPercent(0);
+  };
+
+  // Barcode scanner logic inside modal
+  const startBarcodeScan = () => {
+    // If in Telegram WebApp
+    const tg = (window as any).Telegram?.WebApp;
+    if (tg?.showScanQrPopup) {
+      tg.showScanQrPopup({ text: "Shtrix-kodni skanerlang" }, (text: string) => {
+        if (text) {
+          tg.closeScanQrPopup?.();
+          playBarcodeBeep();
+          triggerHapticFeedback();
+          setBarcode(text.trim());
+          return true;
+        }
+        return false;
+      });
+      return;
+    }
+
+    setIsBarcodeScanOpen(true);
+    setTimeout(() => {
+      initZXingBarcodeScanner();
+    }, 100);
+  };
+
+  const initZXingBarcodeScanner = async () => {
+    try {
+      const reader = createZXingBarcodeReader();
+      barcodeReaderRef.current = reader;
+
+      const constraints = {
+        video: {
+          facingMode: { ideal: 'environment' },
+          width: { ideal: 1280, min: 640 },
+          height: { ideal: 720, min: 480 },
+        },
+        audio: false,
+      };
+
+      if (barcodeVideoRef.current) {
+        barcodeVideoRef.current.setAttribute('playsinline', 'true');
+        barcodeVideoRef.current.setAttribute('webkit-playsinline', 'true');
+        barcodeVideoRef.current.muted = true;
+      }
+
+      await reader.decodeFromConstraints(constraints, barcodeVideoRef.current!, (result) => {
+        if (result) {
+          const text = result.getText();
+          if (text) {
+            playBarcodeBeep();
+            triggerHapticFeedback();
+            setBarcode(text.trim());
+            stopBarcodeScanner();
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('ZXing modal barcode scan error:', e);
+    }
+  };
+
+  const stopBarcodeScanner = () => {
+    if (barcodeReaderRef.current) {
+      try {
+        barcodeReaderRef.current.reset();
+      } catch {}
+      barcodeReaderRef.current = null;
+    }
+    setIsBarcodeScanOpen(false);
   };
 
   const handleSaveProduct = async (andNext: boolean = false) => {
@@ -291,22 +414,45 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
           {/* Left Column: Image Capture & Studio Montage (7 cols on lg) */}
           <div className="lg:col-span-7 flex flex-col gap-4">
             
+            {/* Native 4K phone camera trigger for iPhone & Android */}
+            <input
+              type="file"
+              ref={nativeCameraInputRef}
+              onChange={handleFileUpload}
+              accept="image/*"
+              capture="environment"
+              className="hidden"
+            />
+
             {/* Capture Source Tabs */}
-            <div className="flex items-center gap-1.5 p-1 bg-slate-950 rounded-2xl border border-slate-800">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-950 rounded-2xl border border-slate-800">
               <button
                 type="button"
                 onClick={() => {
                   stopCamera();
                   setActiveTab('upload');
                 }}
-                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'upload'
                     ? 'bg-amber-500 text-slate-950 shadow-md font-black'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
                 <Upload className="w-4 h-4" />
-                <span>📁 Fayl / Galereya</span>
+                <span>📁 Galereya</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  stopCamera();
+                  nativeCameraInputRef.current?.click();
+                }}
+                className="flex-1 py-2 px-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 shadow-md"
+                title="iPhone yoki Android telefonning asosiy tiniq 4K kamerasini ochish"
+              >
+                <Smartphone className="w-4 h-4" />
+                <span>📸 Tiniq HD Kamera</span>
               </button>
 
               <button
@@ -315,14 +461,14 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                   setActiveTab('camera');
                   startCamera();
                 }}
-                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'camera'
                     ? 'bg-sky-500 text-slate-950 shadow-md font-black'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
                 <Camera className="w-4 h-4" />
-                <span>📸 Jonli Kamera</span>
+                <span>🎥 Jonli Efir</span>
               </button>
 
               <button
@@ -331,14 +477,14 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                   stopCamera();
                   setActiveTab('url');
                 }}
-                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                className={`py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
                   activeTab === 'url'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md font-black'
+                    ? 'bg-indigo-500 text-white shadow-md font-black'
                     : 'text-slate-400 hover:text-white hover:bg-slate-900'
                 }`}
               >
                 <Link className="w-4 h-4" />
-                <span>🔗 Havola (URL)</span>
+                <span>Havola</span>
               </button>
             </div>
 
@@ -366,14 +512,30 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                     />
 
                     {/* Camera Guide Frame */}
-                    <div className="absolute inset-8 border-2 border-dashed border-amber-400/70 rounded-2xl pointer-events-none flex items-center justify-center">
-                      <span className="bg-slate-950/70 text-amber-300 text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur">
-                        Tovarni markazga joylashtiring
+                    <div className="absolute inset-8 border-2 border-dashed border-amber-400/80 rounded-2xl pointer-events-none flex flex-col items-center justify-between p-3">
+                      <span className="bg-slate-950/80 text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full backdrop-blur">
+                        Kvadratni tovar bilan to'ldiring
+                      </span>
+                      <span className="bg-slate-950/70 text-slate-300 text-[9px] px-2 py-0.5 rounded-full backdrop-blur">
+                        1:1 formatda tiniq saqlanadi
                       </span>
                     </div>
 
                     {/* Camera Action Buttons */}
                     <div className="absolute bottom-4 inset-x-0 flex items-center justify-center gap-4 px-4 z-10">
+                      <button
+                        type="button"
+                        onClick={toggleTorch}
+                        className={`w-11 h-11 rounded-full border flex items-center justify-center shadow-lg transition-all ${
+                          isTorchOn
+                            ? 'bg-amber-400 text-slate-950 border-amber-300'
+                            : 'bg-slate-900/80 hover:bg-slate-800 text-white border-slate-700'
+                        }`}
+                        title="Fonar / Flash"
+                      >
+                        <Zap className="w-5 h-5" />
+                      </button>
+
                       <button
                         type="button"
                         onClick={toggleCameraFacing}
@@ -444,7 +606,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                     <div className="flex flex-col items-center justify-center text-slate-500 p-6 text-center space-y-2">
                       <ImageIcon className="w-12 h-12 stroke-[1.5] text-slate-600" />
                       <p className="text-xs font-medium text-slate-400">
-                        Mahsulot rasmi yo'q. Fayl yuklang yoki kameradan oling.
+                        Mahsulot rasmi yo'q. Telefon kamerasi yoki galereyadan yuklang.
                       </p>
                     </div>
                   )}
@@ -461,7 +623,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                   {processedImageUrl && (
                     <div className="absolute top-2.5 left-2.5 bg-emerald-500/90 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full backdrop-blur shadow-md flex items-center gap-1">
                       <Check className="w-3 h-3 stroke-[3]" />
-                      <span>1:1 Studio Montaj</span>
+                      <span>{fitMode === 'smart_cover' ? 'To\'liq Kvadrat' : '1:1 Studio'}</span>
                     </div>
                   )}
                 </div>
@@ -478,17 +640,26 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                 <div className="w-full flex items-center justify-between gap-2 mt-3">
                   <button
                     type="button"
+                    onClick={() => nativeCameraInputRef.current?.click()}
+                    className="flex-1 py-2 px-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 text-xs font-black rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-md"
+                  >
+                    <Smartphone className="w-3.5 h-3.5" />
+                    <span>HD Rasm Olish</span>
+                  </button>
+
+                  <button
+                    type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-700"
+                    className="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all border border-slate-700"
                   >
                     <Upload className="w-3.5 h-3.5 text-amber-400" />
-                    <span>Rasmni yangilash</span>
+                    <span>Fayl</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setRotation((r) => (r + 90) % 360)}
-                    className="py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-700"
+                    className="py-2 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl flex items-center gap-1 border border-slate-700"
                     title="90 gradus burish"
                   >
                     <RotateCw className="w-3.5 h-3.5 text-sky-400" />
@@ -498,7 +669,7 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                   <button
                     type="button"
                     onClick={handleAutoEnhanceReset}
-                    className="py-2 px-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-xl flex items-center gap-1 border border-amber-500/30"
+                    className="py-2 px-2.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-xl flex items-center gap-1 border border-amber-500/30"
                     title="Avtomatik ideal parametrlarni tiklash"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-amber-400" />
@@ -511,67 +682,132 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
             {/* STUDIO QUICK CONTROLS */}
             {activeTab !== 'camera' && processedImageUrl && (
               <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-3">
-                <div className="flex items-center justify-between">
+                
+                {/* 1. Framing Mode: Smart Cover (Fill) vs Contain (Fit) */}
+                <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
                   <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                    <Layers className="w-4 h-4 text-amber-400" />
-                    Studio Foni va Montaj:
+                    <Maximize2 className="w-4 h-4 text-emerald-400" />
+                    Rasm Ko'rinishi:
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => setShowAdvancedSliders(!showAdvancedSliders)}
-                    className="text-[11px] text-sky-400 hover:text-sky-300 flex items-center gap-1 font-bold"
-                  >
-                    <Sliders className="w-3.5 h-3.5" />
-                    <span>{showAdvancedSliders ? 'Yashirish' : 'Sozlamalar'}</span>
-                  </button>
+                  <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFitMode('smart_cover');
+                        setPaddingPercent(0);
+                      }}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                        fitMode === 'smart_cover'
+                          ? 'bg-amber-400 text-slate-950 font-black shadow'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🔲 To'ldirish (Katta)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFitMode('contain');
+                        setPaddingPercent(3);
+                      }}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                        fitMode === 'contain'
+                          ? 'bg-amber-400 text-slate-950 font-black shadow'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      🔳 To'liq Sig'dirish
+                    </button>
+                  </div>
                 </div>
 
-                {/* Background Styles Selector */}
-                <div className="grid grid-cols-4 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setBgMode('studio_white')}
-                    className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
-                      bgMode === 'studio_white'
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
-                    }`}
-                  >
-                    🌟 Studio Oq
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBgMode('soft_gradient')}
-                    className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
-                      bgMode === 'soft_gradient'
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
-                    }`}
-                  >
-                    🎨 Gradient
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBgMode('warm_studio')}
-                    className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
-                      bgMode === 'warm_studio'
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
-                    }`}
-                  >
-                    ☕ Iliq Fon
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setBgMode('original')}
-                    className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
-                      bgMode === 'original'
-                        ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
-                        : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
-                    }`}
-                  >
-                    ⬜ Toza Oq
-                  </button>
+                {/* 2. Quick Zoom Presets */}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                    <ZoomIn className="w-4 h-4 text-sky-400" />
+                    Tezkor Masshtab:
+                  </span>
+                  <div className="flex items-center gap-1">
+                    {[1.0, 1.25, 1.5, 1.75, 2.0].map((z) => (
+                      <button
+                        key={z}
+                        type="button"
+                        onClick={() => setZoom(z)}
+                        className={`px-2 py-1 rounded-lg text-[11px] font-mono font-bold transition-all ${
+                          Math.abs(zoom - z) < 0.05
+                            ? 'bg-sky-500 text-slate-950 font-black shadow'
+                            : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                        }`}
+                      >
+                        {z}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 3. Background Styles Selector */}
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-amber-400" />
+                      Studio Foni:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowAdvancedSliders(!showAdvancedSliders)}
+                      className="text-[11px] text-sky-400 hover:text-sky-300 flex items-center gap-1 font-bold"
+                    >
+                      <Sliders className="w-3.5 h-3.5" />
+                      <span>{showAdvancedSliders ? 'Yashirish' : 'Qo\'shimcha'}</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setBgMode('studio_white')}
+                      className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
+                        bgMode === 'studio_white'
+                          ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
+                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                      }`}
+                    >
+                      🌟 Studio Oq
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBgMode('soft_gradient')}
+                      className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
+                        bgMode === 'soft_gradient'
+                          ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
+                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                      }`}
+                    >
+                      🎨 Gradient
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBgMode('warm_studio')}
+                      className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
+                        bgMode === 'warm_studio'
+                          ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
+                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                      }`}
+                    >
+                      ☕ Iliq Fon
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBgMode('original')}
+                      className={`py-2 px-2 rounded-xl text-[11px] font-bold text-center border transition-all ${
+                        bgMode === 'original'
+                          ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
+                          : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                      }`}
+                    >
+                      ⬜ Toza Oq
+                    </button>
+                  </div>
                 </div>
 
                 {/* Advanced Sliders */}
@@ -579,36 +815,60 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                   <div className="pt-2 space-y-2.5 border-t border-slate-800 text-xs">
                     <div className="flex items-center justify-between gap-4">
                       <span className="text-slate-400 flex items-center gap-1">
-                        <ZoomIn className="w-3.5 h-3.5" /> Kattalashtirish:
+                        <ZoomIn className="w-3.5 h-3.5" /> Nozik Masshtab:
                       </span>
-                      <input
-                        type="range"
-                        min="0.5"
-                        max="1.5"
-                        step="0.05"
-                        value={zoom}
-                        onChange={(e) => setZoom(parseFloat(e.target.value))}
-                        className="w-36 accent-amber-400"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min="0.7"
+                          max="2.5"
+                          step="0.05"
+                          value={zoom}
+                          onChange={(e) => setZoom(parseFloat(e.target.value))}
+                          className="w-28 accent-amber-400"
+                        />
+                        <span className="font-mono text-white text-[11px] w-8">{zoom.toFixed(2)}x</span>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between gap-4">
                       <span className="text-slate-400 flex items-center gap-1">
-                        <Sun className="w-3.5 h-3.5" /> Yorug'lik / Kontrast:
+                        Hoshiya (Chetdan masofa):
                       </span>
-                      <input
-                        type="range"
-                        min="-20"
-                        max="30"
-                        step="2"
-                        value={contrast}
-                        onChange={(e) => setContrast(parseInt(e.target.value))}
-                        className="w-36 accent-amber-400"
-                      />
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min="0"
+                          max="15"
+                          step="1"
+                          value={paddingPercent}
+                          onChange={(e) => setPaddingPercent(parseInt(e.target.value))}
+                          className="w-28 accent-amber-400"
+                        />
+                        <span className="font-mono text-white text-[11px] w-8">{paddingPercent}%</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4">
+                      <span className="text-slate-400 flex items-center gap-1">
+                        <Sun className="w-3.5 h-3.5" /> Kontrast:
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="range"
+                          min="-20"
+                          max="30"
+                          step="2"
+                          value={contrast}
+                          onChange={(e) => setContrast(parseInt(e.target.value))}
+                          className="w-28 accent-amber-400"
+                        />
+                        <span className="font-mono text-white text-[11px] w-8">+{contrast}</span>
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-400">Tabiiy Studio Soya:</span>
+                      <span className="text-slate-400">Tabiiy Soya (Ground Shadow):</span>
                       <button
                         type="button"
                         onClick={() => setGroundShadow(!groundShadow)}
@@ -701,8 +961,16 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
                       value={barcode}
                       onChange={(e) => setBarcode(e.target.value)}
                       placeholder="47800..."
-                      className="w-full bg-slate-900 text-white font-mono font-bold text-xs px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400"
+                      className="w-full bg-slate-900 text-white font-mono font-bold text-xs pl-3 pr-9 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-amber-400"
                     />
+                    <button
+                      type="button"
+                      onClick={startBarcodeScan}
+                      className="absolute right-1 top-1 bottom-1 px-2 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 rounded-lg text-xs flex items-center justify-center transition-all"
+                      title="Shtrix-kodni skanerlash"
+                    >
+                      <Scan className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -772,6 +1040,49 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
           </div>
 
         </div>
+
+        {/* Modal Barcode Scanner Popup */}
+        {isBarcodeScanOpen && (
+          <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 max-w-xs w-full space-y-4 shadow-2xl text-center">
+              <div className="flex items-center justify-between">
+                <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <Scan className="w-4 h-4 text-amber-400" />
+                  Shtrix-kodni skanerlang
+                </h4>
+                <button
+                  type="button"
+                  onClick={stopBarcodeScanner}
+                  className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="relative bg-black rounded-2xl overflow-hidden aspect-square border border-slate-800">
+                <video
+                  ref={barcodeVideoRef}
+                  playsInline
+                  muted
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 h-0.5 bg-rose-500 shadow-lg shadow-rose-500/50 animate-pulse" />
+              </div>
+
+              <p className="text-[11px] text-slate-400">
+                iOS va Android kameralari orqali avtomatik o'qiladi.
+              </p>
+
+              <button
+                type="button"
+                onClick={stopBarcodeScanner}
+                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold"
+              >
+                Yopish
+              </button>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>

@@ -23,6 +23,7 @@ import {
   Upload,
   ShieldCheck,
   Sparkles,
+  Globe,
 } from 'lucide-react';
 import { Product, Category, Branch } from '../../types';
 import { fetchProducts, fetchCategories, fetchBranches, createProduct, updateProduct, uploadProductImage } from '../../services/api';
@@ -34,6 +35,7 @@ import { downloadTemplateById } from '../../utils/templateUtils';
 import { useLanguage } from '../../context/LanguageContext';
 import { RegosImportModal } from './RegosImportModal';
 import { StrictImageDiscoveryModal } from './StrictImageDiscoveryModal';
+import { TasnifSoliqSyncModal } from './TasnifSoliqSyncModal';
 
 export const ProductManagement: React.FC = () => {
   const { language, t, getProductName, getCategoryName } = useLanguage();
@@ -43,6 +45,8 @@ export const ProductManagement: React.FC = () => {
 
   // Regos Import Modal
   const [isRegosModalOpen, setIsRegosModalOpen] = useState(false);
+  // Tasnif.soliq.uz Sync Modal
+  const [isTasnifModalOpen, setIsTasnifModalOpen] = useState(false);
 
   // Strict Image Discovery Modal
   const [isImageDiscoveryModalOpen, setIsImageDiscoveryModalOpen] = useState(false);
@@ -428,6 +432,15 @@ export const ProductManagement: React.FC = () => {
 
         {/* Right Pagination & Layout Toggles */}
         <div className="flex items-center gap-2 text-xs">
+          <button
+            onClick={() => setIsTasnifModalOpen(true)}
+            className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-extrabold py-1 px-3 rounded-lg shadow-sm transition-all cursor-pointer"
+            title="Tasnif.soliq.uz dan shtrix-kodi bo'yicha 100% aniq tovar nomi va rasmlarini yuklash"
+          >
+            <Globe className="w-3.5 h-3.5 text-emerald-200" />
+            <span>Tasnif Soliq Qidirish</span>
+          </button>
+
           <button
             onClick={() => {
               setDiscoveryTargetProduct(null);
@@ -1247,6 +1260,15 @@ export const ProductManagement: React.FC = () => {
         onClose={() => setIsRegosModalOpen(false)}
         categories={categories}
         existingProducts={products}
+        onSuccess={() => {
+          loadData();
+        }}
+      />
+
+      {/* Tasnif Soliq Shtrix-kod Sinxronizatsiyasi */}
+      <TasnifSoliqSyncModal
+        isOpen={isTasnifModalOpen}
+        onClose={() => setIsTasnifModalOpen(false)}
         onSuccess={() => {
           loadData();
         }}

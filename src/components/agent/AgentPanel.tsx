@@ -98,6 +98,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
   // Staff / Agent Selection State
   const [agents, setAgents] = useState<StaffMember[]>([]);
   const [currentAgent, setCurrentAgent] = useState<StaffMember | null>(null);
+  const [isContentStudioOpen, setIsContentStudioOpen] = useState<boolean>(false);
 
   // Core Data
   const [clients, setClients] = useState<Client[]>([]);
@@ -265,7 +266,7 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
       }
 
     const salesAgents = staffList.filter(
-      (s) => s.role === 'sales_agent' || s.role === 'super_admin' || s.role === 'manager'
+      (s) => s.role === 'sales_agent' || s.role === 'super_admin' || s.role === 'manager' || s.role === 'content_agent'
     );
     setAgents(salesAgents);
 
@@ -855,13 +856,17 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
     );
   }
 
-  // If logged in agent is a dedicated Content Agent, render Content Studio view
-  if (currentAgent.role === 'content_agent') {
+  // If logged in agent is a dedicated Content Agent or opened Foto Studiya, render Content Studio view
+  if (currentAgent.role === 'content_agent' || isContentStudioOpen) {
     return (
       <ContentAgentStudio
         currentAgent={currentAgent}
         onSwitchAgent={(agent) => setCurrentAgent(agent)}
-        onLogoutOrExit={handleAgentLogout}
+        onLogoutOrExit={
+          currentAgent.role === 'content_agent'
+            ? handleAgentLogout
+            : () => setIsContentStudioOpen(false)
+        }
       />
     );
   }
@@ -926,6 +931,18 @@ export const AgentPanel: React.FC<AgentPanelProps> = ({ onSwitchToClientMode, on
 
           <div className="flex items-center gap-1.5 shrink-0">
             <LanguageSelector variant="compact" />
+
+            {/* Foto Studiya Quick Button */}
+            <button
+              type="button"
+              onClick={() => setIsContentStudioOpen(true)}
+              className="p-2 bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 border border-amber-400/40 rounded-xl text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+              title="Foto Studiya & Shtrix-kod Skaner"
+            >
+              <Camera className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-[10px] hidden sm:inline">Foto</span>
+            </button>
+
             {/* Sync Cloud Action */}
             <button
               onClick={handleTriggerSync}

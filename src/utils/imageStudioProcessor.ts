@@ -1,15 +1,16 @@
 export interface StudioProcessOptions {
   backgroundMode?: 'studio_white' | 'soft_gradient' | 'warm_studio' | 'original';
-  paddingPercent?: number; // 0 to 25% (default 10)
+  fitMode?: 'contain' | 'smart_cover'; // contain = preserve all, smart_cover = fill square without borders
+  paddingPercent?: number; // 0 to 25% (default 3%)
   enhanceContrast?: boolean;
-  brightness?: number; // -50 to 50 (default 0)
+  brightness?: number; // -50 to 50 (default 2)
   contrast?: number; // -50 to 50 (default 8)
   saturation?: number; // -50 to 50 (default 6)
   addGroundShadow?: boolean;
   rotation?: number; // 0, 90, 180, 270
-  zoom?: number; // 0.5 to 2.0 (default 1.0)
-  outputSize?: number; // default 800
-  quality?: number; // 0.1 to 1.0 (default 0.90)
+  zoom?: number; // 0.6 to 2.5 (default 1.0)
+  outputSize?: number; // default 900
+  quality?: number; // 0.1 to 1.0 (default 0.92)
 }
 
 export interface ProcessedImageResult {
@@ -32,7 +33,7 @@ export function loadImageElement(source: File | Blob | string): Promise<HTMLImag
       resolve(img);
     };
 
-    img.onerror = (err) => {
+    img.onerror = () => {
       reject(new Error("Rasm yuklab bo'lmadi yoki format qo'llab-quvvatlanmaydi"));
     };
 
@@ -55,10 +56,10 @@ export function loadImageElement(source: File | Blob | string): Promise<HTMLImag
 
 /**
  * Applies intelligent studio montage to any product photo:
- * - Perfect 1:1 square canvas
- * - Preserves exact product aspect ratio (never stretches or distorts)
+ * - High resolution 1:1 square canvas (900x900)
+ * - Never shrinks live photos: supports smart_cover to fill frame and contain with minimal padding
  * - Studio pure white / gradient backdrop
- * - Gentle grounding contact shadow for 3D realism
+ * - Optional grounding contact shadow for 3D realism
  * - Contrast, brightness and vibrance optimization for crisp catalog view
  * - Super-fast client-side Canvas processing
  */
@@ -68,7 +69,8 @@ export async function processProductImage(
 ): Promise<ProcessedImageResult> {
   const {
     backgroundMode = 'studio_white',
-    paddingPercent = 10,
+    fitMode = 'smart_cover',
+    paddingPercent = 3,
     enhanceContrast = true,
     brightness = 2,
     contrast = 8,
@@ -76,8 +78,8 @@ export async function processProductImage(
     addGroundShadow = true,
     rotation = 0,
     zoom = 1.0,
-    outputSize = 800,
-    quality = 0.90,
+    outputSize = 900,
+    quality = 0.92,
   } = options;
 
   const img = await loadImageElement(source);
@@ -91,6 +93,9 @@ export async function processProductImage(
   if (!ctx) {
     throw new Error('Canvas 2D kontekstini yaratib bo‘lmadi');
   }
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
 
   // 1. Draw Background
   if (backgroundMode === 'studio_white') {
@@ -133,7 +138,7 @@ export async function processProductImage(
     ctx.fillRect(0, 0, outputSize, outputSize);
   }
 
-  // 2. Calculate Bounding Box with Aspect Ratio preservation
+  // 2. Calculate Bounding Box & Sizing
   const origWidth = img.naturalWidth || img.width;
   const origHeight = img.naturalHeight || img.height;
 
@@ -143,21 +148,32 @@ export async function processProductImage(
   const effectiveHeight = isRotatedQuarter ? origWidth : origHeight;
 
   // Maximum allowed dimension within padding
-  const paddingPx = (outputSize * (paddingPercent / 100));
+  const paddingPx = (outputSize * (Math.max(0, paddingPercent) / 100));
   const maxAvailableWidth = outputSize - paddingPx * 2;
   const maxAvailableHeight = outputSize - paddingPx * 2;
 
-  // Scale factor to fit inside box
-  const scale = Math.min(
-    maxAvailableWidth / effectiveWidth,
-    maxAvailableHeight / effectiveHeight
-  ) * zoom;
+  let scale = 1.0;
+  if (fitMode === 'smart_cover') {
+    // Fill the frame so the product dominates the card prominently (zero empty sidebars)
+    const baseScale = Math.max(
+      outputSize / effectiveWidth,
+      outputSize / effectiveHeight
+    );
+    scale = baseScale * zoom;
+  } else {
+    // Contain within padding
+    const baseScale = Math.min(
+      maxAvailableWidth / effectiveWidth,
+      maxAvailableHeight / effectiveHeight
+    );
+    scale = baseScale * zoom;
+  }
 
   const drawWidth = origWidth * scale;
   const drawHeight = origHeight * scale;
 
-  // 3. Draw Grounding Studio Shadow
-  if (addGroundShadow) {
+  // 3. Draw Grounding Studio Shadow (only if contain mode or when margin allows)
+  if (addGroundShadow && fitMode === 'contain' && paddingPercent >= 4) {
     const shadowWidth = (isRotatedQuarter ? drawHeight : drawWidth) * 0.75;
     const shadowHeight = shadowWidth * 0.12;
     const shadowCenterY = outputSize / 2 + ((isRotatedQuarter ? drawWidth : drawHeight) / 2) - (shadowHeight * 0.25);
@@ -174,9 +190,9 @@ export async function processProductImage(
       shadowCenterY,
       shadowWidth / 2
     );
-    shadowGrad.addColorStop(0, 'rgba(15, 23, 42, 0.22)');
-    shadowGrad.addColorStop(0.4, 'rgba(15, 23, 42, 0.12)');
-    shadowGrad.addColorStop(0.8, 'rgba(15, 23, 42, 0.03)');
+    shadowGrad.addColorStop(0, 'rgba(15, 23, 42, 0.20)');
+    shadowGrad.addColorStop(0.4, 'rgba(15, 23, 42, 0.10)');
+    shadowGrad.addColorStop(0.8, 'rgba(15, 23, 42, 0.02)');
     shadowGrad.addColorStop(1, 'rgba(15, 23, 42, 0)');
     ctx.fillStyle = shadowGrad;
     ctx.fill();
@@ -191,11 +207,11 @@ export async function processProductImage(
     ctx.rotate((rotation * Math.PI) / 180);
   }
 
-  // CSS Filters on canvas
+  // CSS Filters on canvas for high vibrancy and crisp contrast
   if (enhanceContrast) {
-    const brightPct = 100 + brightness;
-    const contrastPct = 100 + contrast;
-    const satPct = 100 + saturation;
+    const brightPct = Math.max(50, 100 + brightness);
+    const contrastPct = Math.max(50, 100 + contrast);
+    const satPct = Math.max(50, 100 + saturation);
     ctx.filter = `brightness(${brightPct}%) contrast(${contrastPct}%) saturate(${satPct}%)`;
   }
 
@@ -208,14 +224,14 @@ export async function processProductImage(
   );
   ctx.restore();
 
-  // 5. Export as High Quality WebP (fallback to JPEG if webp not supported)
+  // 5. Export as High Quality WebP (fallback to JPEG)
   let dataUrl = '';
   try {
     dataUrl = canvas.toDataURL('image/webp', quality);
     if (!dataUrl.startsWith('data:image/webp')) {
       dataUrl = canvas.toDataURL('image/jpeg', quality);
     }
-  } catch (e) {
+  } catch {
     dataUrl = canvas.toDataURL('image/jpeg', quality);
   }
 

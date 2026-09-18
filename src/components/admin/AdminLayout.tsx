@@ -43,6 +43,7 @@ import {
 import { Branch, UserRole } from '../../types';
 import { fetchBranches, updateSettings } from '../../services/api';
 import { getStoreSettings, saveStoreSettings, subscribeStoreSettings, StoreSettings } from '../../utils/storeSettings';
+import { TasnifSoliqSyncModal } from './TasnifSoliqSyncModal';
 
 interface AdminLayoutProps {
   activeTab: string;
@@ -72,6 +73,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
   // Interactive Modal States
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isTasnifModalOpen, setIsTasnifModalOpen] = useState(false);
   const [isBatchUpdateModalOpen, setIsBatchUpdateModalOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -366,6 +368,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
 
         {/* Right Side: Telegram Switcher, Bell, Settings, User & Branch */}
         <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setIsTasnifModalOpen(true)}
+            className="hidden lg:flex items-center gap-1.5 bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold text-[11px] px-2.5 py-1 rounded transition-all shadow-sm border border-emerald-500/30"
+            title="Tasnif.soliq.uz dan shtrix-kodi bo'yicha nom va rasmlarni yangilash"
+          >
+            <Globe className="w-3.5 h-3.5 text-emerald-300" />
+            <span>Tasnif Soliq</span>
+          </button>
+
           <LanguageSelector variant="compact" />
           <button
             onClick={onOpenTelegram}
@@ -872,6 +883,15 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
           </div>
         </div>
       )}
+
+      {/* Tasnif.soliq.uz Shtrix-kod Sinxronizatsiyasi Modali */}
+      <TasnifSoliqSyncModal
+        isOpen={isTasnifModalOpen}
+        onClose={() => setIsTasnifModalOpen(false)}
+        onSuccess={() => {
+          showToast("Tasnif Soliq ma'lumotlari muvaffaqiyatli sinxronlandi!");
+        }}
+      />
     </div>
   );
 };

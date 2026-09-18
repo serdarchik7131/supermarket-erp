@@ -32,6 +32,12 @@ import { fetchProducts, fetchCategories, updateProduct } from '../../services/ap
 import { ProductStudioModal } from './ProductStudioModal';
 import { ProductThumbnail } from '../common/ProductThumbnail';
 import { matchProductSearch } from '../../utils/searchUtils';
+import {
+  createZXingBarcodeReader,
+  playBarcodeBeep,
+  triggerHapticFeedback,
+  findProductByBarcode
+} from '../../utils/barcodeScannerUtils';
 
 interface ContentAgentStudioProps {
   currentAgent: StaffMember;
@@ -64,6 +70,7 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
   const barcodeVideoRef = useRef<HTMLVideoElement | null>(null);
   const barcodeStreamRef = useRef<MediaStream | null>(null);
   const barcodeScanIntervalRef = useRef<any>(null);
+  const barcodeReaderRef = useRef<any>(null);
   const [barcodeScanError, setBarcodeScanError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -171,47 +178,67 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
     }
   };
 
-  // --- BARCODE SCANNER CAMERA LOGIC ---
+  // --- BARCODE SCANNER CAMERA LOGIC (iOS & Android Compatible) ---
   const startBarcodeScanner = async () => {
+    // 1. If running inside Telegram WebApp, use native camera QR/Barcode scanner popup
+    const tg = (window as any).Telegram?.WebApp;
+    if (tg?.showScanQrPopup) {
+      tg.showScanQrPopup({ text: "Mahsulot shtrix-kodini skanerlang" }, (text: string) => {
+        if (text) {
+          tg.closeScanQrPopup?.();
+          handleBarcodeDetected(text);
+          return true;
+        }
+        return false;
+      });
+      return;
+    }
+
     setBarcodeScanError(null);
     setIsBarcodeScannerOpen(true);
 
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: 'environment' } },
-        audio: false,
-      });
-      barcodeStreamRef.current = stream;
+    setTimeout(async () => {
+      try {
+        const reader = createZXingBarcodeReader();
+        barcodeReaderRef.current = reader;
 
-      if (barcodeVideoRef.current) {
-        barcodeVideoRef.current.srcObject = stream;
-        await barcodeVideoRef.current.play();
-      }
+        const constraints = {
+          video: {
+            facingMode: { ideal: 'environment' },
+            width: { ideal: 1280, min: 640 },
+            height: { ideal: 720, min: 480 },
+          },
+          audio: false,
+        };
 
-      // Check if native BarcodeDetector is available
-      if ('BarcodeDetector' in window) {
-        const detector = new (window as any).BarcodeDetector({
-          formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e', 'code_128', 'qr_code'],
-        });
+        if (barcodeVideoRef.current) {
+          barcodeVideoRef.current.setAttribute('playsinline', 'true');
+          barcodeVideoRef.current.setAttribute('webkit-playsinline', 'true');
+          barcodeVideoRef.current.muted = true;
+        }
 
-        barcodeScanIntervalRef.current = setInterval(async () => {
-          if (!barcodeVideoRef.current) return;
-          try {
-            const barcodes = await detector.detect(barcodeVideoRef.current);
-            if (barcodes && barcodes.length > 0) {
-              const detectedCode = barcodes[0].rawValue;
-              handleBarcodeDetected(detectedCode);
+        await reader.decodeFromConstraints(constraints, barcodeVideoRef.current!, (result) => {
+          if (result) {
+            const detectedCode = result.getText();
+            if (detectedCode && detectedCode.trim()) {
+              handleBarcodeDetected(detectedCode.trim());
             }
-          } catch (e) {}
-        }, 400);
+          }
+        });
+      } catch (err: any) {
+        console.error('Barcode scanner camera error:', err);
+        setBarcodeScanError('Kameraga ulanishda xatolik yuz berdi. Brauzerda kamera ruxsatini yoqing.');
       }
-    } catch (err: any) {
-      console.error('Barcode scanner camera error:', err);
-      setBarcodeScanError('Kameraga ulanishda xatolik yuz berdi.');
-    }
+    }, 150);
   };
 
   const stopBarcodeScanner = () => {
+    if (barcodeReaderRef.current) {
+      try {
+        barcodeReaderRef.current.reset();
+      } catch (e) {}
+      barcodeReaderRef.current = null;
+    }
     if (barcodeScanIntervalRef.current) {
       clearInterval(barcodeScanIntervalRef.current);
       barcodeScanIntervalRef.current = null;
@@ -227,13 +254,13 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
   };
 
   const handleBarcodeDetected = (code: string) => {
+    playBarcodeBeep();
+    triggerHapticFeedback();
     stopBarcodeScanner();
     setSearchQuery(code);
 
-    // Find product with this barcode
-    const matched = products.find(
-      (p) => (p.barcode || '').trim().toLowerCase() === code.trim().toLowerCase()
-    );
+    // Find product with this barcode using exact or trimmed matching
+    const matched = findProductByBarcode(products, code);
 
     if (matched) {
       setEditingProduct(matched);
