@@ -8,9 +8,27 @@ const VERIFIED_EXACT_BRAND_PACKAGING: Array<{ match: RegExp; img: string }> = []
 /**
  * Validates whether a product has a valid product photo URL.
  */
-export function hasValidProductImage(product?: { image?: string; imageUrl?: string } | null): boolean {
+export function hasValidProductImage(product?: {
+  image?: string;
+  imageUrl?: string;
+  photo?: string;
+  photoUrl?: string;
+  images?: string[];
+  imageCandidates?: Array<{ imageUrl?: string }>;
+  [key: string]: any;
+} | null): boolean {
   if (!product) return false;
-  const rawUrl = (product.image || product.imageUrl || '').trim();
+  let rawUrl = (
+    product.image ||
+    product.imageUrl ||
+    product.photo ||
+    product.photoUrl ||
+    (Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : '') ||
+    (Array.isArray(product.imageCandidates) && product.imageCandidates.length > 0 ? product.imageCandidates[0]?.imageUrl : '') ||
+    ''
+  );
+  if (typeof rawUrl !== 'string') return false;
+  rawUrl = rawUrl.trim();
   if (!rawUrl) return false;
 
   // Filter out non-image files or broken markers
@@ -28,33 +46,48 @@ export function hasValidProductImage(product?: { image?: string; imageUrl?: stri
     rawUrl.startsWith('http://') ||
     rawUrl.startsWith('https://') ||
     rawUrl.startsWith('data:image/') ||
-    rawUrl.startsWith('/')
+    rawUrl.startsWith('/') ||
+    rawUrl.startsWith('./')
   );
 }
 
 /**
- * Returns authentic product image URL ONLY if 100% verified.
- * If not 100% verified to the brand/product, returns empty string so the clean category vector badge is shown.
+ * Returns authentic product image URL.
+ * Shows direct product image or candidate image if available.
  */
 export function getAutoProductImage(product?: {
   image?: string;
   imageUrl?: string;
+  photo?: string;
+  photoUrl?: string;
+  images?: string[];
+  imageCandidates?: Array<{ imageUrl?: string }>;
   nameUz?: string;
   nameRu?: string;
   nameEn?: string;
   brand?: string;
   description?: string;
   categoryId?: string;
+  [key: string]: any;
 } | null): string {
   if (!product) return '';
 
-  // 1. Direct verified image on product
-  const directUrl = (product.image || product.imageUrl || '').trim();
-  if (hasValidProductImage(product)) {
-    return directUrl;
+  // 1. Direct or assigned image on product
+  const directUrl = (
+    product.image ||
+    product.imageUrl ||
+    product.photo ||
+    product.photoUrl ||
+    (Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : '') ||
+    (Array.isArray(product.imageCandidates) && product.imageCandidates.length > 0 ? product.imageCandidates[0]?.imageUrl : '') ||
+    ''
+  );
+
+  if (typeof directUrl === 'string' && directUrl.trim() && hasValidProductImage(product)) {
+    return directUrl.trim();
   }
 
-  // 2. Exact 100% Verified Brand Packaging match ONLY
+  // 2. Exact Brand Packaging match
   const searchCorpus = ` ${product.nameUz || ''} ${product.nameRu || ''} ${product.nameEn || ''} ${product.brand || ''} `.toLowerCase();
   for (const entry of VERIFIED_EXACT_BRAND_PACKAGING) {
     if (entry.match.test(searchCorpus)) {
@@ -62,7 +95,6 @@ export function getAutoProductImage(product?: {
     }
   }
 
-  // 3. Do NOT show unverified random images. Return empty string so UI renders the elegant vector icon badge.
   return '';
 }
 

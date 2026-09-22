@@ -31,7 +31,7 @@ export const AICenter: React.FC = () => {
 
   // Telegram Config State
   const [telegramConfig, setTelegramConfig] = useState<any>(null);
-  const [botTokenInput, setBotTokenInput] = useState('8816495224:AAFuYrdgUe-rwcqbFp-xthP4Cxd3I1TTpEo');
+  const [botTokenInput, setBotTokenInput] = useState('8902975462:AAF0YQcWn1VfJ83iswlJyKSA_2au7EMzUuQ');
   const [adminIdInput, setAdminIdInput] = useState('7230016421');
   const [customWebAppUrlInput, setCustomWebAppUrlInput] = useState('');
   const [savingTelegramCredentials, setSavingTelegramCredentials] = useState(false);

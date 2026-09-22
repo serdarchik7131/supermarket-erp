@@ -57,6 +57,9 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [debouncedSearch, setDebouncedSearch] = useState<string>('');
+  const [displayLimit, setDisplayLimit] = useState<number>(80);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filterMode, setFilterMode] = useState<'all' | 'unimaged' | 'imaged'>('all');
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
@@ -67,6 +70,21 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
 
   // Stats
   const [todayEditedCount, setTodayEditedCount] = useState<number>(0);
+
+  // Toast feedback helper
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  // Debounce search query to keep typing at 60 FPS
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+      setDisplayLimit(80);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   // Barcode Camera Scanner states
   const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState<boolean>(false);
@@ -109,6 +127,7 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
 
   // Filter products based on search, category and image presence
   const filteredProducts = useMemo(() => {
+    const q = debouncedSearch.trim().toLowerCase();
     return products.filter((p) => {
       // Category filter
       if (selectedCategory !== 'all' && p.categoryId !== selectedCategory) {
@@ -126,17 +145,16 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
       }
 
       // Search query
-      if (searchQuery.trim()) {
-        const query = searchQuery.trim().toLowerCase();
-        const barcodeMatch = (p.barcode || '').toLowerCase().includes(query);
-        const skuMatch = (p.sku || '').toLowerCase().includes(query);
-        const nameMatch = matchProductSearch(p, query);
+      if (q) {
+        const barcodeMatch = (p.barcode || '').toLowerCase().includes(q);
+        const skuMatch = (p.sku || '').toLowerCase().includes(q);
+        const nameMatch = matchProductSearch(p, q);
         return barcodeMatch || skuMatch || nameMatch;
       }
 
       return true;
     });
-  }, [products, selectedCategory, filterMode, searchQuery]);
+  }, [products, selectedCategory, filterMode, debouncedSearch]);
 
   // Statistics calculation
   const totalCount = products.length;
@@ -146,32 +164,42 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
   const unimagedCount = totalCount - imagedCount;
   const progressPercent = totalCount > 0 ? Math.round((imagedCount / totalCount) * 100) : 0;
 
-  // Handle product save
+  // Handle product save with instant feedback and safe next-item selection
   const handleSaveProduct = async (updatedProduct: Product, andOpenNext: boolean = false) => {
     try {
       const saved = await updateProduct(updatedProduct.id, updatedProduct);
+      const effective: Product = (saved && saved.id) ? saved : updatedProduct;
 
-      // Update local state immediately
-      setProducts((prev) =>
-        prev.map((p) => (p.id === saved.id ? saved : p))
-      );
+      // Update local state immediately with the saved product (and new static image URL)
+      const nextProductList = products.map((p) => (p.id === effective.id ? effective : p));
+      setProducts(nextProductList);
       setTodayEditedCount((c) => c + 1);
+      showToast(`✅ "${effective.nameUz || 'Tovar'}" rasmi va ma'lumotlari saqlandi!`);
 
       if (andOpenNext) {
-        // Find next product without image
-        const nextUnimaged = products.find(
-          (p) => p.id !== saved.id && !(p.image || p.imageUrl)
+        // Find next product without image: check current filtered view first, then global list
+        const nextInFiltered = filteredProducts.find(
+          (p) => p.id !== effective.id && !(p.image || p.imageUrl)
         );
-        if (nextUnimaged) {
-          setEditingProduct(nextUnimaged);
+        if (nextInFiltered) {
+          setEditingProduct(nextInFiltered);
         } else {
-          setEditingProduct(null);
+          const nextGlobal = nextProductList.find(
+            (p) => p.id !== effective.id && !(p.image || p.imageUrl)
+          );
+          if (nextGlobal) {
+            setEditingProduct(nextGlobal);
+          } else {
+            setEditingProduct(null);
+            showToast("🎉 Tabriklaymiz! Barcha tovarlarga rasm biriktirildi!");
+          }
         }
       } else {
         setEditingProduct(null);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error saving product in studio:', err);
+      showToast(`❌ Xatolik: ${err.message || 'Serverga ulanib bo‘lmadi'}`);
       throw err;
     }
   };
@@ -526,7 +554,7 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-800/60 font-medium">
-                  {filteredProducts.slice(0, 200).map((product) => {
+                  {filteredProducts.slice(0, displayLimit).map((product) => {
                     const hasImg = !!(product.image || product.imageUrl);
                     const categoryObj = categories.find((c) => c.id === product.categoryId);
 
@@ -656,7 +684,7 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
              SETKA KO'RINISHI (GRID VIEW)
              ======================================================== */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {filteredProducts.slice(0, 150).map((product) => {
+            {filteredProducts.slice(0, displayLimit).map((product) => {
               const hasImg = !!(product.image || product.imageUrl);
               return (
                 <div
@@ -717,7 +745,28 @@ export const ContentAgentStudio: React.FC<ContentAgentStudioProps> = ({
             })}
           </div>
         )}
+
+        {/* Load More Pagination Trigger */}
+        {filteredProducts.length > displayLimit && (
+          <div className="py-4 text-center">
+            <button
+              type="button"
+              onClick={() => setDisplayLimit((prev) => prev + 100)}
+              className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 active:scale-95 text-amber-300 font-bold text-xs rounded-xl border border-slate-700 transition-all shadow-lg"
+            >
+              Ko'proq ko'rsatish ({displayLimit} / {filteredProducts.length} ta)
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Floating Notification Toast */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 border border-emerald-500/60 text-emerald-300 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-bold animate-fade-in backdrop-blur">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
 
       {/* BARCODE SCANNER MODAL */}
       {isBarcodeScannerOpen && (

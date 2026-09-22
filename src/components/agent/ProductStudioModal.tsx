@@ -29,6 +29,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { Product, Category } from '../../types';
+import { uploadProductImage } from '../../services/api';
 import { processProductImage, StudioProcessOptions } from '../../utils/imageStudioProcessor';
 import { playBarcodeBeep, triggerHapticFeedback, createZXingBarcodeReader, decodeBarcodeFromImage, getCameraBarcodeConstraints } from '../../utils/barcodeScannerUtils';
 
@@ -371,6 +372,8 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
     setScanStatusMsg(null);
   };
 
+  const [saveSuccessMsg, setSaveSuccessMsg] = useState<string | null>(null);
+
   const handleSaveProduct = async (andNext: boolean = false) => {
     if (!nameUz.trim()) {
       setErrorMsg("Mahsulot o'zbekcha nomini kiritish majburiy!");
@@ -380,6 +383,20 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
     try {
       setIsSaving(true);
       setErrorMsg(null);
+      setSaveSuccessMsg(null);
+
+      let finalImgUrl = processedImageUrl || '';
+      // If image is a base64 string, upload it to static file storage first
+      if (finalImgUrl && finalImgUrl.startsWith('data:image/')) {
+        try {
+          const uploadRes = await uploadProductImage(finalImgUrl, `prod_${product.id}.jpg`, product.id);
+          if (uploadRes && uploadRes.imageUrl) {
+            finalImgUrl = uploadRes.imageUrl;
+          }
+        } catch (upErr) {
+          console.warn('Direct upload endpoint fallback, sending with payload:', upErr);
+        }
+      }
 
       const updated: Product = {
         ...product,
@@ -388,12 +405,14 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
         brand: brand.trim(),
         barcode: barcode.trim(),
         categoryId,
-        image: processedImageUrl || '',
-        imageUrl: processedImageUrl || '',
-        imageVerificationStatus: processedImageUrl ? 'verified' : 'unverified',
+        image: finalImgUrl,
+        imageUrl: finalImgUrl,
+        imageVerificationStatus: finalImgUrl ? 'verified' : 'unverified',
       };
 
       await onSave(updated, andNext);
+      setSaveSuccessMsg("✅ Rasm va ma'lumotlar muvaffaqiyatli saqlandi!");
+      setTimeout(() => setSaveSuccessMsg(null), 3000);
     } catch (err: any) {
       console.error('Save product error:', err);
       setErrorMsg(err.message || 'Saqlashda xatolik yuz berdi');
@@ -1040,6 +1059,20 @@ export const ProductStudioModal: React.FC<ProductStudioModalProps> = ({
 
             {/* Action Buttons: Save & Save + Next */}
             <div className="space-y-2 pt-4 border-t border-slate-800">
+              {saveSuccessMsg && (
+                <div className="p-3 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-bold text-center animate-fade-in flex items-center justify-center gap-2">
+                  <Check className="w-4 h-4 text-emerald-400" />
+                  <span>{saveSuccessMsg}</span>
+                </div>
+              )}
+
+              {errorMsg && (
+                <div className="p-3 bg-rose-500/20 border border-rose-500/40 text-rose-300 rounded-xl text-xs font-bold text-center animate-fade-in flex items-center justify-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-400" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+
               <button
                 type="button"
                 disabled={isSaving}

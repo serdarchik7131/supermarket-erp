@@ -57,7 +57,7 @@ export const SystemSettingsModule: React.FC = () => {
 
   // Dual Bot States
   const [dualBotConfig, setDualBotConfig] = useState<DualBotConfig>({
-    salesBotToken: '8732452657:AAFzmcCvC7OvKSSQZKQOJDJgS2yfpgjznkQ',
+    salesBotToken: '8902975462:AAF0YQcWn1VfJ83iswlJyKSA_2au7EMzUuQ',
     syncBotToken: '8382001690:AAE_sDNAayFQpTXMV4k9GPgvd7xa6N0rf2I',
     adminId: '7230016421',
     customWebAppUrl: '',

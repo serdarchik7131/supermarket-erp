@@ -391,8 +391,8 @@ export const StrictImageDiscoveryModal: React.FC<Props> = ({
                       <p className="text-xs text-slate-500 mt-2">
                         {selectedProduct.imageVerificationReason ||
                           (selectedProduct.image
-                            ? "Mahsulot uchun tasdiqlangan rasm biriktirilgan."
-                            : "Ishonch darajasi 90% dan past bo'lgani sababli noto'g'ri rasm qo'yilmasdan, standart vektor ikonka saqlanmoqda.")}
+                            ? "Mahsulot uchun rasm biriktirilgan va faol ko'rsatilmoqda."
+                            : "Ushbu mahsulot uchun standart vektor ikonka aks etmoqda. Istalgan vaqtda internetdan rasm biriktirishingiz mumkin.")}
                       </p>
                     </div>
                   </div>
@@ -404,22 +404,22 @@ export const StrictImageDiscoveryModal: React.FC<Props> = ({
                         {/* Summary Banner */}
                         <div
                           className={`rounded-xl border p-4 shadow-sm flex items-start justify-between ${
-                            singleResult.status === 'verified'
+                            singleResult.assignedImageUrl || singleResult.status === 'verified'
                               ? 'border-emerald-200 bg-emerald-50/70 text-emerald-950'
                               : 'border-amber-200 bg-amber-50/70 text-amber-950'
                           }`}
                         >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
-                              {singleResult.status === 'verified' ? (
+                              {singleResult.assignedImageUrl || singleResult.status === 'verified' ? (
                                 <CheckCircle2 className="h-5 w-5 text-emerald-600" />
                               ) : (
                                 <AlertTriangle className="h-5 w-5 text-amber-600" />
                               )}
                               <h4 className="font-bold text-sm">
-                                {singleResult.status === 'verified'
-                                  ? `Qat'iy Tasdiqlandi: ${singleResult.confidenceScore}% Ishonch Darajasi`
-                                  : `Qat'iy Rad Etildi (${singleResult.confidenceScore}%): Default Ikonka Saqlandi`}
+                                {singleResult.assignedImageUrl || singleResult.status === 'verified'
+                                  ? `Rasm Biriktirildi: ${singleResult.confidenceScore}% Ishonch Darajasi`
+                                  : `Qidiruv Natijasi (${singleResult.confidenceScore}%): Nomzod rasmlar`}
                               </h4>
                             </div>
                             <p className="text-xs leading-relaxed text-slate-600">
@@ -681,11 +681,11 @@ export const StrictImageDiscoveryModal: React.FC<Props> = ({
                       <p className="text-2xl font-extrabold text-slate-900 mt-1">{batchSummary.totalProcessed}</p>
                     </div>
                     <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-center">
-                      <span className="text-xs font-bold text-emerald-700 uppercase">Tasdiqlandi (≥90%)</span>
+                      <span className="text-xs font-bold text-emerald-700 uppercase">Tasdiqlandi (≥{AUTO_ASSIGN_THRESHOLD}%)</span>
                       <p className="text-2xl font-extrabold text-emerald-700 mt-1">{batchSummary.verifiedCount}</p>
                     </div>
                     <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-center">
-                      <span className="text-xs font-bold text-amber-700 uppercase">Rad Etildi (&lt;90%)</span>
+                      <span className="text-xs font-bold text-amber-700 uppercase">Rad Etildi (&lt;{AUTO_ASSIGN_THRESHOLD}%)</span>
                       <p className="text-2xl font-extrabold text-amber-700 mt-1">{batchSummary.rejectedCount}</p>
                     </div>
                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-center">

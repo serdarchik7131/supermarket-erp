@@ -36,6 +36,7 @@ import { useLanguage } from '../../context/LanguageContext';
 import { RegosImportModal } from './RegosImportModal';
 import { StrictImageDiscoveryModal } from './StrictImageDiscoveryModal';
 import { TasnifSoliqSyncModal } from './TasnifSoliqSyncModal';
+import { BarcodeListSyncModal } from './BarcodeListSyncModal';
 
 export const ProductManagement: React.FC = () => {
   const { language, t, getProductName, getCategoryName } = useLanguage();
@@ -47,6 +48,8 @@ export const ProductManagement: React.FC = () => {
   const [isRegosModalOpen, setIsRegosModalOpen] = useState(false);
   // Tasnif.soliq.uz Sync Modal
   const [isTasnifModalOpen, setIsTasnifModalOpen] = useState(false);
+  // Barcode-List.com Sync Modal (500 talik partiya)
+  const [isBarcodeListModalOpen, setIsBarcodeListModalOpen] = useState(false);
 
   // Strict Image Discovery Modal
   const [isImageDiscoveryModalOpen, setIsImageDiscoveryModalOpen] = useState(false);
@@ -432,6 +435,15 @@ export const ProductManagement: React.FC = () => {
 
         {/* Right Pagination & Layout Toggles */}
         <div className="flex items-center gap-2 text-xs">
+          <button
+            onClick={() => setIsBarcodeListModalOpen(true)}
+            className="flex items-center gap-1.5 bg-gradient-to-r from-violet-600 to-indigo-700 hover:from-violet-700 hover:to-indigo-800 text-white font-extrabold py-1 px-3 rounded-lg shadow-sm transition-all cursor-pointer"
+            title="Barcode-List.com orqali tovar nomlarini tekshirish va to'g'rilash (bitta bosganda 500 ta)"
+          >
+            <Barcode className="w-3.5 h-3.5 text-violet-200" />
+            <span>Barcode-List Qidirish</span>
+          </button>
+
           <button
             onClick={() => setIsTasnifModalOpen(true)}
             className="flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-extrabold py-1 px-3 rounded-lg shadow-sm transition-all cursor-pointer"
@@ -1269,6 +1281,15 @@ export const ProductManagement: React.FC = () => {
       <TasnifSoliqSyncModal
         isOpen={isTasnifModalOpen}
         onClose={() => setIsTasnifModalOpen(false)}
+        onSuccess={() => {
+          loadData();
+        }}
+      />
+
+      {/* Barcode-List.com Shtrix-kod Sinxronizatsiyasi (500 talik partiya) */}
+      <BarcodeListSyncModal
+        isOpen={isBarcodeListModalOpen}
+        onClose={() => setIsBarcodeListModalOpen(false)}
         onSuccess={() => {
           loadData();
         }}

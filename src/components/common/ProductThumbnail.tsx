@@ -16,25 +16,37 @@ export const ProductThumbnail: React.FC<ProductThumbnailProps> = ({
   iconSize = 'w-6 h-6',
   imgClassName = 'w-full h-full object-contain',
 }) => {
+  const [useProxy, setUseProxy] = useState(false);
   const [hasError, setHasError] = useState(false);
   const imageUrl = getAutoProductImage(product);
 
   // Reset error state when product or image URL changes
   useEffect(() => {
     setHasError(false);
+    setUseProxy(false);
   }, [imageUrl, product?.id]);
 
-  if (imageUrl && !hasError) {
+  const handleImageError = () => {
+    if (!useProxy && imageUrl && imageUrl.startsWith('http')) {
+      // First attempt loading via backend image-proxy before falling back to vector icon
+      setUseProxy(true);
+    } else {
+      setHasError(true);
+    }
+  };
+
+  const currentSrc = useProxy && imageUrl ? `/api/image-proxy?url=${encodeURIComponent(imageUrl)}` : imageUrl;
+
+  if (currentSrc && !hasError) {
     return (
       <img
-        src={imageUrl}
+        src={currentSrc}
         alt={product?.nameUz || product?.nameRu || 'Product'}
         referrerPolicy="no-referrer"
-        crossOrigin="anonymous"
         loading="lazy"
         decoding="async"
         className={imgClassName}
-        onError={() => setHasError(true)}
+        onError={handleImageError}
       />
     );
   }

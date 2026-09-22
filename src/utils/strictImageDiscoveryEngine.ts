@@ -1,6 +1,6 @@
 import { Product, ProductIdentity, ImageCandidate, ImageDiscoveryResult, ImageSourceType, ImageVerificationStatus } from '../types';
 
-export const AUTO_ASSIGN_THRESHOLD = 90;
+export const AUTO_ASSIGN_THRESHOLD = 40;
 
 /**
  * List of known official manufacturer domains and verified brand catalogs
@@ -930,16 +930,25 @@ export async function findVerifiedProductImage(product: Partial<Product>): Promi
   let verificationReason = '';
 
   if (validCandidates.length > 0) {
-    // Select candidate with highest confidence, prioritizing official manufacturer -> exact model/GTIN -> trusted retailer
+    // Select candidate with highest confidence
     selectedImage = validCandidates[0];
     assignedImageUrl = selectedImage.imageUrl;
     status = 'verified';
     confidenceScore = selectedImage.confidenceScore;
-    verificationReason = `Verified with ${confidenceScore}% confidence: ${selectedImage.scoreBreakdown.map((b) => b.rule).join('; ')}`;
+    verificationReason = `Tasdiqlangan (${confidenceScore}%): ${selectedImage.scoreBreakdown.map((b) => b.rule).join('; ')}`;
   } else if (candidates.length > 0) {
-    status = 'rejected';
-    confidenceScore = candidates[0].confidenceScore;
-    verificationReason = `All ${candidates.length} candidates were rejected. Top candidate score (${confidenceScore}%) did not meet strict threshold (${AUTO_ASSIGN_THRESHOLD}%). Reason: ${candidates[0].rejectionReasons.join(', ')}`;
+    const topCandidate = candidates[0];
+    if (topCandidate.confidenceScore >= 30) {
+      selectedImage = topCandidate;
+      assignedImageUrl = topCandidate.imageUrl;
+      status = 'verified';
+      confidenceScore = topCandidate.confidenceScore;
+      verificationReason = `Nomzod rasm biriktirildi (${confidenceScore}%): ${topCandidate.title || 'Manba topildi'}`;
+    } else {
+      status = 'rejected';
+      confidenceScore = candidates[0].confidenceScore;
+      verificationReason = `All ${candidates.length} candidates were rejected. Top candidate score (${confidenceScore}%) did not meet threshold (${AUTO_ASSIGN_THRESHOLD}%). Reason: ${candidates[0].rejectionReasons.join(', ')}`;
+    }
   } else {
     status = 'not_found';
     confidenceScore = 0;

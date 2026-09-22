@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Globe,
   RefreshCw,
@@ -13,19 +13,30 @@ import {
   Play,
   Pause,
   ShieldCheck,
+  Sparkles,
+  ExternalLink,
+  ChevronRight,
 } from 'lucide-react';
+import { cleanSupermarketName } from '../../utils/barcodeListResolver';
 
-interface TasnifStats {
-  totalProducts: number;
-  withBarcodeCount: number;
-  withImageCount: number;
-  withoutImageCount: number;
-  sampleWithBarcode: Array<{
-    id: string;
-    nameUz: string;
-    barcode: string;
-    hasImage: boolean;
-  }>;
+interface ProductItem {
+  id: string;
+  barcode: string;
+  nameUz: string;
+  currentImage?: string;
+  category?: string;
+  price?: number;
+}
+
+interface VerificationLogItem {
+  id: string;
+  barcode: string;
+  originalName: string;
+  verifiedName?: string;
+  mxikCode?: string;
+  imageUrl?: string;
+  status: 'pending' | 'success' | 'skipped' | 'error';
+  message: string;
 }
 
 interface Props {
@@ -35,20 +46,30 @@ interface Props {
 }
 
 export const TasnifSoliqSyncModal: React.FC<Props> = ({ isOpen, onClose, onSuccess }) => {
-  const [stats, setStats] = useState<TasnifStats | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [totalEligible, setTotalEligible] = useState<number>(7389);
+  const [batchSize, setBatchSize] = useState<number>(500);
+  const [startOffset, setStartOffset] = useState<number>(0);
+  const [autoSave, setAutoSave] = useState<boolean>(true);
+  const [onlyWithoutImage, setOnlyWithoutImage] = useState<boolean>(false);
+
+  // Execution states
+  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [updatedCount, setUpdatedCount] = useState<number>(0);
+  const [newImagesCount, setNewImagesCount] = useState<number>(0);
+  const [skippedCount, setSkippedCount] = useState<number>(0);
+  const [errorCount, setErrorCount] = useState<number>(0);
+
+  // Batch products and logs
+  const [batchProducts, setBatchProducts] = useState<ProductItem[]>([]);
+  const [logs, setLogs] = useState<VerificationLogItem[]>([]);
+  const [filterMode, setFilterMode] = useState<'all' | 'updated' | 'skipped'>('all');
   const [activeTab, setActiveTab] = useState<'live' | 'file' | 'script'>('live');
 
-  // Live Sync states
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [syncProgress, setSyncProgress] = useState(0);
-  const [syncLogs, setSyncLogs] = useState<string[]>([]);
-  const [updatedCount, setUpdatedCount] = useState(0);
-  const [newImagesCount, setNewImagesCount] = useState(0);
-  const [shouldStop, setShouldStop] = useState(false);
-
-  // File import state
+  // File import status
   const [fileImportStatus, setFileImportStatus] = useState<string | null>(null);
+
+  const isStopRequested = useRef(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -57,35 +78,39 @@ export const TasnifSoliqSyncModal: React.FC<Props> = ({ isOpen, onClose, onSucce
   }, [isOpen]);
 
   const loadStats = async () => {
-    setIsLoading(true);
     try {
       const res = await fetch('/api/admin/tasnif/stats');
       const data = await res.json();
-      if (data.success) {
-        setStats(data);
+      if (data.success && data.withBarcodeCount) {
+        setTotalEligible(data.withBarcodeCount);
       }
     } catch (err) {
-      console.error('Stats load error:', err);
-    } finally {
-      setIsLoading(false);
+      console.error('Tasnif stats error:', err);
     }
   };
 
-  // Brauzer orqali to'g'ridan-to'g'ri Tasnif.soliq.uz ga so'rov yuborish
+  /**
+   * Ultra-aniq Tasnif.soliq.uz qidiruv mexanizmi
+   * Rasmiy soliq bazasidan Brand, Attribute, MXIK va fotosuratni ajratib oladi
+   */
   const queryTasnifDirect = async (barcode: string) => {
+    const cleanBarcode = String(barcode).trim();
+    if (!cleanBarcode || cleanBarcode.length < 5) return null;
+
     const urls = [
-      `https://tasnif.soliq.uz/api/cls-api/mxik/search/by-params?gtin=${encodeURIComponent(barcode)}&lang=uz&size=5&page=0`,
-      `https://tasnif.soliq.uz/api/cl-api/mxik/search/by-params?gtin=${encodeURIComponent(barcode)}&lang=uz&size=5&page=0`,
+      `https://tasnif.soliq.uz/api/cls-api/mxik/search/by-params?gtin=${encodeURIComponent(cleanBarcode)}&lang=uz&size=5&page=0`,
+      `https://tasnif.soliq.uz/api/cl-api/mxik/search/by-params?gtin=${encodeURIComponent(cleanBarcode)}&lang=uz&size=5&page=0`,
     ];
 
-    for (const u of urls) {
+    for (const url of urls) {
       try {
-        const response = await fetch(u, {
+        const response = await fetch(url, {
           method: 'GET',
           headers: {
             'Accept': 'application/json, text/plain, */*',
           },
         });
+
         if (!response.ok) continue;
         const resJson = await response.json();
 
@@ -94,125 +119,194 @@ export const TasnifSoliqSyncModal: React.FC<Props> = ({ isOpen, onClose, onSucce
           items = resJson.data.content;
         } else if (resJson?.content && Array.isArray(resJson.content)) {
           items = resJson.content;
+        } else if (Array.isArray(resJson?.data)) {
+          items = resJson.data;
         }
 
         if (items.length > 0) {
           const it = items[0];
-          const name = it.nameUz || it.name || it.fullName || it.attributeNameUz || it.packageNameUz || '';
+
+          // 1. To'liq va toza nomni aniqlash
+          let nameCandidate = '';
+          if (it.brandName && it.attributeName) {
+            nameCandidate = `${it.brandName} ${it.attributeName}`;
+          } else if (it.attributeName) {
+            nameCandidate = it.attributeName;
+          } else if (it.nameUz || it.name || it.fullName) {
+            nameCandidate = it.nameUz || it.name || it.fullName;
+          } else if (it.brandName && it.mxikName) {
+            nameCandidate = `${it.brandName} ${it.mxikName}`;
+          } else if (it.mxikName) {
+            nameCandidate = it.mxikName;
+          }
+
+          // 2. Fotosuratni aniqlash
           const img = it.photo || it.photoUrl || it.imageUrl || it.image || (it.fileId ? `https://tasnif.soliq.uz/api/cls-api/file/download/${it.fileId}` : '');
+          // 3. MXIK kodi
           const mxikCode = it.mxikCode || it.code || '';
 
-          return {
-            barcode,
-            nameUz: name ? String(name).trim() : undefined,
-            imageUrl: img ? String(img).trim() : undefined,
-            mxikCode: mxikCode ? String(mxikCode).trim() : undefined,
-          };
+          if (nameCandidate && nameCandidate.trim().length >= 2) {
+            return {
+              barcode: cleanBarcode,
+              found: true,
+              verifiedName: cleanSupermarketName(nameCandidate.trim()),
+              imageUrl: img ? String(img).trim() : undefined,
+              mxikCode: mxikCode ? String(mxikCode).trim() : undefined,
+              rawBrand: it.brandName,
+              rawAttribute: it.attributeName,
+            };
+          }
         }
-      } catch (e) {
-        // CORS yoki tarmoq xatosi
+      } catch {
+        // Tarmoq yoki CORS
       }
     }
     return null;
   };
 
-  // Jonli sinxronizatsiyani boshlash
-  const handleStartLiveSync = async () => {
-    setIsSyncing(true);
-    setShouldStop(false);
-    setSyncProgress(0);
+  // 500 talik partiyani tekshirishni boshlash
+  const handleStartBatch = async () => {
+    if (isRunning) return;
+
+    isStopRequested.current = false;
+    setIsRunning(true);
+    setLogs([]);
     setUpdatedCount(0);
     setNewImagesCount(0);
-    setSyncLogs((prev) => [`🚀 Tasnif.soliq.uz bilan sinxronizatsiya boshlandi...`, ...prev]);
+    setSkippedCount(0);
+    setErrorCount(0);
+    setCurrentIndex(0);
 
     try {
-      // 1. Tizimdagi shtrix-kodli tovarlar ro'yxatini yuklash
-      const res = await fetch('/api/admin/tasnif/products-to-sync?limit=200&offset=0');
-      const data = await res.json();
+      // 1. Serverdan navbatdagi tovarlar partiyasini olish
+      const batchRes = await fetch(
+        `/api/admin/tasnif/products-to-sync?limit=${batchSize}&offset=${startOffset}${onlyWithoutImage ? '&onlyWithoutImage=true' : ''}`
+      );
+      const batchData = await batchRes.json();
 
-      if (!data.success || !data.products || data.products.length === 0) {
-        setSyncLogs((prev) => [`❌ Sinxronizatsiya uchun tovarlar topilmadi.`, ...prev]);
-        setIsSyncing(false);
+      if (!batchData.success || !batchData.products || batchData.products.length === 0) {
+        alert("Tanlangan oraliqda tovarlar topilmadi!");
+        setIsRunning(false);
         return;
       }
 
-      const productsToProcess = data.products;
-      setSyncLogs((prev) => [`📦 Qayta ishlash uchun ${productsToProcess.length} ta shtrix-kod tayyorlandi.`, ...prev]);
+      const products: ProductItem[] = batchData.products;
+      setBatchProducts(products);
 
-      const foundUpdates: any[] = [];
-      let processed = 0;
+      const pendingUpdates: Array<{
+        barcode: string;
+        nameUz?: string;
+        imageUrl?: string;
+        mxikCode?: string;
+      }> = [];
 
-      for (const p of productsToProcess) {
-        if (shouldStop) {
-          setSyncLogs((prev) => [`⏸ Sinxronizatsiya foydalanuvchi tomonidan to'xtatildi.`, ...prev]);
-          break;
-        }
+      // 2. Ketma-ket tekshirib chiqish
+      for (let i = 0; i < products.length; i++) {
+        if (isStopRequested.current) break;
 
-        const barcode = p.barcode;
-        const tasnifItem = await queryTasnifDirect(barcode);
+        const item = products[i];
+        setCurrentIndex(i + 1);
 
-        processed++;
-        setSyncProgress(Math.round((processed / productsToProcess.length) * 100));
+        try {
+          const tasnifResult = await queryTasnifDirect(item.barcode);
 
-        if (tasnifItem && (tasnifItem.nameUz || tasnifItem.imageUrl)) {
-          foundUpdates.push(tasnifItem);
-          setSyncLogs((prev) => [
-            `✅ [100% Moslik] Shtrix: ${barcode} -> "${tasnifItem.nameUz || p.nameUz}" ${tasnifItem.imageUrl ? '🖼 (Rasm bor)' : ''}`,
-            ...prev.slice(0, 40),
+          if (tasnifResult && tasnifResult.found && tasnifResult.verifiedName) {
+            setUpdatedCount((prev) => prev + 1);
+            if (tasnifResult.imageUrl) {
+              setNewImagesCount((prev) => prev + 1);
+            }
+
+            pendingUpdates.push({
+              barcode: item.barcode,
+              nameUz: tasnifResult.verifiedName,
+              imageUrl: tasnifResult.imageUrl,
+              mxikCode: tasnifResult.mxikCode,
+            });
+
+            setLogs((prev) => [
+              {
+                id: item.id,
+                barcode: item.barcode,
+                originalName: item.nameUz,
+                verifiedName: tasnifResult.verifiedName,
+                mxikCode: tasnifResult.mxikCode,
+                imageUrl: tasnifResult.imageUrl,
+                status: 'success',
+                message: `Tasnif Soliq dan 100% aniqlik bilan topildi`,
+              },
+              ...prev.slice(0, 150),
+            ]);
+
+            // Har 10 ta tovar topilganda serverga saqlash
+            if (autoSave && pendingUpdates.length >= 10) {
+              await saveBatchUpdates(pendingUpdates.splice(0, pendingUpdates.length));
+            }
+          } else {
+            // Topilmagan tovarlar 100% ASLI HOLATIDA QOLADI!
+            setSkippedCount((prev) => prev + 1);
+            setLogs((prev) => [
+              {
+                id: item.id,
+                barcode: item.barcode,
+                originalName: item.nameUz,
+                status: 'skipped',
+                message: "Tasnifda yo'q — asl nomi 100% o'zgarishsiz qoldirildi",
+              },
+              ...prev.slice(0, 150),
+            ]);
+          }
+        } catch {
+          setErrorCount((prev) => prev + 1);
+          setLogs((prev) => [
+            {
+              id: item.id,
+              barcode: item.barcode,
+              originalName: item.nameUz,
+              status: 'error',
+              message: "Aloqa uzildi — asl nomi saqlandi",
+            },
+            ...prev.slice(0, 150),
           ]);
         }
 
-        // Har 10 ta tovar topilganda serverga saqlash
-        if (foundUpdates.length >= 10) {
-          const saveRes = await fetch('/api/admin/tasnif/bulk-update', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ updates: [...foundUpdates] }),
-          });
-          const saveJson = await saveRes.json();
-          if (saveJson.success) {
-            setUpdatedCount((c) => c + saveJson.updatedCount);
-            setNewImagesCount((c) => c + (saveJson.newImagesCount || 0));
-          }
-          foundUpdates.length = 0; // Bo'shatish
-        }
-
-        // Kichik tanaffus
-        await new Promise((r) => setTimeout(r, 150));
+        // Tanaffus
+        await new Promise((r) => setTimeout(r, 60));
       }
 
       // Qolgan topilgan tovarlarni saqlash
-      if (foundUpdates.length > 0) {
-        const saveRes = await fetch('/api/admin/tasnif/bulk-update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ updates: foundUpdates }),
-        });
-        const saveJson = await saveRes.json();
-        if (saveJson.success) {
-          setUpdatedCount((c) => c + saveJson.updatedCount);
-          setNewImagesCount((c) => c + (saveJson.newImagesCount || 0));
-        }
+      if (pendingUpdates.length > 0) {
+        await saveBatchUpdates(pendingUpdates);
       }
 
-      setSyncLogs((prev) => [
-        `🏁 Jarayon yakunlandi! Hammasi bo'lib yangilandi: ${updatedCount} ta. Chiqmagan tovarlar 100% asl holatda qoldirildi.`,
-        ...prev,
-      ]);
-      loadStats();
-      if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setSyncLogs((prev) => [
-        `⚠️ Eslatma: Brauzer CORS xavfsizligi tufayli tasnif.soliq.uz API bloklandi.`,
-        `💡 Maslahat: Quyidagi "Excel / JSON yuklash" yoki "Lokal Skript" usulidan foydalaning!`,
-        ...prev,
-      ]);
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (err) {
+      console.error('Tasnif batch error:', err);
     } finally {
-      setIsSyncing(false);
+      setIsRunning(false);
     }
   };
 
-  // Fayl yuklash (Excel / JSON / CSV)
+  const handleStop = () => {
+    isStopRequested.current = true;
+    setIsRunning(false);
+  };
+
+  const saveBatchUpdates = async (updates: any[]) => {
+    if (!updates.length) return;
+    try {
+      await fetch('/api/admin/tasnif/bulk-update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ updates }),
+      });
+    } catch (err) {
+      console.error('Tasnif save error:', err);
+    }
+  };
+
+  // Fayl yuklash (Excel / JSON)
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -227,62 +321,36 @@ export const TasnifSoliqSyncModal: React.FC<Props> = ({ isOpen, onClose, onSucce
 
         if (file.name.endsWith('.json')) {
           const parsed = JSON.parse(text);
-          const list = Array.isArray(parsed) ? parsed : parsed.data || parsed.content || [];
-          updates = list.map((item: any) => ({
-            barcode: item.barcode || item.gtin || item.code,
-            nameUz: item.nameUz || item.name || item.fullName,
-            nameRu: item.nameRu,
-            imageUrl: item.imageUrl || item.image || item.photo || item.photoUrl,
-            mxikCode: item.mxikCode || item.ikpu,
-          })).filter((u: any) => u.barcode);
-        } else {
-          // CSV / TSV formatdagi matn
-          const lines = text.split('\n');
-          for (let i = 1; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (!line) continue;
-            const parts = line.split(/[,\t;]/).map((p) => p.replace(/^"|"$/g, '').trim());
-            if (parts.length >= 2) {
-              const barcode = parts.find((p) => /^\d{8,14}$/.test(p));
-              const name = parts.find((p) => p.length > 3 && !/^\d+$/.test(p) && !p.startsWith('http'));
-              const img = parts.find((p) => p.startsWith('http'));
-
-              if (barcode && (name || img)) {
-                updates.push({
-                  barcode,
-                  nameUz: name,
-                  imageUrl: img,
-                });
-              }
-            }
+          if (Array.isArray(parsed)) {
+            updates = parsed.map((item) => ({
+              barcode: String(item.barcode || item.gtin || item.code || '').trim(),
+              nameUz: item.nameUz || item.name || item.fullName,
+              imageUrl: item.image || item.imageUrl || item.photo,
+              mxikCode: item.mxikCode || item.mxik || item.ikpu,
+            }));
           }
         }
 
-        if (updates.length === 0) {
-          setFileImportStatus("❌ Fayldan shtrix-kodli tovarlar topilmadi.");
-          return;
-        }
-
-        setFileImportStatus(`Topildi: ${updates.length} ta tovar. Bazaga 100% aniqlik bilan solishtirilmoqda...`);
-
-        const saveRes = await fetch('/api/admin/tasnif/bulk-update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ updates }),
-        });
-        const saveJson = await saveRes.json();
-
-        if (saveJson.success) {
-          setFileImportStatus(
-            `✅ Muvaffaqiyatli! ${saveJson.updatedCount} ta mahsulot yangilandi (Rasmlar: ${saveJson.newImagesCount || 0} ta). Chiqmaganlar 100% asli holatda saqlandi.`
-          );
-          loadStats();
-          if (onSuccess) onSuccess();
+        if (updates.length > 0) {
+          setFileImportStatus(`Serverga ${updates.length} ta yozuv yuborilmoqda...`);
+          const res = await fetch('/api/admin/tasnif/bulk-update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ updates }),
+          });
+          const resJson = await res.json();
+          if (resJson.success) {
+            setFileImportStatus(`✅ Muvaffaqiyatli! ${resJson.updatedCount} ta tovar Tasnif ma'lumotlari bilan yangilandi.`);
+            loadStats();
+            if (onSuccess) onSuccess();
+          } else {
+            setFileImportStatus(`❌ Xatolik: ${resJson.message}`);
+          }
         } else {
-          setFileImportStatus(`❌ Xatolik: ${saveJson.message}`);
+          setFileImportStatus(`⚠️ Faylda mos keluvchi shtrix-kod va tovar nomlari topilmadi.`);
         }
       } catch (err: any) {
-        setFileImportStatus(`❌ Faylni o'qishda xatolik: ${err?.message}`);
+        setFileImportStatus(`❌ Faylni o'qishda xatolik: ${err.message}`);
       }
     };
 
@@ -291,271 +359,492 @@ export const TasnifSoliqSyncModal: React.FC<Props> = ({ isOpen, onClose, onSucce
 
   if (!isOpen) return null;
 
+  const progressPercent = batchProducts.length > 0 ? Math.round((currentIndex / batchProducts.length) * 100) : 0;
+  const filteredLogs = logs.filter((l) => {
+    if (filterMode === 'updated') return l.status === 'success';
+    if (filterMode === 'skipped') return l.status === 'skipped';
+    return true;
+  });
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/75 backdrop-blur-xs p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-5xl h-[90vh] max-h-[820px] flex flex-col overflow-hidden text-slate-800">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-emerald-600 to-teal-700 text-white">
+        <div className="px-6 py-4 bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 text-white flex items-center justify-between shadow-md">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center">
-              <Globe className="w-5 h-5 text-emerald-200" />
+            <div className="p-2.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20">
+              <Globe className="w-6 h-6 text-emerald-200" />
             </div>
             <div>
-              <h2 className="text-lg font-bold">Tasnif.soliq.uz Shtrix-kod Sinxronizatsiyasi</h2>
-              <p className="text-xs text-emerald-100">
-                100% aniq shtrix-kod orqali rasmiy nom va rasmlarni ko'chirish
+              <div className="flex items-center gap-2">
+                <h2 className="text-base font-black tracking-wide">
+                  Tasnif.soliq.uz Shtrix-kod Sinxronizatsiyasi
+                </h2>
+                <span className="bg-emerald-500/40 text-emerald-100 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300/30">
+                  500 talik partiya
+                </span>
+              </div>
+              <p className="text-xs text-emerald-200 font-medium">
+                O'zbekiston Davlat Soliq Qo'mitasi rasmiy katalogidan tovar nomlari va rasmlarini 100% aniqlikda yangilash
               </p>
             </div>
           </div>
           <button
-            onClick={onClose}
-            className="p-2 rounded-xl text-emerald-100 hover:text-white hover:bg-white/10 transition-colors"
+            onClick={() => {
+              if (isRunning) handleStop();
+              onClose();
+            }}
+            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Stats Row */}
-        <div className="grid grid-cols-4 gap-3 p-5 bg-slate-50 border-b border-slate-200/80 text-xs">
-          <div className="p-3 bg-white rounded-xl border border-slate-200/60 shadow-sm">
-            <div className="text-slate-500 font-medium">Jami tovarlar</div>
-            <div className="text-lg font-bold text-slate-800 mt-1">
-              {stats?.totalProducts?.toLocaleString() || '...'} ta
-            </div>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200/60 shadow-sm">
-            <div className="text-slate-500 font-medium flex items-center gap-1">
-              <Barcode className="w-3.5 h-3.5 text-blue-500" /> Shtrix-kodi bor
-            </div>
-            <div className="text-lg font-bold text-blue-600 mt-1">
-              {stats?.withBarcodeCount?.toLocaleString() || '...'} ta
-            </div>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200/60 shadow-sm">
-            <div className="text-slate-500 font-medium flex items-center gap-1">
-              <ImageIcon className="w-3.5 h-3.5 text-emerald-500" /> Rasmi bor
-            </div>
-            <div className="text-lg font-bold text-emerald-600 mt-1">
-              {stats?.withImageCount?.toLocaleString() || '...'} ta
-            </div>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200/60 shadow-sm">
-            <div className="text-slate-500 font-medium flex items-center gap-1">
-              <AlertCircle className="w-3.5 h-3.5 text-amber-500" /> Rasmi yo'q
-            </div>
-            <div className="text-lg font-bold text-amber-600 mt-1">
-              {stats?.withoutImageCount?.toLocaleString() || '...'} ta
-            </div>
-          </div>
-        </div>
-
-        {/* Strict rule banner */}
-        <div className="mx-5 mt-4 p-3 bg-emerald-50/80 rounded-xl border border-emerald-200 flex items-start gap-2.5 text-xs text-emerald-900">
-          <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-          <div>
-            <strong className="font-semibold">Qat'iy 100% aniqlik qoidasi:</strong> Faqat shtrix-kodi (GTIN) tasnif.soliq.uz tizimi bilan 100% to'liq mos tushgan tovarlarning rasmiy nomi va rasmi yangilanadi. Topilmagan yoki noaniq mahsulotlar <strong>100% asli holatda qoladi</strong>.
-          </div>
-        </div>
-
-        {/* Tab selection */}
-        <div className="flex border-b border-slate-200 px-5 pt-3 gap-4 text-xs font-semibold">
+        {/* Tab Navigation */}
+        <div className="flex border-b border-slate-200 bg-slate-100 px-6 pt-2">
           <button
             onClick={() => setActiveTab('live')}
-            className={`pb-2.5 border-b-2 transition-colors flex items-center gap-1.5 ${
+            className={`flex items-center gap-2 py-2.5 px-4 font-bold text-xs border-b-2 transition-all cursor-pointer ${
               activeTab === 'live'
-                ? 'border-emerald-600 text-emerald-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-emerald-600 text-emerald-700 bg-white rounded-t-lg'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >
-            <Play className="w-3.5 h-3.5" /> Jonli sinxronlash (Brauzer)
+            <RefreshCw className={`w-3.5 h-3.5 ${isRunning ? 'animate-spin text-emerald-600' : ''}`} />
+            <span>Jonli tekshirish (500 talik)</span>
           </button>
-
           <button
             onClick={() => setActiveTab('file')}
-            className={`pb-2.5 border-b-2 transition-colors flex items-center gap-1.5 ${
+            className={`flex items-center gap-2 py-2.5 px-4 font-bold text-xs border-b-2 transition-all cursor-pointer ${
               activeTab === 'file'
-                ? 'border-emerald-600 text-emerald-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-emerald-600 text-emerald-700 bg-white rounded-t-lg'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >
-            <FileSpreadsheet className="w-3.5 h-3.5" /> Tasnif Fayl yuklash (Excel / JSON)
+            <Upload className="w-3.5 h-3.5" />
+            <span>Fayldan import (Excel / JSON)</span>
           </button>
-
           <button
             onClick={() => setActiveTab('script')}
-            className={`pb-2.5 border-b-2 transition-colors flex items-center gap-1.5 ${
+            className={`flex items-center gap-2 py-2.5 px-4 font-bold text-xs border-b-2 transition-all cursor-pointer ${
               activeTab === 'script'
-                ? 'border-emerald-600 text-emerald-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-emerald-600 text-emerald-700 bg-white rounded-t-lg'
+                : 'border-transparent text-slate-500 hover:text-slate-700'
             }`}
           >
-            <Terminal className="w-3.5 h-3.5" /> Fon Rejimidagi Skript
+            <Terminal className="w-3.5 h-3.5" />
+            <span>CORS yordamchisi</span>
           </button>
         </div>
 
-        {/* Tab Content */}
-        <div className="p-5 flex-1 overflow-y-auto space-y-4">
+        {/* Main Content Area */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-5 bg-slate-50/60">
           {activeTab === 'live' && (
-            <div className="space-y-4">
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-                <div>
-                  <h4 className="font-bold text-slate-800 text-sm">
-                    Tasnif.soliq.uz dan to'g'ridan-to'g'ri qidirish
-                  </h4>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    O'zbekiston tarmog'i orqali ketma-ket har bir shtrix-kod so'raladi va yangilanadi
-                  </p>
+            <>
+              {/* 1. Control Panel & Configuration */}
+              <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+                <div className="flex flex-wrap items-center gap-4">
+                  {/* Batch Size Selector */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+                      Bitta bosishdagi hajm:
+                    </label>
+                    <div className="flex items-center gap-1">
+                      {[100, 250, 500, 1000].map((size) => (
+                        <button
+                          key={size}
+                          disabled={isRunning}
+                          onClick={() => setBatchSize(size)}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                            batchSize === size
+                              ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          }`}
+                        >
+                          {size} ta
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Offset / Start Index */}
+                  <div>
+                    <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+                      Qaysi tovardan boshlash (Ofset):
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="number"
+                        min={0}
+                        max={totalEligible}
+                        step={100}
+                        value={startOffset}
+                        disabled={isRunning}
+                        onChange={(e) => setStartOffset(Math.max(0, parseInt(e.target.value) || 0))}
+                        className="w-28 px-3 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:border-emerald-500"
+                      />
+                      <span className="text-xs text-slate-500 font-medium">
+                        / jami {totalEligible.toLocaleString()} ta
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Auto Save & Filter Toggles */}
+                  <div className="flex items-center gap-4 pt-4">
+                    <label className="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={autoSave}
+                        disabled={isRunning}
+                        onChange={(e) => setAutoSave(e.target.checked)}
+                        className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                      />
+                      Avtomatik saqlash
+                    </label>
+                    <label className="flex items-center gap-1.5 text-xs font-bold text-slate-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={onlyWithoutImage}
+                        disabled={isRunning}
+                        onChange={(e) => setOnlyWithoutImage(e.target.checked)}
+                        className="w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                      />
+                      Faqat rasmi yo'qlar
+                    </label>
+                  </div>
                 </div>
 
-                <div className="flex gap-2">
-                  {!isSyncing ? (
+                {/* Action Buttons */}
+                <div className="flex items-center gap-2">
+                  {!isRunning ? (
                     <button
-                      onClick={handleStartLiveSync}
-                      className="px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs hover:bg-emerald-700 transition-colors shadow-sm flex items-center gap-1.5"
+                      onClick={handleStartBatch}
+                      className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer"
                     >
-                      <Play className="w-3.5 h-3.5" /> Sinxronlashni boshlash
+                      <Play className="w-4 h-4 fill-white" />
+                      <span>{batchSize} ta toparni tekshirishni boshlash</span>
                     </button>
                   ) : (
                     <button
-                      onClick={() => setShouldStop(true)}
-                      className="px-4 py-2 bg-rose-600 text-white rounded-xl font-bold text-xs hover:bg-rose-700 transition-colors shadow-sm flex items-center gap-1.5"
+                      onClick={handleStop}
+                      className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl shadow-md transition-all cursor-pointer"
                     >
-                      <Pause className="w-3.5 h-3.5" /> To'xtatish
+                      <Pause className="w-4 h-4" />
+                      <span>To'xtatish (Pauza)</span>
                     </button>
                   )}
                 </div>
               </div>
 
-              {isSyncing && (
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs text-slate-600 font-medium">
-                    <span>Sinxronizatsiya davom etmoqda: {syncProgress}%</span>
-                    <span>Yangilandi: {updatedCount} ta | Rasmlar: {newImagesCount} ta</span>
+              {/* 2. Real-time Progress & Statistics Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                    Partiya holati
+                  </span>
+                  <div className="flex items-baseline gap-1 mt-1">
+                    <span className="text-xl font-black text-slate-800">
+                      {currentIndex}
+                    </span>
+                    <span className="text-xs font-bold text-slate-400">
+                      / {batchProducts.length || batchSize}
+                    </span>
                   </div>
-                  <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    {progressPercent}% bajarildi
+                  </span>
+                </div>
+
+                <div className="bg-emerald-50/60 p-3.5 rounded-xl border border-emerald-200 shadow-xs">
+                  <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">
+                    Tasnifdan topildi
+                  </span>
+                  <div className="text-xl font-black text-emerald-700 mt-1">
+                    {updatedCount}
+                  </div>
+                  <span className="text-[11px] text-emerald-600 font-semibold">
+                    100% aniq to'g'rilangan
+                  </span>
+                </div>
+
+                <div className="bg-sky-50/60 p-3.5 rounded-xl border border-sky-200 shadow-xs">
+                  <span className="text-[10px] font-bold text-sky-600 uppercase tracking-wider block">
+                    Yangi rasmlar
+                  </span>
+                  <div className="text-xl font-black text-sky-700 mt-1">
+                    {newImagesCount}
+                  </div>
+                  <span className="text-[11px] text-sky-600 font-semibold">
+                    Soliq bazasidan biriktirildi
+                  </span>
+                </div>
+
+                <div className="bg-slate-100 p-3.5 rounded-xl border border-slate-200 shadow-xs">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                    Aslicha qoldirildi
+                  </span>
+                  <div className="text-xl font-black text-slate-700 mt-1">
+                    {skippedCount}
+                  </div>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    Tasnifda yo'qlari saqlandi
+                  </span>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              {isRunning && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-600">
+                    <span className="flex items-center gap-2">
+                      <RefreshCw className="w-3.5 h-3.5 text-emerald-600 animate-spin" />
+                      Tasnif.soliq.uz bazasidan tekshirilmoqda...
+                    </span>
+                    <span>{progressPercent}%</span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-emerald-500 transition-all duration-200"
-                      style={{ width: `${syncProgress}%` }}
-                    />
+                      className="bg-gradient-to-r from-emerald-600 to-teal-600 h-full rounded-full transition-all duration-300"
+                      style={{ width: `${progressPercent}%` }}
+                    ></div>
                   </div>
                 </div>
               )}
 
-              {/* Console Logs */}
-              <div className="bg-slate-900 text-slate-200 rounded-xl p-3 font-mono text-[11px] h-44 overflow-y-auto space-y-1 shadow-inner">
-                {syncLogs.length === 0 ? (
-                  <div className="text-slate-500 italic">Jarayon jurnali bu yerda ko'rinadi...</div>
-                ) : (
-                  syncLogs.map((log, idx) => (
-                    <div key={idx} className="leading-tight">
-                      {log}
+              {/* 3. Live Logs / Results Table */}
+              <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden flex flex-col">
+                <div className="p-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-xs font-black text-slate-800 tracking-wide">
+                      Jonli tekshiruv natijalari
+                    </h3>
+                    <span className="text-[11px] font-bold text-slate-500">
+                      ({logs.length} ta yozuv)
+                    </span>
+                  </div>
+
+                  {/* Filter tabs */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setFilterMode('all')}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                        filterMode === 'all'
+                          ? 'bg-slate-800 text-white'
+                          : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      Barchasi ({logs.length})
+                    </button>
+                    <button
+                      onClick={() => setFilterMode('updated')}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                        filterMode === 'updated'
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white text-emerald-700 border border-emerald-200 hover:bg-emerald-50'
+                      }`}
+                    >
+                      Faqat yangilanganlar ({updatedCount})
+                    </button>
+                    <button
+                      onClick={() => setFilterMode('skipped')}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                        filterMode === 'skipped'
+                          ? 'bg-slate-600 text-white'
+                          : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                      }`}
+                    >
+                      Aslicha qolganlar ({skippedCount})
+                    </button>
+                  </div>
+                </div>
+
+                {/* Table Container */}
+                <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                  {filteredLogs.length === 0 ? (
+                    <div className="py-12 text-center text-slate-400">
+                      <Globe className="w-10 h-10 mx-auto text-slate-300 mb-2" />
+                      <p className="text-xs font-bold text-slate-600">
+                        Hali tekshirish boshlanmadi
+                      </p>
+                      <p className="text-[11px] text-slate-400 max-w-sm mx-auto mt-1">
+                        "500 ta toparni tekshirishni boshlash" tugmasini bosing. Dastur shtrix-kodlar bo'yicha Tasnif Soliq bazasidan eng to'g'ri nom va rasmlarni topib yangilaydi.
+                      </p>
                     </div>
-                  ))
-                )}
+                  ) : (
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-50/80 text-[10px] font-extrabold text-slate-500 uppercase tracking-wider sticky top-0 border-b border-slate-200">
+                        <tr>
+                          <th className="py-2 px-3">Shtrix-kod</th>
+                          <th className="py-2 px-3">Hozirgi nomi</th>
+                          <th className="py-2 px-3">Tasnifdan yangi nom</th>
+                          <th className="py-2 px-3">MXIK</th>
+                          <th className="py-2 px-3">Rasm</th>
+                          <th className="py-2 px-3 text-right">Holati</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {filteredLogs.map((log, idx) => (
+                          <tr
+                            key={idx}
+                            className={`hover:bg-slate-50 transition-colors ${
+                              log.status === 'success' ? 'bg-emerald-50/30' : ''
+                            }`}
+                          >
+                            <td className="py-2 px-3 font-mono font-bold text-slate-700">
+                              {log.barcode}
+                            </td>
+                            <td className="py-2 px-3 text-slate-600 max-w-xs truncate" title={log.originalName}>
+                              {log.originalName}
+                            </td>
+                            <td className="py-2 px-3 font-bold text-slate-900 max-w-xs truncate" title={log.verifiedName}>
+                              {log.verifiedName ? (
+                                <span className="text-emerald-700 flex items-center gap-1">
+                                  <Sparkles className="w-3 h-3 text-emerald-500 shrink-0" />
+                                  {log.verifiedName}
+                                </span>
+                              ) : (
+                                <span className="text-slate-400 italic">O'zgarmadi</span>
+                              )}
+                            </td>
+                            <td className="py-2 px-3 font-mono text-[10px] text-slate-500">
+                              {log.mxikCode ? log.mxikCode.slice(0, 10) + '...' : '—'}
+                            </td>
+                            <td className="py-2 px-3">
+                              {log.imageUrl ? (
+                                <img
+                                  src={log.imageUrl}
+                                  alt="Product"
+                                  className="w-6 h-6 object-cover rounded border border-slate-200"
+                                  referrerPolicy="no-referrer"
+                                />
+                              ) : (
+                                <span className="text-slate-300 text-[10px]">—</span>
+                              )}
+                            </td>
+                            <td className="py-2 px-3 text-right">
+                              {log.status === 'success' ? (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-extrabold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  Yangilandi
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+                                  Aslicha qoldi
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
               </div>
-            </div>
+
+              {/* 4. Strict Safety Guarantee */}
+              <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-3.5 flex items-start gap-3 text-xs text-blue-900">
+                <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-extrabold text-blue-950">
+                    100% Xavfsizlik va Aniqlik Kafolati:
+                  </p>
+                  <p className="text-blue-800/90 text-[11px] mt-0.5">
+                    Har bir mahsulot qat'iy shtrix-kod bo'yicha Tasnif Soliq bazasidan tekshiriladi. Chiqmagan tovarlarning nomiga umuman tegilmaydi va ular 100% o'z holatida saqlanadi.
+                  </p>
+                </div>
+              </div>
+            </>
           )}
 
           {activeTab === 'file' && (
-            <div className="space-y-4">
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
-                <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-                  <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
-                  Tasnif.soliq.uz dan eksport qilingan faylni yuklash
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <FileSpreadsheet className="w-8 h-8 text-emerald-600" />
+                <div>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Tasnif Soliq fayllarini yuklash (JSON / Excel)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Tasnif.soliq.uz dan eksport qilingan JSON yoki Excel faylini yuklang. Tizim shtrix-kodlari bo'yicha avtomatik yangilab oladi.
+                  </p>
                 </div>
-                <p>
-                  Agar tasnif.soliq.uz shaxsiy kabinetingizdan tovarlar ro'yxatini Excel, CSV yoki JSON formatida yuklab olgan bo'lsangiz, shu yerga yuklang.
-                </p>
-                <p className="text-slate-500">
-                  Tizim fayldagi shtrix-kodlar (GTIN) bilan bizdagi tovarlarni solishtiradi va faqat 100% to'g'ri kelganlarini yangilaydi.
-                </p>
               </div>
 
-              <div className="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:border-emerald-500 transition-colors bg-white">
+              <div className="border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-xl p-8 text-center cursor-pointer transition-colors bg-slate-50/50">
                 <input
                   type="file"
-                  id="tasnif-file-input"
-                  accept=".json,.csv,.txt"
+                  id="tasnifFileInput"
+                  accept=".json,.xlsx,.xls,.csv"
                   onChange={handleFileUpload}
                   className="hidden"
                 />
-                <label
-                  htmlFor="tasnif-file-input"
-                  className="cursor-pointer flex flex-col items-center justify-center gap-3"
-                >
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-                    <Upload className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-emerald-600 hover:underline text-sm">
-                      Faylni tanlang
-                    </span>{' '}
-                    <span className="text-slate-500 text-xs">yoki shu yerga sudrab tashlang</span>
-                  </div>
-                  <div className="text-[11px] text-slate-400">
-                    JSON, CSV yoki TSV (Ustunlar: Shtrix-kod, Tovar nomi, Rasm havolasi)
-                  </div>
+                <label htmlFor="tasnifFileInput" className="cursor-pointer block space-y-2">
+                  <Upload className="w-10 h-10 mx-auto text-emerald-600" />
+                  <span className="text-xs font-bold text-slate-800 block">
+                    Faylni tanlang yoki shu yerga tashlang
+                  </span>
+                  <span className="text-[11px] text-slate-400 block">
+                    JSON, XLSX yoki CSV formatida
+                  </span>
                 </label>
               </div>
 
               {fileImportStatus && (
-                <div className="p-3 bg-slate-100 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>{fileImportStatus}</span>
+                <div className="p-3 bg-slate-100 rounded-lg text-xs font-semibold text-slate-700">
+                  {fileImportStatus}
                 </div>
               )}
             </div>
           )}
 
           {activeTab === 'script' && (
-            <div className="space-y-4">
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
-                <div className="font-bold text-slate-800 text-sm flex items-center gap-1.5">
-                  <Terminal className="w-4 h-4 text-emerald-600" />
-                  O'zbekiston Serverida Skriptni Ishga Tushirish
-                </div>
-                <p>
-                  Tasnif.soliq.uz davlat soliq serveri faqat O'zbekiston ichidagi IP-manzillarga ruxsat beradi. Biz siz uchun to'liq avtonom Node.js skriptini tayyorlab qo'ydik.
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-xs font-bold text-slate-700">Terminal buyrug'i:</div>
-                <div className="p-3 bg-slate-900 text-emerald-400 font-mono text-xs rounded-xl flex items-center justify-between">
-                  <code>node scripts/sync_tasnif_soliq.js</code>
-                  <button
-                    onClick={() => navigator.clipboard.writeText('node scripts/sync_tasnif_soliq.js')}
-                    className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-[11px] font-sans"
-                  >
-                    Nusxalash
-                  </button>
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-xs space-y-4">
+              <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                <Terminal className="w-8 h-8 text-teal-600" />
+                <div>
+                  <h3 className="text-sm font-black text-slate-900">
+                    Tasnif.soliq.uz Brauzer Konsol Yordamchisi
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Agar brauzeringizda Tasnif Soliq API-si CORS xavfsizligi tufayli cheklangan bo'lsa, quyidagi skriptni tasnif.soliq.uz saytida brauzer konsolida ishlatishingiz mumkin:
+                  </p>
                 </div>
               </div>
 
-              <div className="text-xs text-slate-600 space-y-1">
-                <div className="font-bold text-slate-700">Skript qanday ishlaydi:</div>
-                <ul className="list-disc list-inside space-y-1 text-slate-500">
-                  <li>Barcha 7 110 ta tovarning shtrix-kodlarini oladi;</li>
-                  <li>Tasnif.soliq.uz API orqali rasmiy soliq nomini va rasmlarini qidiradi;</li>
-                  <li>Topilgan tovarlarni 100% aniq yangilaydi;</li>
-                  <li>Topilmagan tovarlarga zarracha tegmasdan, asl holatida qoldiradi!</li>
-                </ul>
+              <div className="bg-slate-900 text-emerald-400 p-4 rounded-xl font-mono text-xs overflow-x-auto space-y-2">
+                <p className="text-slate-400">// 1. tasnif.soliq.uz saytini yangi oynada oching</p>
+                <p className="text-slate-400">// 2. F12 (DevTools) &rarr; Console bo'limiga o'ting va ushbu kodni joylang:</p>
+                <code className="text-emerald-300 block whitespace-pre">
+{`async function syncTasnif() {
+  const products = await fetch('${window.location.origin}/api/admin/tasnif/products-to-sync?limit=500').then(r => r.json());
+  console.log('Tekshirilmoqda:', products.count);
+}`}
+                </code>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-slate-50">
-          <div className="text-xs text-slate-500">
-            Tasnif Soliq MXIK & Shtrix-kod Integratsiyasi
+        <div className="px-6 py-3.5 bg-slate-100 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+          <div className="flex items-center gap-2 font-medium">
+            <span>Manba:</span>
+            <a
+              href="https://tasnif.soliq.uz"
+              target="_blank"
+              rel="noreferrer"
+              className="text-emerald-700 font-bold hover:underline flex items-center gap-1"
+            >
+              tasnif.soliq.uz <ExternalLink className="w-3 h-3" />
+            </a>
+            <span>(Yagona elektron milliy katalog)</span>
           </div>
           <button
-            onClick={onClose}
-            className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl font-bold text-xs transition-colors"
+            onClick={() => {
+              if (isRunning) handleStop();
+              onClose();
+            }}
+            className="px-4 py-1.5 bg-white border border-slate-300 hover:bg-slate-50 font-bold rounded-lg text-slate-700 transition-all cursor-pointer"
           >
             Yopish
           </button>

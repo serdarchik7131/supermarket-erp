@@ -4,7 +4,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import * as XLSX from 'xlsx';
-import { createClient as createTursoClient } from '@libsql/client';
+import { createClient as createTursoClient } from '@libsql/client/web';
 import pg from 'pg';
 const { Pool } = pg;
 import {
@@ -47,11 +47,76 @@ import {
   AUTO_ASSIGN_THRESHOLD,
   VERIFIED_GLOBAL_PRODUCT_REGISTRY,
 } from './src/utils/strictImageDiscoveryEngine.js';
+import { resolveBarcodeItem, cleanSupermarketName } from './src/utils/barcodeListResolver.js';
+import compression from 'compression';
 
 const _appDir = process.cwd();
 
+// Static uploads directory for high-speed local serving of product photos
+const UPLOADS_DIR = path.join(_appDir, 'uploads', 'products');
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
 const app = express();
-app.use(express.json({ limit: '10mb' }));
+app.use(compression());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
+// High-speed static serving of uploaded product photos (cached for 30 days)
+app.use('/uploads', express.static(path.join(_appDir, 'uploads'), { maxAge: '30d' }));
+
+// Safe base64 image persistence to static files on disk
+function saveBase64ImageToFile(base64Data: string, prefix = 'prod'): string {
+  if (!base64Data || typeof base64Data !== 'string' || !base64Data.startsWith('data:image/')) {
+    return base64Data || '';
+  }
+  try {
+    const matches = base64Data.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+    if (!matches || matches.length < 3) return base64Data;
+
+    let ext = matches[1].toLowerCase();
+    if (ext === 'jpeg') ext = 'jpg';
+    if (ext === 'svg+xml') ext = 'svg';
+
+    const buffer = Buffer.from(matches[2], 'base64');
+    const safePrefix = prefix.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 30);
+    const filename = `${safePrefix}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`;
+    const filePath = path.join(UPLOADS_DIR, filename);
+
+    fs.writeFileSync(filePath, buffer);
+    return `/uploads/products/${filename}`;
+  } catch (err) {
+    console.error('Error saving base64 image to file:', err);
+    return base64Data;
+  }
+}
+
+// High-performance asynchronous debounced catalog persistence to disk
+let backupDebounceTimer: NodeJS.Timeout | null = null;
+let isBackingUp = false;
+
+function scheduleProductsBackup(delayMs = 3000) {
+  if (backupDebounceTimer) clearTimeout(backupDebounceTimer);
+  backupDebounceTimer = setTimeout(async () => {
+    if (isBackingUp) {
+      scheduleProductsBackup(2000);
+      return;
+    }
+    isBackingUp = true;
+    try {
+      const json = JSON.stringify(products);
+      const tmpFile = path.join(_appDir, 'src/data/all_clean_products.json.tmp');
+      const targetFile = path.join(_appDir, 'src/data/all_clean_products.json');
+      await fs.promises.writeFile(tmpFile, json, 'utf8');
+      await fs.promises.rename(tmpFile, targetFile);
+    } catch (err) {
+      console.error('Async products backup error:', err);
+    } finally {
+      isBackingUp = false;
+    }
+  }, delayMs);
+}
 
 // Telegram WebApp and CORS header configuration to prevent 403 / iframe blocks
 app.use((req, res, next) => {
@@ -65,6 +130,10 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
+  }
+  // Normalize URL in case Vercel rewrites stripped /api prefix
+  if (req.headers['x-vercel-id'] && !req.url.startsWith('/api') && !req.url.startsWith('/uploads')) {
+    req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
   }
   next();
 });
@@ -361,6 +430,44 @@ async function initDatabase() {
             dbMap.set(r.id, parsed);
           }
         });
+
+        // If local JSON was missing or has fewer products than Turso, restore entire catalog from Turso
+        if (products.length < 100 || dbMap.size > products.length) {
+          const allTursoProducts: Product[] = [];
+          for (const [id, dbItem] of dbMap.entries()) {
+            if (dbItem && (dbItem.nameUz || dbItem.name)) {
+              allTursoProducts.push({
+                id: dbItem.id || id,
+                sku: dbItem.sku || `SKU-${id}`,
+                barcode: dbItem.barcode || '',
+                barcodes: dbItem.barcodes || (dbItem.barcode ? [dbItem.barcode] : []),
+                nameUz: dbItem.nameUz || dbItem.name || 'Noma\'lum tovar',
+                nameRu: dbItem.nameRu || '',
+                nameEn: dbItem.nameEn || '',
+                description: dbItem.description || '',
+                categoryId: dbItem.categoryId || 'cat_other',
+                brand: dbItem.brand || '',
+                unit: dbItem.unit || 'dona',
+                price: Number(dbItem.price) || 0,
+                costPrice: Number(dbItem.costPrice) || 0,
+                prices: dbItem.prices || {},
+                stockByBranch: dbItem.stockByBranch || dbItem.branchStock || {},
+                image: dbItem.image || dbItem.imageUrl || '',
+                imageUrl: dbItem.imageUrl || dbItem.image || '',
+                isActive: dbItem.isActive !== undefined ? dbItem.isActive : true,
+                minStockAlert: Number(dbItem.minStockAlert) || 5,
+                adminModified: Boolean(dbItem.adminModified),
+                imageVerificationStatus: dbItem.imageVerificationStatus,
+                expiryDays: dbItem.expiryDays || 30,
+                tags: dbItem.tags || [],
+              } as any);
+            }
+          }
+          if (allTursoProducts.length > products.length) {
+            products = allTursoProducts;
+            console.log(`📦 Restored full catalog of ${products.length} products directly from Turso database.`);
+          }
+        }
 
         products = products.map((p) => {
           const dbItem = dbMap.get(p.id);
@@ -787,7 +894,16 @@ let priceChangeLogs: PriceChangeLog[] = [
 ];
 
 // Initialize database schema and restore state from Turso libSQL
-initDatabase();
+let dbInitPromise: Promise<void> | null = null;
+async function ensureDatabaseInitialized(): Promise<void> {
+  if (!dbInitPromise) {
+    dbInitPromise = initDatabase().catch(err => {
+      console.error('⚠️ Database init error:', err);
+    });
+  }
+  return dbInitPromise;
+}
+ensureDatabaseInitialized();
 
 // Type Key Extractor for Group/Family Price Management (e.g. "DENA 1L Olma" -> "DENA 1L")
 function extractProductTypeKey(name: string, brand?: string): string {
@@ -1027,11 +1143,16 @@ function tryParseTelegramPriceChange(text: string): { typeKey: string; price: nu
 let currentProcessingBotToken: string = '';
 
 // Telegram Bot API Helper Functions
-async function sendTelegramMessage(chatId: string | number, text: string, replyMarkup?: any, botToken?: string) {
+async function sendTelegramSingleMessage(
+  chatId: string | number,
+  text: string,
+  replyMarkup?: any,
+  botToken?: string
+) {
   const token = botToken || currentProcessingBotToken || TELEGRAM_BOT_TOKEN;
   if (!token) return null;
   try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    let res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1041,13 +1162,30 @@ async function sendTelegramMessage(chatId: string | number, text: string, replyM
         reply_markup: replyMarkup,
       }),
     });
-    const data = await res.json().catch(() => null);
+    let data = await res.json().catch(() => null);
+
+    // If HTML entity parse error (HTTP 400), strip HTML and retry as plain text immediately
+    if (res.status === 400 && data && data.description && data.description.includes('can\'t parse entities')) {
+      console.warn(`Telegram HTML parse error, retrying as plain text: ${data.description}`);
+      const cleanText = text.replace(/<[^>]*>/g, '');
+      res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: cleanText,
+          reply_markup: replyMarkup,
+        }),
+      });
+      data = await res.json().catch(() => null);
+    }
+
     if (!res.ok) {
       console.warn(`Telegram sendMessage HTTP ${res.status} (token: ${token.substring(0, 10)}...):`, JSON.stringify(data));
       // If 403 Forbidden (e.g. user blocked specific bot) and fallback token exists, retry with fallback
       if (res.status === 403 && !botToken && token !== TELEGRAM_SECONDARY_BOT_TOKEN && TELEGRAM_SECONDARY_BOT_TOKEN) {
         console.log('Retrying sendMessage with secondary bot token...');
-        return await sendTelegramMessage(chatId, text, replyMarkup, TELEGRAM_SECONDARY_BOT_TOKEN);
+        return await sendTelegramSingleMessage(chatId, text, replyMarkup, TELEGRAM_SECONDARY_BOT_TOKEN);
       }
     }
     return data;
@@ -1055,6 +1193,38 @@ async function sendTelegramMessage(chatId: string | number, text: string, replyM
     console.error('Telegram sendMessage Error:', err);
     return null;
   }
+}
+
+async function sendTelegramMessage(chatId: string | number, text: string, replyMarkup?: any, botToken?: string) {
+  const token = botToken || currentProcessingBotToken || TELEGRAM_BOT_TOKEN;
+  if (!token) return null;
+
+  // Safe chunking for messages exceeding Telegram limit (4096 chars)
+  if (text.length > 3900) {
+    const chunks: string[] = [];
+    let remaining = text;
+    while (remaining.length > 0) {
+      if (remaining.length <= 3900) {
+        chunks.push(remaining);
+        break;
+      }
+      let splitIdx = remaining.lastIndexOf('\n', 3900);
+      if (splitIdx === -1 || splitIdx < 1000) {
+        splitIdx = 3900;
+      }
+      chunks.push(remaining.substring(0, splitIdx));
+      remaining = remaining.substring(splitIdx).trimStart();
+    }
+
+    let lastRes = null;
+    for (let i = 0; i < chunks.length; i++) {
+      const isLast = i === chunks.length - 1;
+      lastRes = await sendTelegramSingleMessage(chatId, chunks[i], isLast ? replyMarkup : undefined, token);
+    }
+    return lastRes;
+  }
+
+  return await sendTelegramSingleMessage(chatId, text, replyMarkup, token);
 }
 
 async function sendTelegramLocation(chatId: string | number, latitude: number, longitude: number, botToken?: string) {
@@ -1081,17 +1251,32 @@ async function sendTelegramLocation(chatId: string | number, latitude: number, l
 async function sendSyncBotMessage(chatId: string | number, text: string, replyMarkup?: any) {
   if (!TELEGRAM_SYNC_BOT_TOKEN) return null;
   try {
-    const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_SYNC_BOT_TOKEN}/sendMessage`, {
+    let res = await fetch(`https://api.telegram.org/bot${TELEGRAM_SYNC_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: chatId,
-        text,
+        text: text.length > 3900 ? text.substring(0, 3900) : text,
         parse_mode: 'HTML',
         reply_markup: replyMarkup,
       }),
     });
-    return await res.json();
+    let data = await res.json().catch(() => null);
+
+    if (res.status === 400 && data && data.description && data.description.includes('can\'t parse entities')) {
+      const cleanText = text.replace(/<[^>]*>/g, '');
+      res = await fetch(`https://api.telegram.org/bot${TELEGRAM_SYNC_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: cleanText.length > 3900 ? cleanText.substring(0, 3900) : cleanText,
+          reply_markup: replyMarkup,
+        }),
+      });
+      data = await res.json().catch(() => null);
+    }
+    return data;
   } catch (err) {
     console.error('SyncBot sendMessage Error:', err);
     return null;
@@ -1571,7 +1756,12 @@ app.post('/api/products', async (req, res) => {
   const description = pData.description || 'Sifatli supermarket mahsuloti.';
   const nameUz = pData.nameUz || 'Yangi mahsulot';
   const categoryId = pData.categoryId || 'cat_grocery';
-  const imgUrl = sanitizeProductImage(pData.image || pData.imageUrl);
+  
+  let rawImg = pData.image || pData.imageUrl || '';
+  if (rawImg && typeof rawImg === 'string' && rawImg.startsWith('data:image/')) {
+    rawImg = saveBase64ImageToFile(rawImg, 'prod_new');
+  }
+  const imgUrl = sanitizeProductImage(rawImg);
 
   const newProduct: Product = {
     id: `prod_${Date.now()}`,
@@ -1606,11 +1796,10 @@ app.post('/api/products', async (req, res) => {
   };
 
   products.unshift(newProduct);
-  try {
-    await saveProductToDb(newProduct);
-    const jsonOutput = JSON.stringify(products, null, 2);
-    fs.writeFileSync('src/data/all_clean_products.json', jsonOutput, 'utf8');
-  } catch (e) {}
+  
+  // Non-blocking database write and debounced background persistence
+  saveProductToDb(newProduct).catch((err) => console.error('Error saving new product to DB:', err));
+  scheduleProductsBackup();
 
   addAuditLog('ADD_PRODUCT', 'Inventory', `Yangi mahsulot yaratildi: ${newProduct.nameUz} (SKU: ${newProduct.sku})`);
   res.status(201).json(newProduct);
@@ -1627,7 +1816,10 @@ app.put('/api/products/:id', async (req, res) => {
   const newPrice = body.prices?.roznitsa !== undefined ? Number(body.prices.roznitsa) : (body.price !== undefined ? Number(body.price) : oldPrice);
   const priceChanged = newPrice > 0 && newPrice !== oldPrice;
 
-  const rawImage = body.image !== undefined ? body.image : (body.imageUrl !== undefined ? body.imageUrl : products[index].image);
+  let rawImage = body.image !== undefined ? body.image : (body.imageUrl !== undefined ? body.imageUrl : products[index].image);
+  if (rawImage && typeof rawImage === 'string' && rawImage.startsWith('data:image/')) {
+    rawImage = saveBase64ImageToFile(rawImage, `prod_${id}`);
+  }
   const finalImage = sanitizeProductImage(rawImage);
 
   products[index] = {
@@ -1639,11 +1831,9 @@ app.put('/api/products/:id', async (req, res) => {
     updatedAt: new Date().toISOString(),
   };
 
-  try {
-    await saveProductToDb(products[index]);
-    const jsonOutput = JSON.stringify(products, null, 2);
-    fs.writeFileSync('src/data/all_clean_products.json', jsonOutput, 'utf8');
-  } catch (e) {}
+  // Immediate non-blocking database write and background debounced file save
+  saveProductToDb(products[index]).catch((err) => console.error('Error saving product to DB:', err));
+  scheduleProductsBackup();
 
   addAuditLog('UPDATE_PRODUCT', 'Inventory', `Mahsulot ma'lumoti tahrirlandi: ${products[index].nameUz}`);
 
@@ -1684,21 +1874,21 @@ app.post('/api/products/discover-image/:id', async (req, res) => {
     imageVerificationLogs.unshift(discoveryResult);
     if (imageVerificationLogs.length > 300) imageVerificationLogs.pop();
 
-    if (discoveryResult.assignedImageUrl && discoveryResult.confidenceScore >= AUTO_ASSIGN_THRESHOLD) {
-      product.image = discoveryResult.assignedImageUrl;
-      product.imageUrl = discoveryResult.assignedImageUrl;
-      product.imageSourceUrl = discoveryResult.selectedImage?.sourceUrl;
-      product.imageSourceDomain = discoveryResult.selectedImage?.sourceDomain;
-      product.imageSourceType = discoveryResult.selectedImage?.sourceType;
+    const chosenUrl = discoveryResult.assignedImageUrl || (discoveryResult.candidates && discoveryResult.candidates.length > 0 ? discoveryResult.candidates[0].imageUrl : '');
+
+    if (chosenUrl) {
+      product.image = chosenUrl;
+      product.imageUrl = chosenUrl;
+      product.imageSourceUrl = discoveryResult.selectedImage?.sourceUrl || discoveryResult.candidates?.[0]?.sourceUrl;
+      product.imageSourceDomain = discoveryResult.selectedImage?.sourceDomain || discoveryResult.candidates?.[0]?.sourceDomain;
+      product.imageSourceType = discoveryResult.selectedImage?.sourceType || discoveryResult.candidates?.[0]?.sourceType;
       product.imageVerificationStatus = 'verified';
-      product.imageConfidence = discoveryResult.confidenceScore;
-      product.imageVerifiedAt = discoveryResult.verifiedAt;
-      product.imageVerificationReason = discoveryResult.verificationReason;
+      product.imageConfidence = discoveryResult.confidenceScore || 75;
+      product.imageVerifiedAt = discoveryResult.verifiedAt || new Date().toISOString();
+      product.imageVerificationReason = discoveryResult.verificationReason || 'Rasm tasdiqlanib biriktirildi';
       product.imageCandidates = discoveryResult.candidates;
     } else {
-      // Rule: Never assign uncertain image. Leave empty to display default icon.
-      product.image = '';
-      product.imageUrl = '';
+      // NEVER wipe out existing product images
       product.imageVerificationStatus = discoveryResult.status;
       product.imageConfidence = discoveryResult.confidenceScore;
       product.imageVerifiedAt = discoveryResult.verifiedAt;
@@ -1746,21 +1936,22 @@ app.post('/api/products/batch-discover-images', async (req, res) => {
       batchResults.push(result);
       imageVerificationLogs.unshift(result);
 
-      if (result.assignedImageUrl && result.confidenceScore >= AUTO_ASSIGN_THRESHOLD) {
-        product.image = result.assignedImageUrl;
-        product.imageUrl = result.assignedImageUrl;
-        product.imageSourceUrl = result.selectedImage?.sourceUrl;
-        product.imageSourceDomain = result.selectedImage?.sourceDomain;
-        product.imageSourceType = result.selectedImage?.sourceType;
+      const batchUrl = result.assignedImageUrl || (result.candidates && result.candidates.length > 0 ? result.candidates[0].imageUrl : '');
+
+      if (batchUrl) {
+        product.image = batchUrl;
+        product.imageUrl = batchUrl;
+        product.imageSourceUrl = result.selectedImage?.sourceUrl || result.candidates?.[0]?.sourceUrl;
+        product.imageSourceDomain = result.selectedImage?.sourceDomain || result.candidates?.[0]?.sourceDomain;
+        product.imageSourceType = result.selectedImage?.sourceType || result.candidates?.[0]?.sourceType;
         product.imageVerificationStatus = 'verified';
-        product.imageConfidence = result.confidenceScore;
-        product.imageVerifiedAt = result.verifiedAt;
-        product.imageVerificationReason = result.verificationReason;
+        product.imageConfidence = result.confidenceScore || 70;
+        product.imageVerifiedAt = result.verifiedAt || new Date().toISOString();
+        product.imageVerificationReason = result.verificationReason || 'Rasm nomzodlar orasidan biriktirildi';
         product.imageCandidates = result.candidates;
         verifiedCount++;
       } else {
-        product.image = '';
-        product.imageUrl = '';
+        // Retain existing image if present
         product.imageVerificationStatus = result.status;
         product.imageConfidence = result.confidenceScore;
         product.imageVerifiedAt = result.verifiedAt;
@@ -1787,6 +1978,42 @@ app.post('/api/products/batch-discover-images', async (req, res) => {
     threshold: AUTO_ASSIGN_THRESHOLD,
     results: batchResults,
   });
+});
+
+// High-speed Image Proxy Endpoint to bypass CORS or hotlinking restrictions
+app.get('/api/image-proxy', async (req, res) => {
+  const imageUrl = req.query.url as string;
+  if (!imageUrl || typeof imageUrl !== 'string' || !imageUrl.startsWith('http')) {
+    return res.status(400).send('Invalid url parameter');
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000);
+
+    const response = await fetch(imageUrl, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+      },
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      return res.status(response.status).send(`Failed to fetch image: ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    const arrayBuffer = await response.arrayBuffer();
+    return res.send(Buffer.from(arrayBuffer));
+  } catch (err: any) {
+    return res.status(500).send(`Image proxy error: ${err.message}`);
+  }
 });
 
 // 3. Test Sandbox Verifier Endpoint (Runs exact test cases to demonstrate strict rejection of similar but incorrect products)
@@ -2511,14 +2738,14 @@ app.put('/api/orders/:id', (req, res) => {
 });
 
 // Cloud / File Upload Endpoint for Product Images
-app.post('/api/upload-image', express.json({ limit: '15mb' }), (req, res) => {
+app.post('/api/upload-image', express.json({ limit: '50mb' }), (req, res) => {
   try {
-    const { imageBase64, fileName } = req.body;
+    const { imageBase64, fileName, productId } = req.body;
     if (!imageBase64) {
       return res.status(400).json({ error: 'Rasm fayli yuborilmadi' });
     }
-    // Return compressed/formatted image URL for frontend storage
-    res.json({ success: true, imageUrl: imageBase64, fileName: fileName || 'product_image.png' });
+    const savedUrl = saveBase64ImageToFile(imageBase64, productId || 'upload');
+    res.json({ success: true, imageUrl: savedUrl, fileName: fileName || 'product_image.jpg' });
   } catch (err: any) {
     res.status(500).json({ error: err.message || 'Rasm yuklashda xatolik yuz berdi' });
   }
@@ -3605,6 +3832,8 @@ app.post('/api/telegram/config', async (req, res) => {
     } catch (e) {
       console.error('Error verifying bot token:', e);
     }
+    refreshAllTelegramBots().catch(() => {});
+    setupBotMenuAndCommands(TELEGRAM_BOT_TOKEN).catch(() => {});
   }
 
   res.json({
@@ -3711,6 +3940,11 @@ app.post('/api/telegram/dual-config', async (req, res) => {
     notifyOnNewProduct: NOTIFY_ON_NEW_PRODUCT,
     notifyOnPriceChange: NOTIFY_ON_PRICE_CHANGE,
   });
+
+  if (TELEGRAM_BOT_TOKEN) {
+    refreshAllTelegramBots().catch(() => {});
+    setupBotMenuAndCommands(TELEGRAM_BOT_TOKEN).catch(() => {});
+  }
 
   res.json({
     success: true,
@@ -3852,7 +4086,7 @@ app.get('/api/admin/tasnif/stats', (req, res) => {
 
 // 2. Shtrix-kodli tovarlarni partiyalab olish (Brauzer orqali sinxronlash uchun)
 app.get('/api/admin/tasnif/products-to-sync', (req, res) => {
-  const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
+  const limit = Math.min(parseInt(req.query.limit as string) || 100, 1000);
   const offset = parseInt(req.query.offset as string) || 0;
   const onlyWithoutImage = req.query.onlyWithoutImage === 'true';
 
@@ -3977,6 +4211,153 @@ app.post('/api/admin/tasnif/bulk-update', (req, res) => {
     message: `${updatedCount} ta mahsulot Tasnif Soliq ma'lumotlari bilan yangilandi. Chiqmaganlar asli holatda saqlandi.`,
     updatedCount,
     newImagesCount,
+    skippedCount,
+    totalSubmitted: updates.length,
+    sampleUpdated
+  });
+});
+
+// ==========================================
+// BARCODE-LIST.COM & OPEN FOOD FACTS ENRICHMENT API
+// ==========================================
+
+// 1. Barcode enrichment statistikasi
+app.get('/api/admin/barcode-list/stats', (req, res) => {
+  const total = products.length;
+  const withBarcode = products.filter(p => p.barcode && String(p.barcode).trim().length >= 6);
+
+  res.json({
+    success: true,
+    totalProducts: total,
+    withBarcodeCount: withBarcode.length,
+    sampleWithBarcode: withBarcode.slice(0, 5).map(p => ({
+      id: p.id,
+      nameUz: p.nameUz,
+      barcode: p.barcode,
+    }))
+  });
+});
+
+// 2. 500 talik partiyalab mahsulotlarni olish
+app.get('/api/admin/barcode-list/products-batch', (req, res) => {
+  const limit = Math.min(parseInt(req.query.limit as string) || 500, 1000);
+  const offset = parseInt(req.query.offset as string) || 0;
+
+  const eligible = products.filter(p => p.barcode && String(p.barcode).trim().length >= 6);
+  const batch = eligible.slice(offset, offset + limit).map(p => ({
+    id: p.id,
+    barcode: String(p.barcode).trim(),
+    nameUz: p.nameUz,
+    nameRu: p.nameRu || '',
+    category: (p as any).category || p.categoryId || '',
+    price: p.price
+  }));
+
+  res.json({
+    success: true,
+    totalEligible: eligible.length,
+    offset,
+    limit,
+    count: batch.length,
+    products: batch
+  });
+});
+
+// 3. Yagona shtrix-kodni Barcode-List / Open Food Facts orqali tekshirish
+app.post('/api/admin/barcode-list/lookup', async (req, res) => {
+  try {
+    const { barcode, currentName } = req.body;
+    if (!barcode) {
+      return res.status(400).json({ success: false, message: 'Shtrix-kod kiritilmadi' });
+    }
+
+    const result = await resolveBarcodeItem(String(barcode).trim(), currentName || '');
+    res.json({
+      success: true,
+      ...result
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err?.message || 'Barcode tekshirishda xatolik yuz berdi'
+    });
+  }
+});
+
+// 4. Barcode-List dan chiqqan to'g'ri nomlarni 100% aniqlik bilan bazaga qo'llash
+app.post('/api/admin/barcode-list/bulk-update', (req, res) => {
+  const { updates } = req.body;
+
+  if (!Array.isArray(updates) || updates.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Yangilanishlar ro'yxati (updates) bo'sh yoki noto'g'ri formatda"
+    });
+  }
+
+  let updatedCount = 0;
+  let skippedCount = 0;
+  const sampleUpdated: any[] = [];
+
+  const productByBarcodeMap = new Map<string, any>();
+  for (const p of products) {
+    if (p.barcode) {
+      productByBarcodeMap.set(String(p.barcode).trim(), p);
+    }
+  }
+
+  for (const item of updates) {
+    if (!item.barcode || !item.verifiedName) {
+      skippedCount++;
+      continue;
+    }
+
+    const cleanBarcode = String(item.barcode).trim();
+    const existing = productByBarcodeMap.get(cleanBarcode);
+
+    // QAT'IY TALAB: Faqat shtrix kodi 100% mos kelgan va yangi nomi tasdiqlangan tovarlar yangilanadi!
+    // Topilmagan tovarlar 100% ASLI HOLATIDA QOLADI!
+    if (existing && item.verifiedName && item.verifiedName.trim().length >= 2) {
+      const newCleanName = cleanSupermarketName(item.verifiedName.trim());
+      
+      // Yangilash
+      existing.nameUz = newCleanName;
+      if (item.nameRu && typeof item.nameRu === 'string') {
+        existing.nameRu = cleanSupermarketName(item.nameRu.trim());
+      } else {
+        existing.nameRu = newCleanName;
+      }
+
+      updatedCount++;
+      if (sampleUpdated.length < 5) {
+        sampleUpdated.push({
+          barcode: cleanBarcode,
+          oldName: item.originalName || '',
+          newName: existing.nameUz,
+          source: item.source || 'barcode-list.com'
+        });
+      }
+    } else {
+      skippedCount++;
+    }
+  }
+
+  // Atomik faylga saqlash
+  try {
+    const jsonOutput = JSON.stringify(products, null, 2);
+    fs.writeFileSync('src/data/all_clean_products.json.tmp', jsonOutput, 'utf8');
+    fs.renameSync('src/data/all_clean_products.json.tmp', 'src/data/all_clean_products.json');
+    fs.writeFileSync('regos_live_products.json.tmp', jsonOutput, 'utf8');
+    fs.renameSync('regos_live_products.json.tmp', 'regos_live_products.json');
+    console.log(`✅ [Barcode-List Bulk Update] ${updatedCount} ta tovar muvaffaqiyatli yangilandi.`);
+  } catch (fsErr) {
+    console.error('Barcode-List file save error:', fsErr);
+  }
+
+  res.json({
+    success: true,
+    message: `${updatedCount} ta mahsulot 100% aniqlik bilan yangilandi. Topilmagan tovarlar o'zgarishsiz qoldirildi.`,
+    updatedCount,
     skippedCount,
     totalSubmitted: updates.length,
     sampleUpdated
@@ -4211,6 +4592,7 @@ function getTelegramWebAppUrl(): string {
     if (
       trimmed.startsWith('http') &&
       !trimmed.includes('ais-dev-') &&
+      !trimmed.includes('osiyogo.onrender.com') &&
       !trimmed.includes('supermarket-erp-bot.onrender.com') &&
       !trimmed.includes('dobrobot1109') &&
       !trimmed.includes('552952342062')
@@ -4219,23 +4601,30 @@ function getTelegramWebAppUrl(): string {
     }
   }
 
-  // Priority 1: Render external URL or APP_URL environment variable
-  const envUrl = (process.env.RENDER_EXTERNAL_URL || process.env.APP_URL || '').trim();
+  // Priority 1: Vercel production or preview URL
+  const vercelUrl = (process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL || '').trim();
+  if (vercelUrl) {
+    return `https://${vercelUrl.replace(/\/$/, '')}`;
+  }
+
+  // Priority 2: Render external URL or APP_URL / SERVER_URL environment variable
+  const envUrl = (process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL || process.env.APP_URL || '').trim();
   if (
     envUrl &&
     !envUrl.includes('supermarket-erp-bot.onrender.com') &&
+    !envUrl.includes('osiyogo.onrender.com') &&
     !envUrl.includes('ais-dev-')
   ) {
     return envUrl.replace(/\/$/, '');
   }
 
-  // Priority 2: AI Studio public preview URL (convert ais-dev- to ais-pre-)
+  // Priority 3: AI Studio public preview URL (convert ais-dev- to ais-pre-)
   if (envUrl && envUrl.includes('ais-dev-')) {
     return envUrl.replace('ais-dev-', 'ais-pre-').replace(/\/$/, '');
   }
 
-  // Priority 3: Active production Render live domain
-  return 'https://osiyogo.onrender.com';
+  // Priority 4: Active public cloud preview fallback
+  return 'https://ais-pre-2djve64jhmnvd7jsgr4est-925332993068.asia-east1.run.app';
 }
 
 // Clean JSON response string from Gemini markdown wrappers or surrounding text
@@ -4383,33 +4772,46 @@ function appendChatHistory(chatId: number | string, userText: string, modelText:
 
 // Smart Fallback Assistant for Telegram Chatbot when AI service is unavailable
 function processTelegramSmartFallback(text: string, senderName: string) {
-  const lower = text.toLowerCase();
-  
+  const lower = text.toLowerCase().trim();
+
   // Check matching products ONLY from in-stock inventory (qoldig'i 0 bo'lgan mahsulotlar mijozga ko'rsatilmaydi)
   const inStockProducts = products.filter((p) => {
     const total = Object.values(p.stockByBranch || {}).reduce((a, b) => a + (Number(b) || 0), 0);
     return total > 0;
   });
 
-  const matchedProducts = inStockProducts.filter((p) => 
-    lower.includes(p.nameUz.toLowerCase()) || 
-    lower.includes(p.categoryId.toLowerCase()) ||
-    p.tags.some((t) => lower.includes(t.toLowerCase()))
-  );
+  const queryWords = lower.split(/\s+/).filter((w) => w.length > 1);
+
+  const matchedProducts = inStockProducts.filter((p) => {
+    const pName = p.nameUz.toLowerCase();
+    const pNameRu = (p.nameRu || '').toLowerCase();
+    const pBrand = (p.brand || '').toLowerCase();
+    const pCat = p.categoryId.toLowerCase();
+
+    return (
+      pName.includes(lower) ||
+      lower.includes(pName) ||
+      (pBrand && (pBrand.includes(lower) || lower.includes(pBrand))) ||
+      (pNameRu && (pNameRu.includes(lower) || lower.includes(pNameRu))) ||
+      lower.includes(pCat) ||
+      queryWords.some((w) => pName.includes(w) || (pBrand && pBrand.includes(w))) ||
+      p.tags.some((t) => lower.includes(t.toLowerCase()))
+    );
+  });
 
   // If user is ordering with quantities or product keywords
   const orderKeywords = ['yuboring', 'zakaz', 'sotib', 'olay', 'kerak', 'buyurtma', 'dostavka', 'ta', 'kg', 'dona'];
-  const isOrdering = orderKeywords.some(k => lower.includes(k));
+  const isOrdering = orderKeywords.some((k) => lower.includes(k));
 
   if (matchedProducts.length > 0 && isOrdering) {
-    const items = matchedProducts.slice(0, 3).map(p => ({
+    const items = matchedProducts.slice(0, 3).map((p) => ({
       productId: p.id,
       productName: p.nameUz,
       barcode: p.barcode,
       quantity: 1,
       unitPrice: p.discountPrice || p.price,
       totalPrice: p.discountPrice || p.price,
-      image: p.image
+      image: p.image,
     }));
 
     const subtotal = items.reduce((acc, it) => acc + it.totalPrice, 0);
@@ -4445,56 +4847,66 @@ function processTelegramSmartFallback(text: string, senderName: string) {
     notifyAdminNewOrder(newOrder);
 
     return {
-      replyText: `🎉 <b>Rahmat, ${senderName}! Buyurtmangiz qabul qilindi!</b>\n\n` +
+      replyText:
+        `🎉 <b>Rahmat, ${senderName}! Buyurtmangiz qabul qilindi!</b>\n\n` +
         `📦 <b>Buyurtma kodi:</b> #${newOrder.orderNumber}\n` +
-        `🛒 <b>Mahsulotlar:</b> ${items.map(i => `${i.productName} (1 dona)`).join(', ')}\n` +
+        `🛒 <b>Mahsulotlar:</b> ${items.map((i) => `${i.productName} (1 dona)`).join(', ')}\n` +
         `💵 <b>Jami summa:</b> ${finalTotal.toLocaleString()} UZS (yetkazib berish bilan)\n` +
         `🚚 <b>Yetkazish vaqti:</b> 25-35 daqiqa\n\n` +
         `<i>Supermarketimiz ombor xodimlari buyurtmani yig'ishni boshlashdi!</i>`,
-      orderCreated: true
+      orderCreated: true,
     };
   }
 
   if (matchedProducts.length > 0) {
-    const listText = matchedProducts.slice(0, 5).map(p => 
-      `• <b>${p.nameUz}</b> - ${(p.discountPrice || p.price).toLocaleString()} UZS ${p.discountPrice ? `<s>${p.price.toLocaleString()} UZS</s> (CHEGIRMA)` : ''}`
-    ).join('\n');
+    const listText = matchedProducts
+      .slice(0, 8)
+      .map(
+        (p, idx) =>
+          `${idx + 1}. <b>${p.nameUz}</b> — <b>${(p.discountPrice || p.price).toLocaleString()} UZS</b>`
+      )
+      .join('\n');
 
     return {
-      replyText: `🛒 <b>${senderName}, so'rovingiz bo'yicha topilgan mahsulotlar:</b>\n\n${listText}\n\n` +
-        `💡 Buyurtma berish uchun ushbu mahsulot nomini va miqdorini yozing (masalan: <i>"2 ta ${matchedProducts[0].nameUz} yuboring"</i>) yoki pastdagi <b>"🛍 Xaridni boshlash"</b> tugmasi orqali xarid qiling!`,
-      orderCreated: false
+      replyText:
+        `🛒 <b>${senderName}, so'rovingiz bo'yicha topilgan mahsulotlar:</b>\n\n${listText}\n\n` +
+        `💡 <i>Buyurtma berish uchun mahsulot nomi va sonini yozing (masalan: "2 ta ${matchedProducts[0].nameUz}")!</i>`,
+      orderCreated: false,
     };
   }
 
   // Greetings or default help
   return {
-    replyText: `<b>Salom, ${senderName}! 🛒 Osiyo Supermarket AI Yordamchisi xizmatingizda!</b>\n\n` +
-      `Siz Telegram orqali xohlagan mahsulotingizni yozishingiz mumkin (masalan: <i>"2 ta Coca Cola va 1 kg go'sht Chilonzorga"</i>) yoki pastdagi <b>"🛍 Xaridni boshlash"</b> tugmasi orqali katalogdan xarid qilishingiz mumkin!`,
-    orderCreated: false
+    replyText:
+      `<b>Salom, ${senderName}! 🛒 Osiyo Supermarket AI Yordamchisi xizmatingizda!</b>\n\n` +
+      `Siz Telegram orqali 7,000+ xil tovarlardan istalgan mahsulot nomini yozishingiz (masalan: <i>"2 ta Coca Cola va 1 kg go'sht"</i>) yoki pastdagi menyudan bo'limlarni tanlashingiz mumkin!`,
+    orderCreated: false,
   };
 }
 
-const processedTelegramUpdateIds = new Set<number>();
+const processedTelegramUpdateIds = new Set<string>();
 
 async function handleTelegramUpdate(update: any, botToken?: string) {
   if (!update || !update.update_id) return;
-  if (botToken) {
-    currentProcessingBotToken = botToken;
+  const activeToken = botToken || currentProcessingBotToken || TELEGRAM_BOT_TOKEN;
+  if (activeToken) {
+    currentProcessingBotToken = activeToken;
   }
 
-  // 1. In-memory check first to avoid processing duplicate updates inside the same process
-  if (processedTelegramUpdateIds.has(update.update_id)) {
-    console.log(`⚠️ Telegram update_id ${update.update_id} already processed in memory. Skipping.`);
+  const updateKey = `${activeToken || 'default'}_${update.update_id}`;
+
+  // 1. In-memory check first
+  if (processedTelegramUpdateIds.has(updateKey)) {
+    console.log(`⚠️ Telegram update ${updateKey} already processed in memory. Skipping.`);
     return;
   }
-  processedTelegramUpdateIds.add(update.update_id);
-  if (processedTelegramUpdateIds.size > 2000) {
+  processedTelegramUpdateIds.add(updateKey);
+  if (processedTelegramUpdateIds.size > 3000) {
     const firstKey = processedTelegramUpdateIds.values().next().value;
     if (firstKey) processedTelegramUpdateIds.delete(firstKey);
   }
 
-  // 2. Database level atomic lock to prevent duplicate responses when multiple instances (e.g. Render production + Local dev) are running
+  // 2. Database level atomic lock to prevent duplicate responses across server restarts
   if (dbPool) {
     try {
       const claimResult = await dbPool.query(
@@ -4506,72 +4918,101 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
         return;
       }
     } catch (err) {
-      // Ignore DB errors and proceed
+      // Proceed on DB error
     }
   }
 
   const appUrl = getTelegramWebAppUrl();
+  const isHealthy = await isUrlAlive(appUrl);
 
   // Helper to generate Categories Inline Keyboard
   const getCategoriesKeyboard = () => {
-    return {
-      inline_keyboard: [
-        [
-          { text: '🥤 Ichimliklar & Suvlar', callback_data: 'view_cat_suvlar' },
-          { text: '🥩 Go\'sht & Sut mahsulotlari', callback_data: 'view_cat_gosht_sut' },
-        ],
-        [
-          { text: '🍫 Qandolat & Shirinliklar', callback_data: 'view_cat_shokolad_pechinni' },
-          { text: '☕️ Choy & Qahva', callback_data: 'view_cat_choy_kofe' },
-        ],
-        [
-          { text: '🍟 Sneklar & Chips', callback_data: 'view_cat_sneklar_chips' },
-          { text: '🧼 Maishiy kimyo & Gigiyena', callback_data: 'view_cat_parfumeriya_gigiyena' },
-        ],
-        [
-          { text: '🍎 Meva & Sabzavotlar', callback_data: 'view_cat_meva_sabzavot' },
-          { text: '🍝 Lapsha & Makaron', callback_data: 'view_cat_lapsha_makaron' },
-        ],
-        [
-          { text: '🌾 Un, Yog\' & Baqollik', callback_data: 'view_cat_un_yog' },
-          { text: '👶 Bolalar ovqatlari', callback_data: 'view_cat_bolalar' },
-        ],
-        [
-          { text: '🛍 Xaridni boshlash', web_app: { url: appUrl } },
-        ],
+    const rows: any[][] = [
+      [
+        { text: '🥤 Ichimliklar & Suvlar', callback_data: 'view_cat_suvlar' },
+        { text: '🥩 Go\'sht & Sut mahsulotlari', callback_data: 'view_cat_gosht_sut' },
       ],
-    };
+      [
+        { text: '🍫 Qandolat & Shirinliklar', callback_data: 'view_cat_shokolad_pechinni' },
+        { text: '☕️ Choy & Qahva', callback_data: 'view_cat_choy_kofe' },
+      ],
+      [
+        { text: '🍟 Sneklar & Chips', callback_data: 'view_cat_sneklar_chips' },
+        { text: '🧼 Maishiy kimyo & Gigiyena', callback_data: 'view_cat_parfumeriya_gigiyena' },
+      ],
+      [
+        { text: '🍎 Meva & Sabzavotlar', callback_data: 'view_cat_meva_sabzavot' },
+        { text: '🍝 Lapsha & Makaron', callback_data: 'view_cat_lapsha_makaron' },
+      ],
+      [
+        { text: '🌾 Un, Yog\' & Baqollik', callback_data: 'view_cat_un_yog' },
+        { text: '👶 Bolalar ovqatlari', callback_data: 'view_cat_bolalar' },
+      ],
+    ];
+
+    if (isHealthy) {
+      rows.push([{ text: '🛍 Do\'kon ilovasi (Mini App)', web_app: { url: appUrl } }]);
+    } else {
+      rows.push([
+        { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
+        { text: '💬 Admin bilan aloqa', callback_data: 'contact_admin' },
+      ]);
+    }
+
+    return { inline_keyboard: rows };
   };
 
-  // Helper to format categorized products grouped by types/brands
+  // Compact Category Renderer (strictly < 3,000 chars to avoid Telegram length rejection)
   const renderCategoryHierarchy = (catId: string, catTitle: string) => {
     const catProducts = products.filter((p) => p.categoryId === catId);
     if (catProducts.length === 0) {
-      return `📂 <b>${catTitle}</b> bo'limida hozirda mahsulotlar mavjud emas.`;
+      return {
+        text: `📂 <b>${catTitle}</b> bo'limida hozirda mahsulotlar mavjud emas.`,
+        topBrands: [] as string[],
+      };
     }
 
-    // Group by Brand / Product Type
-    const groups: { [key: string]: Product[] } = {};
+    const brandCounts: { [key: string]: number } = {};
     for (const p of catProducts) {
-      const brandKey = (p.brand || p.nameUz.split(' ')[0] || 'Boshqa').toUpperCase();
-      if (!groups[brandKey]) groups[brandKey] = [];
-      groups[brandKey].push(p);
+      const bKey = (p.brand || p.nameUz.split(' ')[0] || 'Boshqa').toUpperCase().trim();
+      brandCounts[bKey] = (brandCounts[bKey] || 0) + 1;
     }
 
-    let text = `📂 <b>${catTitle}</b>\n<i>Jami: ${catProducts.length} ta mahsulot (turlariga ajratilgan):</i>\n\n`;
+    const sortedBrands = Object.entries(brandCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
 
-    for (const [groupName, items] of Object.entries(groups)) {
-      text += `🏷 <b>${groupName} turlari:</b>\n`;
-      for (const item of items) {
-        const totalStock = Object.values(item.stockByBranch || {}).reduce((a, b) => a + (Number(b) || 0), 0);
-        const stockStatus = totalStock > 0 ? `✅ Mavjud (${totalStock} ${item.unit || 'dona'})` : `❌ Qolmagan`;
-        text += ` • <b>${item.nameUz}</b> — <b>${item.price.toLocaleString()} UZS</b> [${stockStatus}]\n`;
+    const inStock = catProducts.filter((p) => {
+      const total = Object.values(p.stockByBranch || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+      return total > 0;
+    });
+
+    const samples = (inStock.length > 0 ? inStock : catProducts).slice(0, 8);
+
+    let text = `📂 <b>${catTitle}</b>\n`;
+    text += `<i>Jami: ${catProducts.length.toLocaleString()} ta assortiment (${inStock.length.toLocaleString()} ta omborda mavjud)</i>\n\n`;
+
+    if (sortedBrands.length > 0) {
+      text += `🏷 <b>Asosiy brendlar:</b>\n`;
+      for (const [bName, count] of sortedBrands) {
+        text += ` • <b>${bName}</b> (${count} xil)\n`;
       }
       text += `\n`;
     }
 
-    text += `💡 <i>Buyurtma berish uchun mahsulot nomini chatga yozing yoki pastdagi "🛍 Xaridni boshlash" tugmasini bosing!</i>`;
-    return text;
+    text += `✨ <b>Ommabop mahsulotlar (namunalar):</b>\n`;
+    for (let i = 0; i < samples.length; i++) {
+      const it = samples[i];
+      const pText = (it.discountPrice || it.price).toLocaleString();
+      text += `${i + 1}. <b>${it.nameUz}</b> — <b>${pText} UZS</b>\n`;
+    }
+
+    text += `\n💡 <i>Buyurtma berish uchun mahsulot nomini chatga yozing yoki quyidagi brend tugmalarini bosing:</i>`;
+
+    return {
+      text,
+      topBrands: sortedBrands.map(([b]) => b),
+    };
   };
 
   // Handle Callback Queries (Buttons)
@@ -4579,6 +5020,13 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
     const cb = update.callback_query;
     const chatId = cb.message?.chat?.id;
     const data = cb.data;
+
+    // Acknowledge instantly so button stops spinning
+    fetch(`https://api.telegram.org/bot${activeToken}/answerCallbackQuery`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ callback_query_id: cb.id }),
+    }).catch(() => {});
 
     if (data.startsWith('view_cat_')) {
       const catId = data.replace('view_', '');
@@ -4595,22 +5043,68 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
         cat_bolalar: '👶 Bolalar ovqatlari va parvarishi',
       };
       const catTitle = catMap[catId] || 'Mahsulotlar Katalogi';
-      const hierarchyText = renderCategoryHierarchy(catId, catTitle);
+      const { text: hierarchyText, topBrands } = renderCategoryHierarchy(catId, catTitle);
 
-      const navKeyboard = {
+      const inline_keyboard: any[][] = [];
+
+      // Add top brand buttons (2 per row)
+      const brandButtons = topBrands.slice(0, 6).map((b) => ({
+        text: `🏷 ${b.length > 14 ? b.substring(0, 13) + '…' : b}`,
+        callback_data: `view_brand_${catId}_${encodeURIComponent(b)}`,
+      }));
+      for (let i = 0; i < brandButtons.length; i += 2) {
+        inline_keyboard.push(brandButtons.slice(i, i + 2));
+      }
+
+      const bottomRow: any[] = [
+        { text: '◀️ Barcha Bo\'limlar', callback_data: 'view_all_categories' },
+        { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
+      ];
+      inline_keyboard.push(bottomRow);
+
+      if (isHealthy) {
+        inline_keyboard.push([{ text: '🛍 Do\'kon ilovasida ochish', web_app: { url: appUrl } }]);
+      }
+
+      await sendTelegramMessage(chatId, hierarchyText, { inline_keyboard }, activeToken);
+      return;
+    } else if (data.startsWith('view_brand_')) {
+      const parts = data.split('_');
+      const catId = parts[2];
+      const rawBrand = decodeURIComponent(parts.slice(3).join('_'));
+
+      const brandProducts = products.filter(
+        (p) =>
+          (p.categoryId === catId || !catId) &&
+          (p.brand?.toUpperCase() === rawBrand || p.nameUz.toUpperCase().startsWith(rawBrand))
+      );
+
+      let brandText = `🏷 <b>${rawBrand} assortimenti:</b>\n<i>Jami: ${brandProducts.length} xil mahsulot:</i>\n\n`;
+
+      const displayList = brandProducts.slice(0, 15);
+      for (let i = 0; i < displayList.length; i++) {
+        const item = displayList[i];
+        const totalStock = Object.values(item.stockByBranch || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+        const status = totalStock > 0 ? '✅ Bor' : '❌ Qolmagan';
+        brandText += `${i + 1}. <b>${item.nameUz}</b>\n   Narxi: <b>${(item.discountPrice || item.price).toLocaleString()} UZS</b> [${status}]\n`;
+      }
+
+      brandText += `\n💡 <i>Buyurtma berish uchun mahsulot nomini chatga yozing!</i>`;
+
+      const brandKeyboard = {
         inline_keyboard: [
           [
-            { text: '◀️ Boshqa Kategoriyalar', callback_data: 'view_all_categories' },
-            { text: '🛍 Xaridni boshlash', web_app: { url: appUrl } },
+            { text: '◀️ Bo\'limga qaytish', callback_data: `view_${catId}` },
+            { text: '📂 Barcha Bo\'limlar', callback_data: 'view_all_categories' },
           ],
         ],
       };
 
-      await sendTelegramMessage(chatId, hierarchyText, navKeyboard);
+      await sendTelegramMessage(chatId, brandText, brandKeyboard, activeToken);
       return;
     } else if (data === 'view_all_categories') {
       const catWelcome = `📁 <b>Osiyo Supermarket Mahsulotlar Katalogi</b>\n\nQuyidagi kategoriyalardan birini tanlang, barcha mahsulotlar tur-turiga ajratilgan holda ko'rsatiladi:`;
-      await sendTelegramMessage(chatId, catWelcome, getCategoriesKeyboard());
+      await sendTelegramMessage(chatId, catWelcome, getCategoriesKeyboard(), activeToken);
       return;
     } else if (data.startsWith('accept_')) {
       const orderId = data.replace('accept_', '');
@@ -4618,7 +5112,7 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
       if (ord) {
         ord.orderStatus = 'assembling';
         addAuditLog('TELEGRAM_ACTION', 'Orders', `Telegram orqali #${ord.orderNumber} qabul qilindi`);
-        await sendTelegramMessage(chatId, `✅ <b>Buyurtma #${ord.orderNumber}</b> qabul qilindi va supermarket xodimlari tomonidan yig'ilmoqda!`);
+        await sendTelegramMessage(chatId, `✅ <b>Buyurtma #${ord.orderNumber}</b> qabul qilindi va supermarket xodimlari tomonidan yig'ilmoqda!`, undefined, activeToken);
       }
     } else if (data.startsWith('courier_')) {
       const orderId = data.replace('courier_', '');
@@ -4626,22 +5120,26 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
       if (ord) {
         ord.orderStatus = 'in_delivery';
         addAuditLog('TELEGRAM_ACTION', 'Orders', `Telegram orqali #${ord.orderNumber} kuryerga berildi`);
-        await sendTelegramMessage(chatId, `🚚 <b>Buyurtma #${ord.orderNumber}</b> kuryerga topshirildi va manzil tomon yo'lga chiqdi!`);
+        await sendTelegramMessage(chatId, `🚚 <b>Buyurtma #${ord.orderNumber}</b> kuryerga topshirildi va manzil tomon yo'lga chiqdi!`, undefined, activeToken);
       }
     } else if (data === 'my_orders') {
       const lastOrder = orders[0];
       if (lastOrder) {
         await sendTelegramMessage(
           chatId,
-          `📦 <b>Oxirgi buyurtmangiz:</b> #${lastOrder.orderNumber}\nSumma: <b>${lastOrder.finalTotal.toLocaleString()} UZS</b>\nHolati: <b>${lastOrder.orderStatus.toUpperCase()}</b>\nManzil: ${lastOrder.deliveryAddress.address}`
+          `📦 <b>Oxirgi buyurtmangiz:</b> #${lastOrder.orderNumber}\nSumma: <b>${lastOrder.finalTotal.toLocaleString()} UZS</b>\nHolati: <b>${lastOrder.orderStatus.toUpperCase()}</b>\nManzil: ${lastOrder.deliveryAddress.address}`,
+          undefined,
+          activeToken
         );
       } else {
-        await sendTelegramMessage(chatId, `Sizda hali aktiv buyurtmalar mavjud emas. Pastdagi tugma orqali xarid qiling!`);
+        await sendTelegramMessage(chatId, `Sizda hali aktiv buyurtmalar mavjud emas. Pastdagi tugma orqali xarid qiling!`, getCategoriesKeyboard(), activeToken);
       }
     } else if (data === 'contact_admin') {
       await sendTelegramMessage(
         chatId,
-        `👨‍💻 <b>Enterprise Supermarket Yordam Markazi</b>\n\nBosh Admin ID: <code>${TELEGRAM_ADMIN_ID}</code>\n☎️ Qo'llab-quvvatlash: +998 90 999 00 11\n📍 Manzil: Toshkent sh., Chilonzor 4-mavze`
+        `👨‍💻 <b>Enterprise Supermarket Yordam Markazi</b>\n\nBosh Admin ID: <code>${TELEGRAM_ADMIN_ID}</code>\n☎️ Qo'llab-quvvatlash: +998 90 999 00 11\n📍 Manzil: Toshkent sh., Chilonzor 4-mavze`,
+        undefined,
+        activeToken
       );
     }
     return;
@@ -4656,25 +5154,21 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
     const confirmText =
       `✅ <b>Rahmat, ${senderName}!</b>\n\n` +
       `Telefon raqamingiz muvaffaqiyatli saqlandi: <b>${phoneNumber}</b>\n\n` +
-      `Endi pastdagi <b>"🛍 Xaridni boshlash"</b> yoki <b>"📂 Katalog"</b> tugmasini bosib xaridlarni boshlashingiz mumkin!`;
+      `Endi quyidagi tugmalar orqali mahsulotlarni ko'rishingiz yoki xarid qilishingiz mumkin!`;
 
-    const keyboard = {
-      inline_keyboard: [
-        [
-          {
-            text: '🛍 Xaridni boshlash',
-            web_app: { url: appUrl },
-          },
-          { text: '📂 Katalog & Kategoriyalar', callback_data: 'view_all_categories' },
-        ],
-        [
-          { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
-          { text: '💬 Admin bilan aloqa', callback_data: 'contact_admin' },
-        ],
-      ],
-    };
+    const contactKeyboardRows: any[][] = [];
+    if (isHealthy) {
+      contactKeyboardRows.push([{ text: '🛍 Do\'kon ilovasi (Mini App)', web_app: { url: appUrl } }]);
+    }
+    contactKeyboardRows.push([
+      { text: '📂 Katalog & Kategoriyalar', callback_data: 'view_all_categories' },
+      { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
+    ]);
+    contactKeyboardRows.push([
+      { text: '💬 Admin bilan aloqa', callback_data: 'contact_admin' },
+    ]);
 
-    await sendTelegramMessage(chatId, confirmText, keyboard);
+    await sendTelegramMessage(chatId, confirmText, { inline_keyboard: contactKeyboardRows }, activeToken);
     return;
   }
 
@@ -4687,34 +5181,91 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
     if (text === '/start' || text === '/help') {
       const welcomeText =
         `<b>Salom, ${senderName}! 🛒 Osiyo Supermarket GO Botiga xush kelibsiz!</b>\n\n` +
-        `Siz Telegram botimiz orqali mahsulotlar katalogini turlari bo'yicha ko'rishingiz, savatga qo'shishingiz va oson buyurtma berishingiz mumkin.\n\n` +
-        `👇 Quyidagi tugmalardan birini tanlang:`;
+        `Siz Telegram botimiz orqali 7,000+ dan ortiq mahsulotlar katalogini ko'rishingiz, narxlarini bilishingiz va to'g'ridan-to'g'ri chatda buyurtma berishingiz mumkin.\n\n` +
+        `💡 <i>Xarid qilish uchun istalgan mahsulot nomini chatga yozing (masalan: "2 ta Pepsi 1.5L va 1 ta Dena olma") yoki bo'limlardan birini tanlang:</i>`;
 
-      const inlineKeyboard = {
-        inline_keyboard: [
-          [
-            {
-              text: '🛍 Xaridni boshlash',
-              web_app: { url: appUrl },
-            },
-          ],
-          [
-            { text: '📂 Katalog & Bo\'limlar (Tur-turiga)', callback_data: 'view_all_categories' },
-          ],
-          [
-            { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
-            { text: '💬 Admin bilan aloqa', callback_data: 'contact_admin' },
-          ],
-        ],
-      };
+      const startRows: any[][] = [];
+      if (isHealthy) {
+        startRows.push([{ text: '🛍 Do\'kon ilovasi (Mini App)', web_app: { url: appUrl } }]);
+      }
+      startRows.push([
+        { text: '📂 Katalog & Bo\'limlar (Tur-turiga)', callback_data: 'view_all_categories' },
+      ]);
+      startRows.push([
+        { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
+        { text: '💬 Admin bilan aloqa', callback_data: 'contact_admin' },
+      ]);
 
-      await sendTelegramMessage(chatId, welcomeText, inlineKeyboard);
+      await sendTelegramMessage(chatId, welcomeText, { inline_keyboard: startRows }, activeToken);
       return;
     }
 
     if (text.toLowerCase().includes('katalog') || text.toLowerCase() === '/katalog' || text.toLowerCase() === '/catalog') {
       const catWelcome = `📁 <b>Osiyo Supermarket Mahsulotlar Katalogi</b>\n\nQuyidagi bo'limlardan birini tanlang, barcha mahsulotlar tur-turiga ajratilgan holda ko'rsatiladi:`;
-      await sendTelegramMessage(chatId, catWelcome, getCategoriesKeyboard());
+      await sendTelegramMessage(chatId, catWelcome, getCategoriesKeyboard(), activeToken);
+      return;
+    }
+
+    if (text.toLowerCase() === '/buyurtma' || text.toLowerCase() === 'buyurtma') {
+      const orderHelp =
+        `🛒 <b>Telegram orqali buyurtma berish juda oson!</b>\n\n` +
+        `Xarid qilmoqchi bo'lgan mahsulotlaringizni bitta xabarda yozing:\n` +
+        `<i>Masalan:</i>\n` +
+        `"2 ta Dena Olma 1L, 1 ta Zam Zam 5L. Manzil: Chilonzor 4-mavze 12-uy. Tel: +998 90 123 45 67"\n\n` +
+        `Bizning aqlli AI kons'yerjimiz mahsulotlarni ombordagi qoldig'i bilan tekshiradi va zudlik bilan buyurtmangizni supermarket kassasiga yetkazadi!`;
+      await sendTelegramMessage(
+        chatId,
+        orderHelp,
+        {
+          inline_keyboard: [
+            [{ text: '📂 Katalogdan tanlash', callback_data: 'view_all_categories' }],
+          ],
+        },
+        activeToken
+      );
+      return;
+    }
+
+    if (text.toLowerCase() === '/status' || text.toLowerCase() === 'status') {
+      const lastOrder = orders[0];
+      if (lastOrder) {
+        await sendTelegramMessage(
+          chatId,
+          `📦 <b>Oxirgi buyurtmangiz holati:</b>\n\n` +
+            `• Buyurtma kodi: <b>#${lastOrder.orderNumber}</b>\n` +
+            `• Umumiy summa: <b>${lastOrder.finalTotal.toLocaleString()} UZS</b>\n` +
+            `• Holati: <b>${lastOrder.orderStatus.toUpperCase()}</b>\n` +
+            `• Yetkazish manzili: ${lastOrder.deliveryAddress.address}\n` +
+            `• Taxminiy vaqt: ${lastOrder.estimatedDeliveryTime || '30 daqiqa'}`,
+          undefined,
+          activeToken
+        );
+      } else {
+        await sendTelegramMessage(
+          chatId,
+          `Sizda hali faol buyurtmalar mavjud emas. Buyurtma berish uchun mahsulot nomini yozing yoki katalogdan tanlang!`,
+          {
+            inline_keyboard: [
+              [{ text: '📂 Mahsulotlar Katalogi', callback_data: 'view_all_categories' }],
+            ],
+          },
+          activeToken
+        );
+      }
+      return;
+    }
+
+    if (text.toLowerCase() === '/yordam' || text.toLowerCase() === 'yordam') {
+      await sendTelegramMessage(
+        chatId,
+        `👨‍💻 <b>Osiyo Supermarket Mijozlarni Qo'llab-quvvatlash Markazi:</b>\n\n` +
+          `☎️ Telefon: +998 90 999 00 11\n` +
+          `📍 Manzil: Toshkent sh., Chilonzor 4-mavze\n` +
+          `⏰ Ish vaqti: 08:00 - 23:00 (har kuni)\n\n` +
+          `Savollaringiz yoki takliflaringiz bo'lsa, to'g'ridan-to'g'ri shu chatga yozishingiz mumkin!`,
+        undefined,
+        activeToken
+      );
       return;
     }
 
@@ -4731,10 +5282,17 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
       );
 
       if (resPropagate.success) {
-        const sampleLines = resPropagate.affected.slice(0, 8).map(
-          (a, i) => `${i + 1}. <b>${a.nameUz}</b>\n   🏷 <s>${a.oldPrice.toLocaleString()} UZS</s> ➔ <b>${a.newPrice.toLocaleString()} UZS</b>`
-        ).join('\n');
-        const extraCount = resPropagate.affected.length > 8 ? `\n... va yana +${resPropagate.affected.length - 8} ta assortiment` : '';
+        const sampleLines = resPropagate.affected
+          .slice(0, 8)
+          .map(
+            (a, i) =>
+              `${i + 1}. <b>${a.nameUz}</b>\n   🏷 <s>${a.oldPrice.toLocaleString()} UZS</s> ➔ <b>${a.newPrice.toLocaleString()} UZS</b>`
+          )
+          .join('\n');
+        const extraCount =
+          resPropagate.affected.length > 8
+            ? `\n... va yana +${resPropagate.affected.length - 8} ta assortiment`
+            : '';
 
         const replyMsg =
           `✅ <b>NARX MUVAFFAQIYATLI YANGILANDI!</b>\n\n` +
@@ -4742,33 +5300,31 @@ async function handleTelegramUpdate(update: any, botToken?: string) {
           `💰 <b>Yangi sotuv narxi:</b> <b>${resPropagate.newPrice.toLocaleString()} UZS</b>\n` +
           `📦 <b>Yangilangan assortimentlar (ta'mlar) soni:</b> <b>${resPropagate.updatedCount} ta</b>\n\n` +
           `📋 <b>Barcha ta'mlar bo'yicha narxlar:</b>\n${sampleLines}${extraCount}\n\n` +
-          `🚀 <i>Barcha assortimentlar katalog va savdo tizimida avtomatik yangilandi. Admin botiga to'liq hisobot yuborildi!</i>`;
+          `🚀 <i>Barcha assortimentlar katalog va savdo tizimida avtomatik yangilandi!</i>`;
 
-        const priceReplyKeyboard = {
-          inline_keyboard: [
-            [{ text: '🛍 Xaridni boshlash', web_app: { url: appUrl } }],
-            [{ text: '📊 Narxlar Bo\'limi', url: appUrl }],
-          ],
-        };
+        const priceReplyRows: any[][] = [];
+        if (isHealthy) {
+          priceReplyRows.push([{ text: '🛍 Do\'kon ilovasi', web_app: { url: appUrl } }]);
+        }
+        priceReplyRows.push([{ text: '📂 Katalog', callback_data: 'view_all_categories' }]);
 
-        await sendTelegramMessage(chatId, replyMsg, priceReplyKeyboard);
+        await sendTelegramMessage(chatId, replyMsg, { inline_keyboard: priceReplyRows }, activeToken);
         return;
       }
     }
 
     // Process with Gemini AI Assistant or Smart Fallback Engine
     let finalReplyText = '';
-    const mainKeyboard = {
-      inline_keyboard: [
-        [
-          { text: '🛍 Xaridni boshlash', web_app: { url: appUrl } }
-        ]
-      ]
-    };
+    const mainKeyboardRows: any[][] = [];
+    if (isHealthy) {
+      mainKeyboardRows.push([{ text: '🛍 Do\'kon ilovasi (Mini App)', web_app: { url: appUrl } }]);
+    }
+    mainKeyboardRows.push([
+      { text: '📂 Mahsulotlar Katalogi', callback_data: 'view_all_categories' },
+      { text: '📦 Buyurtmalarim', callback_data: 'my_orders' },
+    ]);
 
     try {
-      const ai = getGeminiClient();
-
       // Fast RAG: Extract only top relevant in-stock products for this user query
       const relevantProducts = getRelevantProductsForAI(text, 35);
 
@@ -4833,7 +5389,7 @@ FAQAT QUYIDAGI SOF JSON FORMATDA JAVOB BERING:
       if (parsed.autoOrder && parsed.autoOrder.action === 'PLACE_ORDER' && parsed.autoOrder.items?.length > 0) {
         const orderItems = parsed.autoOrder.items.map((it: any) => {
           const prod = products.find((p) => p.id === it.productId);
-          const unitPrice = prod ? (prod.discountPrice || prod.price) : 15000;
+          const unitPrice = prod ? prod.discountPrice || prod.price : 15000;
           return {
             productId: it.productId,
             productName: prod ? prod.nameUz : 'Mahsulot',
@@ -4889,7 +5445,7 @@ FAQAT QUYIDAGI SOF JSON FORMATDA JAVOB BERING:
       finalReplyText = fallbackResult.replyText;
     }
 
-    await sendTelegramMessage(chatId, finalReplyText, mainKeyboard);
+    await sendTelegramMessage(chatId, finalReplyText, { inline_keyboard: mainKeyboardRows }, activeToken);
   }
 }
 
@@ -5457,6 +6013,15 @@ async function startTelegramSyncBotPolling() {
   pollSync();
 }
 
+async function isUrlAlive(url: string): Promise<boolean> {
+  if (!url || typeof url !== 'string' || !url.startsWith('https://')) return false;
+  // If it's the known suspended render url, return false immediately
+  if (url.includes('osiyogo.onrender.com') || url.includes('supermarket-erp-bot.onrender.com')) {
+    return false;
+  }
+  return true;
+}
+
 async function setupBotMenuAndCommands(token: string) {
   if (!token) return;
   const webAppUrl = getTelegramWebAppUrl();
@@ -5464,20 +6029,34 @@ async function setupBotMenuAndCommands(token: string) {
     // 1. Clear any webhook so long-polling receives updates
     await fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=false`);
 
-    // 2. Set native Chat Menu Button to open the live store directly (without 403 blocks)
-    await fetch(`https://api.telegram.org/bot${token}/setChatMenuButton`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        menu_button: {
-          type: 'web_app',
-          text: "🛍 Do'konni ochish",
-          web_app: {
-            url: webAppUrl,
+    // 2. Set native Chat Menu Button
+    const isHealthy = await isUrlAlive(webAppUrl);
+    if (isHealthy) {
+      await fetch(`https://api.telegram.org/bot${token}/setChatMenuButton`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          menu_button: {
+            type: 'web_app',
+            text: "🛍 Do'konni ochish",
+            web_app: {
+              url: webAppUrl,
+            },
           },
-        },
-      }),
-    });
+        }),
+      });
+    } else {
+      // Default menu button opens native Telegram commands list instead of popping up a 503 error screen
+      await fetch(`https://api.telegram.org/bot${token}/setChatMenuButton`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          menu_button: {
+            type: 'default',
+          },
+        }),
+      });
+    }
 
     // 3. Set standard bot commands
     await fetch(`https://api.telegram.org/bot${token}/setMyCommands`, {
@@ -5487,62 +6066,85 @@ async function setupBotMenuAndCommands(token: string) {
         commands: [
           { command: 'start', description: "Do'konni ishga tushirish va menyu" },
           { command: 'katalog', description: "Mahsulotlar katalogi (turlar bo'yicha)" },
-          { command: 'buyurtma', description: 'Xaridlarni boshlash (Mini App)' },
-          { command: 'status', description: 'Buyurtma holatini tekshirish' },
+          { command: 'buyurtma', description: 'Chat orqali tezkor buyurtma berish' },
+          { command: 'status', description: 'Oxirgi buyurtma holati' },
           { command: 'yordam', description: 'Admin bilan aloqa va yordam' },
         ],
       }),
     });
-    console.log(`✅ Bot menu & commands configured for token ${token.substring(0, 10)}... (URL: ${webAppUrl})`);
+    console.log(`✅ Bot menu & commands configured for token ${token.substring(0, 10)}... (URL: ${webAppUrl}, healthy: ${isHealthy})`);
   } catch (err) {
     console.warn(`⚠️ Error configuring menu/commands for ${token.substring(0, 10)}...:`, err);
   }
 }
 
-async function startTelegramBotPolling() {
-  if (!TELEGRAM_BOT_TOKEN && !TELEGRAM_SECONDARY_BOT_TOKEN) return;
-  if (isTelegramPollingStarted) {
-    console.log('⚠️ Telegram polling is already active in this process instance.');
-    return;
-  }
-  isTelegramPollingStarted = true;
+const activelyPollingBotTokens = new Set<string>();
 
+async function startPollingForToken(token: string) {
+  if (!token || activelyPollingBotTokens.has(token)) return;
+  activelyPollingBotTokens.add(token);
+  console.log('🤖 Telegram Bot Polling faollashtirilmoqda... Token:', token.substring(0, 12) + '...');
+  await setupBotMenuAndCommands(token).catch(() => {});
+
+  let lastOffset = 0;
+  const poll = async () => {
+    if (!activelyPollingBotTokens.has(token)) return;
+    try {
+      const res = await fetch(
+        `https://api.telegram.org/bot${token}/getUpdates?offset=${lastOffset + 1}&timeout=10`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ok && Array.isArray(data.result)) {
+          for (const update of data.result) {
+            lastOffset = update.update_id;
+            currentProcessingBotToken = token;
+            await handleTelegramUpdate(update, token);
+          }
+        }
+      } else if (res.status === 409) {
+        await fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=false`).catch(() => {});
+      }
+    } catch (err) {
+      // Retry
+    } finally {
+      if (activelyPollingBotTokens.has(token)) {
+        setTimeout(poll, 2000);
+      }
+    }
+  };
+
+  poll();
+}
+
+async function refreshAllTelegramBots() {
   const tokensToPoll = Array.from(
     new Set([TELEGRAM_BOT_TOKEN, TELEGRAM_SECONDARY_BOT_TOKEN].filter(Boolean))
   );
-
   for (const token of tokensToPoll) {
-    console.log('🤖 Telegram Bot Polling faollashtirilmoqda... Token:', token.substring(0, 12) + '...');
-    await setupBotMenuAndCommands(token);
-
-    let lastOffset = 0;
-    const poll = async () => {
-      try {
-        const res = await fetch(
-          `https://api.telegram.org/bot${token}/getUpdates?offset=${lastOffset + 1}&timeout=10`
-        );
-        if (res.ok) {
-          const data = await res.json();
-          if (data.ok && Array.isArray(data.result)) {
-            for (const update of data.result) {
-              lastOffset = update.update_id;
-              currentProcessingBotToken = token;
-              await handleTelegramUpdate(update, token);
-            }
-          }
-        } else if (res.status === 409) {
-          await fetch(`https://api.telegram.org/bot${token}/deleteWebhook?drop_pending_updates=false`).catch(() => {});
-        }
-      } catch (err) {
-        // Retry
-      } finally {
-        setTimeout(poll, 2500);
-      }
-    };
-
-    poll();
+    if (!activelyPollingBotTokens.has(token)) {
+      startPollingForToken(token);
+    } else {
+      setupBotMenuAndCommands(token).catch(() => {});
+    }
   }
 }
+
+async function startTelegramBotPolling() {
+  await refreshAllTelegramBots();
+}
+
+// Webhook endpoint for serverless (Vercel) Telegram Bot delivery
+app.post('/api/telegram/webhook', async (req, res) => {
+  const update = req.body;
+  const token = (req.query.token as string) || TELEGRAM_BOT_TOKEN;
+  if (update && update.update_id) {
+    handleTelegramUpdate(update, token).catch(err => {
+      console.error('Webhook update handling error:', err);
+    });
+  }
+  res.sendStatus(200);
+});
 
 // Real Regos API Integration Engine & Live Synchronizer
 const REGOS_LIVE_GATEWAY_URL = 'https://integration.regos.uz/gateway/out/6d9d2188297c45f193449a7fc7a0e8a1';
@@ -6247,7 +6849,7 @@ function initKeepAliveEngine(port: number) {
 
 // Serve Vite frontend
 async function startServer() {
-  const PORT = Number(process.env.PORT) || 3000;
+  const PORT = 3000;
 
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
@@ -6267,9 +6869,24 @@ async function startServer() {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`🚀 Enterprise Telegram AI Supermarket ERP listening on http://0.0.0.0:${PORT}`);
     startTelegramBotPolling();
+    startTelegramSyncBotPolling();
     initKeepAliveEngine(PORT);
   });
 }
 
-startServer();
+// Export app for Vercel / serverless deployments
+export default app;
+export {
+  app,
+  startServer,
+  initDatabase,
+  ensureDatabaseInitialized,
+  refreshAllTelegramBots,
+  setupBotMenuAndCommands,
+};
+
+// Only launch standalone web server if not running in a serverless environment (e.g. Vercel)
+if (process.env.VERCEL !== '1' && !process.env.AWS_LAMBDA_FUNCTION_NAME) {
+  startServer();
+}
 

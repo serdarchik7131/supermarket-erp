@@ -150,6 +150,10 @@ export async function updateProduct(id: string, productData: Partial<Product>): 
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productData),
   });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({ error: `Server error: ${res.status}` }));
+    throw new Error(errData.error || `Server xatosi: ${res.status}`);
+  }
   const data = await res.json();
   notifySyncEvent();
   return data;
@@ -689,12 +693,16 @@ export async function exportRegosOrders(config: { regosUrl: string; apiKey: stri
   return res.json();
 }
 
-export async function uploadProductImage(imageBase64: string, fileName?: string): Promise<{ success: boolean; imageUrl: string }> {
+export async function uploadProductImage(imageBase64: string, fileName?: string, productId?: string): Promise<{ success: boolean; imageUrl: string }> {
   const res = await fetch('/api/upload-image', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ imageBase64, fileName }),
+    body: JSON.stringify({ imageBase64, fileName, productId }),
   });
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({ error: `Upload error: ${res.status}` }));
+    throw new Error(errData.error || `Rasm yuklashda xatolik: ${res.status}`);
+  }
   return res.json();
 }
 
