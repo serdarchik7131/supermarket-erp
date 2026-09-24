@@ -4592,6 +4592,7 @@ function getTelegramWebAppUrl(): string {
     if (
       trimmed.startsWith('http') &&
       !trimmed.includes('ais-dev-') &&
+      !trimmed.includes('ais-pre-') &&
       !trimmed.includes('osiyogo.onrender.com') &&
       !trimmed.includes('supermarket-erp-bot.onrender.com') &&
       !trimmed.includes('dobrobot1109') &&
@@ -4607,24 +4608,8 @@ function getTelegramWebAppUrl(): string {
     return `https://${vercelUrl.replace(/\/$/, '')}`;
   }
 
-  // Priority 2: Render external URL or APP_URL / SERVER_URL environment variable
-  const envUrl = (process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL || process.env.APP_URL || '').trim();
-  if (
-    envUrl &&
-    !envUrl.includes('supermarket-erp-bot.onrender.com') &&
-    !envUrl.includes('osiyogo.onrender.com') &&
-    !envUrl.includes('ais-dev-')
-  ) {
-    return envUrl.replace(/\/$/, '');
-  }
-
-  // Priority 3: AI Studio public preview URL (convert ais-dev- to ais-pre-)
-  if (envUrl && envUrl.includes('ais-dev-')) {
-    return envUrl.replace('ais-dev-', 'ais-pre-').replace(/\/$/, '');
-  }
-
-  // Priority 4: Active public cloud preview fallback
-  return 'https://ais-pre-2djve64jhmnvd7jsgr4est-925332993068.asia-east1.run.app';
+  // Priority 2: Primary Vercel deployment domain
+  return 'https://supermarket-erp-ser19.vercel.app';
 }
 
 // Clean JSON response string from Gemini markdown wrappers or surrounding text
